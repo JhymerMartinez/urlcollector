@@ -76,6 +76,46 @@ body{
 }
 
 
+@media all and (max-width: 1000px){
+#login{
+  color: #026565;
+
+  width: 60%;
+  background-color: #F4F4F4;
+  border-radius: 10px;
+  border: solid 1px;
+  border-color: black;
+
+  position: absolute;
+  top: 50%; 
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+
+}
+}
+
+@media all and (max-width: 600px){
+#login{
+  color: #026565;
+
+  width: 90%;
+  background-color: #F4F4F4;
+  border-radius: 10px;
+  border: solid 1px;
+  border-color: black;
+
+  position: absolute;
+  top: 50%; 
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+
+}
+}
+
+
+
 
 
 

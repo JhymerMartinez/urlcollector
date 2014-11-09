@@ -1,39 +1,37 @@
-    <div id="login">
-        <form class="form-horizontal">
-        <fieldset>
+<header class="marquee">
+  <div class="container">
 
-            <!-- Form Name -->
-            <legend class="legend">Ingresar</legend>
+      <span class="login-title">Ingresa para almacenar tus URLs</span>
+  </div>
 
-            <!-- Text input-->
-            <div class="divUser">
-              <div class="form-group">
-                <label class="col-md-5 control-label" for="textinput">Usuario</label>  
-                <div class="col-md-5">
-                <input id="textinput" name="textinput" type="text" placeholder="usuario" class="form-control input-md" required="">
-                  
-                </div>
-              </div>
+
+
+</header>
+
+
+<div class="login">
+    <div id="row">
+      
+      <div class="col-xs-7 col-xs-offset-2">
+        <div class="logSide">
+          <form action="" method="post" id="login_form" name="login_form" class="" novalidate="novalidate">
+            <div class="form-group">
+              <label>Usuario o Email</label>
+              <input id="username" name="username" type="text" class="form-control input-lg">
             </div>
-
-            <!-- Password input-->
-            <div class="divPass">
-              <div class="form-group">
-                <label class="col-md-5 control-label" for="passwordinput">Clave</label>
-                <div class="col-md-5">
-                  <input id="passwordinput" name="passwordinput" type="password" placeholder="clave" class="form-control input-md" required="">
-                  
-                </div>
-              </div>
+            <div class="form-group">
+              <label>Contraseña</label>
+              <input id="password" name="password" type="password" class="form-control input-lg">
             </div>
-
-            <!-- Button -->
-            <div class="divBtnLogin">
-
-              <div class="btnLogin">
-                <button id="singlebutton" name="singlebutton" class="btn btn-primary login"><span class="spanLogin">Ingresar</span></button>
-              </div>
+            <div class="form-group clearfix">
+              <a class="pull-left no-pass" href="/reset-password">¿Olvidó su contraseña?</a>
+              <button id="log_in" class="pull-right btn btn-success loginBtn" type="submit" data-loading-text="Log In">Ingresar</button>
             </div>
-        </fieldset>
-    </form>
+            <input type="hidden" name="redirect" value="">
+            <input type="hidden" name="token" value="99fbbc4ec29a3fb47485183923052e74">
+          </form>
+          <p class="no_account">¿No tienes una cuenta? <a href="/sign-up">Registrate gratis</a></p>
+        </div>
+      </div>
+  </div>
 </div>
