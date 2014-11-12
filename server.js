@@ -19,10 +19,6 @@ mongoose.connection.on('error', function (err) {
 
 
 
-
-
-
-
 app.use(express.static(__dirname + '/public')); 				// set the static files location /public/img will be /img for users
 app.use(morgan('dev')); 										// log every request to the console
 app.use(bodyParser.urlencoded({'extended':'true'})); 			// parse application/x-www-form-urlencoded
@@ -35,6 +31,10 @@ app.use(methodOverride());
 app.listen(9000);
 console.log("Aplicacion escuchando en puerto 9000");
 
+
+app.post("/entrar",	function (req,res){
+	res.send("entraste al formulario....");
+});
 
 
 /*

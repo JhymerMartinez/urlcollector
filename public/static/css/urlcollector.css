@@ -1,5 +1,13 @@
+body {
+	margin-top: 50px;
+	font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-weight: 400;
+}
+
 header.marquee {
-	padding: 50px 0;
+	position: relative;
+	
+	padding: 20px 0;
 	text-align: center;
 	color: #fff;
 	background-color: #563D7C;
@@ -7,36 +15,41 @@ header.marquee {
 }
 
 @media all and (max-width: 600px){
-header.marquee {
-	padding: 40px 0;
-}
+	header.marquee {
+		position: relative;
+		padding: 10px 0;
+	}
 }
 
 
 header.marquee .brand-name {
-	padding-top: 6%;
+	padding-top: 4%;
 	display: block;
 	font-size: 60px;
 	line-height: 1;
 }
 
 @media all and (max-width: 600px){
-header.marquee .brand-name {
-	font-size: 50px;
-}
-}
-
-
-body {
-	margin-top: 50px;
-	font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
-	font-weight: 400;
+	header.marquee .brand-name {
+		font-size: 40px;
+	}
 }
 
 
-header.marquee .btn-cta {
-	margin: 20px 0 0;
+
+
+
+header.marquee .options{
+	margin-top: 25px;
+	margin-bottom: 25px;
+}
+
+header.marquee .o{
+
+}
+header.marquee .btn-cta{
 	padding: 10px 15px;
+	
 	border: 1px solid #fff;
 	background-color: transparent;
 	color: #fff;
@@ -46,12 +59,9 @@ header.marquee .btn-cta {
 }
 
 
-
-
-
 header.marquee .btn-cta:hover {
-	margin: 20px 0 0;
 	padding: 10px 15px;
+	
 	border: 1px solid #fff;
 	background-color: #fff;
 	color: #000000;
@@ -60,11 +70,6 @@ header.marquee .btn-cta:hover {
 	font-size: 14px;
 }
 
-
-
-header.marquee .o{
-	vertical-align: -webkit-baseline-middle;
-}
 
 
 header.marquee .login-title{
@@ -76,28 +81,9 @@ header.marquee .login-title{
 	line-height: 1;
 }
 
-@media all and (max-width: 1000px){
-header.marquee .login-title{
-	font-size: 38px;
-	
-}
-}
-
-@media all and (max-width: 900px){
-header.marquee .login-title{
-	font-size: 35px;
-	
-}
-}
 
 
-@media all and (max-width: 400px){
-header.marquee .login-title{
-	font-size: 30px;
-	
-}
-}
-
+/*login*/
 .login{
 
 	margin: 0 auto 0 auto;
@@ -106,7 +92,6 @@ header.marquee .login-title{
 	line-height: 1.6;
 	font-weight: 300;
 	color: #565656;
-	
 	width: 60%;
 }
 
@@ -133,6 +118,7 @@ header.marquee .login-title{
 		width: 150%;
 	}
 }
+
 .form-control {
 	border-radius: 3px;
 }
@@ -141,27 +127,48 @@ header.marquee .login-title{
 	margin-top: 20px;
 }
 
+
+@media all and (max-width: 1000px){
+	header.marquee .login-title{
+		font-size: 38px;
+	}
+}
+
+@media all and (max-width: 900px){
+	header.marquee .login-title{
+		font-size: 35px;
+	}
+}
+
+
+@media all and (max-width: 400px){
+	header.marquee .login-title{
+		font-size: 30px;
+	
+	}
+}
+
 .btn {
-border-radius: 3px;
-font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-text-transform: uppercase;
-font-weight: 700;
-border: 0 none;
-padding: 12px 20px;
--webkit-transition: all 0.25s ease 0s;
-transition: all 0.25s ease 0s;
+	border-radius: 3px;
+	font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	text-transform: uppercase;
+	font-weight: 700;
+	border: 0 none;
+	padding: 12px 20px;
+	-webkit-transition: all 0.25s ease 0s;
+	transition: all 0.25s ease 0s;
 }
 
 .btn-success {
-background: #00BF6F;
-color: #ffffff;
+	background: #00BF6F;
+	color: #ffffff;
 }
 
 .no-pass{
 	font-size: 14px;
 }
 .no_account {
-border-top: 4px solid #e5e5e5;
-padding-top: 20px;
-font-size: 14px;
+	border-top: 4px solid #e5e5e5;
+	padding-top: 20px;
+	font-size: 14px;
 }

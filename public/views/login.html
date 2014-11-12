@@ -8,13 +8,13 @@
 
 </header>
 
-
+<div class="container">
 <div class="login">
     <div id="row">
       
       <div class="col-xs-7 col-xs-offset-2">
         <div class="logSide">
-          <form action="" method="post" id="login_form" name="login_form" class="" novalidate="novalidate">
+          <form method="post" id="login_form" name="login_form" class="" action="/entrar">
             <div class="form-group">
               <label>Usuario o Email</label>
               <input id="username" name="username" type="text" class="form-control input-lg">
@@ -25,13 +25,13 @@
             </div>
             <div class="form-group clearfix">
               <a class="pull-left no-pass" href="/reset-password">¿Olvidó su contraseña?</a>
-              <button id="log_in" class="pull-right btn btn-success loginBtn" type="submit" data-loading-text="Log In">Ingresar</button>
+              
+              <button id="log_in" class="pull-right btn btn-success loginBtn" type="submit">Ingresar</button>
             </div>
-            <input type="hidden" name="redirect" value="">
-            <input type="hidden" name="token" value="99fbbc4ec29a3fb47485183923052e74">
           </form>
           <p class="no_account">¿No tienes una cuenta? <a href="/sign-up">Registrate gratis</a></p>
         </div>
       </div>
   </div>
+</div>
 </div>
