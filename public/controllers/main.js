@@ -8,7 +8,6 @@ angular.module('main', ['ngRoute'])
     controller: 'mainCtrl'
   });
 }])
-
 .controller('mainCtrl', [function() {
 
 }]);

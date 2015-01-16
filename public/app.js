@@ -1,15 +1,15 @@
 'use strict';
 
-// Declare app level module which depends on views, and components
-angular.module('urlcollector', [
-  'ngRoute',
-  'sign_in',
-  'main',
-  'login',
-  'presentation'
+var applicationName = 'urlcollector';
 
-]).
-config(['$routeProvider', function($routeProvider) {
-  $routeProvider
-  .otherwise({redirectTo: '/'});
+angular.module(applicationName, [
+  'ngRoute',
+  'presentation',
+  'login',
+  'sign_in',
+  'main'
+])
+.config(['$routeProvider', function($routeProvider) {
+  $routeProvider.otherwise({redirectTo: '/'});
 }]);
+
