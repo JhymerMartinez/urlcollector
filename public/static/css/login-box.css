@@ -1,136 +1,118 @@
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
 
-*{margin:0;padding:0;}
-
-body{
-  background:#567;
-  font-family:'Open Sans',sans-serif;
+.no-pass{
+  font-size: 14px;
+  color: #AAFFFF;
+}
+.no-pass:hover{
+  font-size: 14px;
+  color: #47A447;
 }
 
-.divBtnLogin{
-  display:block;
-  margin:0 auto;
-  margin-top:1%;
-  padding:10px;
-  text-align:center;
+.no_account {
+  border-top: 4px solid #e5e5e5;
+  padding-top: 20px;
+  font-size: 14px;
+  color: white;
+}
+.no_account-link{
+  color: #AAFFFF;
 }
 
-.divUser{
-  font-size: 17px;
-  padding-left: 5%;
-}
-
-.divPass{
-  font-size: 17px;
-  padding-left: 4%;
-
-}
-.divBtnLogin{
-  padding-top: 0px;
+.no_account-link:hover{
+  color: #47A447;
 }
 
 
-
-.login:hover{
-  background-color: #C1C1C1;
+.section-login{
+  background-color: #563D7C;
+  background-image: url(../images/background1.png);
 }
-
-.spanLogin{
-  font-size: 16px;
-}
-
-.link{
-  color: #1244A7;
-}
-
-.legend{
-
-  border-top-right-radius: 10px;
-  border-top-left-radius: 10px;
-  background-color: #2F2E2E;
-  color: #FFFFFF;
+.container-login-title{
   text-align: center;
-  font-size: 40px;
 }
 
+.label-user,.label-pass{
+  color: white;
+}
 
+/*login*/
+.login{
 
-
-
-
-#login{
-  color: #026565;
-
-  width: 30%;
-  background-color: #F4F4F4;
-  border-radius: 10px;
-  border: solid 1px;
-  border-color: black;
-
-  position: absolute;
-  top: 50%; 
-  left: 50%;
-  transform: translate(-50%, -50%);
-
+  margin: 0 auto 0 auto;
+  font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 20px;
+  line-height: 1.6;
+  font-weight: 300;
+  color: #565656;
+  width: 60%;
 
 }
 
 
 @media all and (max-width: 1000px){
-#login{
-  color: #026565;
-
-  width: 60%;
-  background-color: #F4F4F4;
-  border-radius: 10px;
-  border: solid 1px;
-  border-color: black;
-
-  position: absolute;
-  top: 50%; 
-  left: 50%;
-  transform: translate(-50%, -50%);
-
-
-}
-}
-
-@media all and (max-width: 600px){
-#login{
-  color: #026565;
-
-  width: 90%;
-  background-color: #F4F4F4;
-  border-radius: 10px;
-  border: solid 1px;
-  border-color: black;
-
-  position: absolute;
-  top: 50%; 
-  left: 50%;
-  transform: translate(-50%, -50%);
-
-
-}
+  .login{
+    margin-left: -90px;
+    width: 120%;
+  }
 }
 
 
 
-
-
-
-#textinput{
-  width: 90%;
+@media all and (max-width: 900px){
+  .login{
+    margin-left: -100px;
+    width: 130%;
+  }
 }
 
-input[type="password"],input[type="text"]{
-  width:90%;
-  background:#fff;
-  margin-bottom:4%;
-  border:1px solid #ccc;
-  padding:4%;
-  font-family:'Open Sans',sans-serif;
-  font-size:95%;
-  color:#555;
+@media all and (max-width: 400px){
+  .login{
+    margin-left: -60px;
+    width: 150%;
+  }
 }
 
+.form-control {
+  border-radius: 3px;
+}
+
+.logSide{
+  margin-top: 20px;
+}
+
+
+@media all and (max-width: 1000px){
+  header.marquee .login-title{
+    font-size: 38px;
+  }
+}
+
+@media all and (max-width: 900px){
+  header.marquee .login-title{
+    font-size: 35px;
+  }
+}
+
+
+@media all and (max-width: 400px){
+  header.marquee .login-title{
+    font-size: 30px;
+  
+  }
+}
+
+.btn {
+  border-radius: 3px;
+  font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  font-weight: 700;
+  border: 0 none;
+  padding: 12px 20px;
+  -webkit-transition: all 0.25s ease 0s;
+  transition: all 0.25s ease 0s;
+}
+
+.btn-success {
+  background: #00BF6F;
+  color: #ffffff;
+}

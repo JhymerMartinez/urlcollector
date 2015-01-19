@@ -2,14 +2,16 @@
 
 var applicationName = 'urlcollector';
 
-angular.module(applicationName, [
+var mainModule = angular.module(applicationName, [
   'ngRoute',
   'presentation',
   'login',
   'sign_in',
   'main'
-])
-.config(['$routeProvider', function($routeProvider) {
+]).config(['$routeProvider', function($routeProvider) {
   $routeProvider.otherwise({redirectTo: '/'});
 }]);
 
+mainModule.config(['$locationProvider',function($locationProvider){
+	$locationProvider.hashPrefix('!');
+}]);
