@@ -7,7 +7,7 @@ body {
 header.marquee {
 	position: relative;
 	
-	padding: 20px 0;
+	padding: 5% 0 3% 0;
 	text-align: center;
 	color: #fff;
 	background-color: #563D7C;
@@ -17,7 +17,7 @@ header.marquee {
 @media all and (max-width: 600px){
 	header.marquee {
 		position: relative;
-		padding: 10px 0;
+		padding: 13% 0 3% 0;
 	}
 }
 
@@ -72,11 +72,6 @@ header.marquee .btn-cta:hover {
 
 
 
-header.marquee .login-title{
-	padding-top: 2%;
-	display: block;
-	font-size: 40px;
-	line-height: 1;
-}
+
 
 

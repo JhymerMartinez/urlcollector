@@ -10,6 +10,8 @@
   <link rel="stylesheet" href="static/css/login-box.css">
   <link rel="stylesheet" href="/static/css/main.css">
   <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+
+
 </head>
 <body>
     <!-- Navigation -->
@@ -29,16 +31,17 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a href="/#!/login">Ingresar</a>
+                       <a href="/login">Ingresar</a>
                     </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
         </div>
+      </nav>
           {{message}}
           <div ng-view>
           </div>
-    </nav>
+
 
 
       
@@ -61,6 +64,7 @@
   <script type="text/javascript" src="/presentation/controllers/presentationClientController.js"></script>
 
   <script type="text/javascript" src="/login/loginClientModule.js"></script>
+  <script type="text/javascript" src="/login/config/loginClientConfig.js"></script>
   <script type="text/javascript" src="/login/routes/loginClientRoutes.js"></script>
   <script type="text/javascript" src="/login/controllers/loginClientController.js"></script>
 

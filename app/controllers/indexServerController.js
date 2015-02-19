@@ -1,3 +1,8 @@
+'use strict';
+
 exports.render = function(req,res){
-	res.render('index');
+	res.render('index',{
+		user: JSON.stringify(req.user)
+	});
+
 };

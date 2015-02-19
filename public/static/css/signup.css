@@ -1,3 +1,34 @@
+header.header-title-signup {
+  position: relative;
+  
+  padding: 2% 0 3% 0;
+  text-align: center;
+  color: #fff;
+  background-color: #563D7C;
+  background-image: url(../images/background1.png);
+}
+
+@media all and (max-width: 600px){
+  header.header-title-signup {
+    position: relative;
+    padding: 5% 0 3% 0;
+  }
+}
+
+
+header.header-title-signup .brand-name {
+  padding-top: 4%;
+  display: block;
+  font-size: 60px;
+  line-height: 1;
+}
+
+@media all and (max-width: 600px){
+  header.header-title-signup .brand-name {
+    font-size: 40px;
+  }
+}
+
 
 .no-pass{
   font-size: 14px;
@@ -23,22 +54,23 @@
 }
 
 
-.section-login{
+.section-signup{
   background-color: #563D7C;
   background-image: url(../images/background1.png);
 }
-.container-login-title{
+.container-signup-title{
   text-align: center;
+ margin-bottom: -5%;
 }
 
-.label-user,.label-pass{
+.label-name,.label-last-name,.label-email,.label-username,.label-pass{
   color: white;
 }
 
 /*login*/
-.login{
+.signup{
 
-  margin: 0 auto 0 auto;
+  margin: 0 auto 10px auto;
   font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 20px;
   line-height: 1.6;
@@ -50,7 +82,7 @@
 
 
 @media all and (max-width: 1000px){
-  .login{
+  .signup{
     margin-left: -90px;
     width: 120%;
   }
@@ -59,14 +91,14 @@
 
 
 @media all and (max-width: 900px){
-  .login{
+  .signup{
     margin-left: -100px;
     width: 130%;
   }
 }
 
 @media all and (max-width: 400px){
-  .login{
+  .signup{
     margin-left: -60px;
     width: 150%;
   }
@@ -82,20 +114,20 @@
 
 
 @media all and (max-width: 1000px){
-  header.marquee .login-title{
+  header.header-title-signup .signup-title{
     font-size: 38px;
   }
 }
 
 @media all and (max-width: 900px){
-  header.marquee .login-title{
+  header.header-title-signup .signup-title{
     font-size: 35px;
   }
 }
 
 
 @media all and (max-width: 400px){
-  header.marquee .login-title{
+  header.header-title-signup .signup-title{
     font-size: 30px;
   
   }
@@ -117,11 +149,22 @@
   color: #ffffff;
 }
 
-
-header.marquee .login-title{
-  padding-top: 2%;
+header.header-title-signup .signup-title{
   display: block;
   font-size: 40px;
   line-height: 1;
+}
+
+.signup-button{
+  padding-top: 3%;
+  margin-bottom: 5%;
+}
+
+
+.flash{
+  color: #D8D7D7;
+  font-size: 15px;
+  background: #EF4848;
+  border-radius: 5px;
 }
 
