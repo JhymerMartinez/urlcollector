@@ -1,34 +1,66 @@
 'use strict';
 
-angular.module('login')
-.controller('loginController', function($scope, $rootScope, $http, $location) {
-	 $scope.user = {};
-  	
-  	
-	$http.get('/api/data').success(function(data) {
-    	$scope.a= data.a;
-    	$scope.b= data.b;
-  	});
+angular
+	.module('login')
+        .controller("LoginController", LoginController)
+        .controller("PrivateController", PrivateController);
+
+function LoginController($scope,$auth, $location) {  
+    
+    $scope.signup = function() {
+        console.log("esta aqui");
+        $auth.signup({
+            firstName: this.firstName,
+            lastName: this.lastName,
+            email: this.email,
+            username:this.username,
+            password: this.password
+
+        })
+        .then(function() {
+            // Si se ha registrado correctamente,
+            // Podemos redirigirle a otra parte
+            $location.path("/private");
+        })
+        .catch(function(response) {
+            console.log(response)
+        });
+    }
+
+
+    $scope.login = function(){
+        $auth.login({
+            email: this.email,
+            password: this.password
+        })
+        .then(function(){
+            // Si se ha logueado correctamente, lo tratamos aquí.
+            // Podemos también redirigirle a una ruta
+            $location.path("/private")
+        })
+        .catch(function(response){
+            // Si ha habido errores llegamos a esta parte
+        });
+    }
 
 
 
-  	$scope.login = function(){
-  		
 
-	    $http.post('/login', {
-	      username: $scope.user.username,
-	      password: $scope.user.password,
-	    })
-	    .success(function(user){
-	      // No error: authentication OK
-	      $rootScope.message = 'Authentication successful!';
-	      $location.url('/admin');
-	    })
-	    .error(function(){
-	      // Error: authentication failed
-	      $rootScope.message = 'Authentication failed.';
-	      $location.url('/login');
-	    });
-  	};
-});
 
+
+
+}
+
+
+function LogoutController($auth, $location) {  
+    $auth.logout()
+        .then(function() {
+            // Desconectamos al usuario y lo redirijimos
+            $location.path("/")
+        });
+}
+
+
+function PrivateController(){
+	
+}

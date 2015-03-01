@@ -1,0 +1,90 @@
+        <section class="section-signup">
+
+          
+          <header class="header-title-signup" >
+
+          </header>
+          
+          
+              
+              <!-- Renderizar el formulario signup  -->
+          <div class="container" >
+            <div class="signup">
+              <div id="row">
+                <div class="col-xs-7 col-xs-offset-2">
+                  <div class="logSide">
+                    <form class="" ng-submit="signup()" method="post">
+                      
+                      <div class="form-group">
+                        <label class="label-name" for="firstName">
+                          Nombre:
+                        </label>
+                        <input type="text" id="firstName" 
+                              name="firstName" 
+                              placeholder="Ejem: Juan" 
+                              class="form-control input-lg"
+                              ng-model="firstName"/>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="label-last-name" for="lastName">
+                          Apellido:
+                        </label>
+                        <input type="text" id="lastName" 
+                              name="lastName" 
+                              placeholder="Ejem: Martínez" 
+                              class="form-control input-lg"
+                              ng-model="lastName"/>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="label-email" for="email">
+                          Email:
+                        </label>
+                        <input type="email" id="email" 
+                              name="email" 
+                              placeholder="Ejem: juanmartinez@gmail.com" 
+                              class="form-control input-lg" 
+                              ng-model="email"/>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="label-username" for="username">
+                          Nombre de usuario:
+                        </label>
+                        <input type="text" id="username" 
+                              name="username" 
+                              placeholder="Ejem: juanmartinez" 
+                              class="form-control input-lg"
+                              ng-model="username"/>
+                      </div class="form-group">
+
+                      <div class="form-group">
+                        <label class="label-pass" for="password">
+                          Contraseña:
+                        </label>
+                        <input type="password" name="password" 
+                              id="password" 
+                              placeholder="********" 
+                              class="form-control input-lg" 
+                              ng-model="password"/>
+                      </div>
+                      
+                      <div class="form-group">
+                        <button type="submit"class="pull-right btn btn-success loginBtn">
+                            <span>Crear Cuenta</span>
+                        </button>
+                        
+                        <a class="pull-left no-pass" href="/oauth/google">Registrarse usando Google</a>
+                        
+                      </div>
+                      <div class="form-group"><br/></div>
+                    </form>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>

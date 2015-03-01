@@ -5,27 +5,18 @@ var	user = require('../controllers/userServerController.js');
 
 module.exports = function(app){
 
-	//Configurar las rutas 'signup'
-  	app.route('/signup')
-     .get(user.renderSignup)
-     .post(user.signup);
+	
+  	app.route('/auth/signup')
+     .post(user.emailSignup);
   	
-  	app.route('/login')
-     	.get(user.renderSignin)
-		.post(passport.authenticate('local', {
-	       successRedirect: '/#!/admin',
-	       failureRedirect: '/signin',
-	       failureFlash: true
-     }));
+  	app.route('/auth/login')
+		.post(user.emailLogin);
 
-	app.route('/logout')
-		.get(user.logout);
+	app.route('/private')
+		.get(user.ensureAuthenticated,function(req,res){
+			res.send("entraste al sistio private");
+		});
 
-     app.route('/api/data')
-	     .get(function(req,res){
-	     		res.send({a:'valor1',b:'valor2'});
-	     	}
-	     );
 
 
 /*
