@@ -1,6 +1,6 @@
 'use strict';
 
-var passport = require('passport');
+//var passport = require('passport');
 var	user = require('../controllers/userServerController.js');
 
 module.exports = function(app){
@@ -13,9 +13,7 @@ module.exports = function(app){
 		.post(user.emailLogin);
 
 	app.route('/private')
-		.get(user.ensureAuthenticated,function(req,res){
-			res.send("entraste al sistio private");
-		});
+		.get(user.ensureAuthenticated,user.myFunction);
 
 
 

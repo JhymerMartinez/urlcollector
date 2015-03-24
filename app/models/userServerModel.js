@@ -1,16 +1,19 @@
 'use strict';
 
 var mongoose = require('mongoose');
-var crypto = require('crypto');
+//var crypto = require('crypto');
 
 var UserSchema = mongoose.Schema({
-	firstName  : String,
-	lastName: String,
+	/*
+  firstName  : String,
+  lastName: String,
+  */
 	email: {
     	type: String,
     	// Validar el formato email 
     	match: [/.+\@.+\..+/, "Por favor escribe una dirección de email correcta"]
   	},
+  /*
   username: {
 	    type: String,
 	    //Configurar un único index 'username'
@@ -20,6 +23,7 @@ var UserSchema = mongoose.Schema({
 	    //Trim el campo 'username'
 	    trim: true
   	},
+    */
 	password: {
     	type: String,
     	//Validar el valor length de 'password'
@@ -29,17 +33,22 @@ var UserSchema = mongoose.Schema({
       		}, 'La contraseña debe ser más larga'
     	]
   	},
+    /*
   salt: {
     type: String
-    },
+    },*/
   created: {
     	type: Date,
     	//Crear un valor 'created' por defecto
     	default: Date.now
-  	}
+  	},
+  token:{
+    type:String
+  }
 });
 
 // Configurar la propiedad virtual 'fullname'
+/*
 UserSchema.virtual('fullName').get(function() {
   return this.firstName + ' ' + this.lastName;
 }).set(function(fullName) {
@@ -99,5 +108,5 @@ UserSchema.set('toJSON', {
   virtuals: true
 });
 
-
+*/
 module.exports =  mongoose.model('user',UserSchema);

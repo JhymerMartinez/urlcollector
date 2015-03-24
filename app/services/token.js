@@ -1,6 +1,6 @@
 var jwt = require('jwt-simple');  
 var moment = require('moment');  
-var tokenConfig = require('../token.js');
+var config = require('../../config/config.js');
 
 exports.createToken = function(user) {  
   var payload = {
@@ -8,5 +8,5 @@ exports.createToken = function(user) {
     iat: moment().unix(),
     exp: moment().add(14, "days").unix(),
   };
-  return jwt.encode(payload, tokenConfig.TOKEN_SECRET);
+  return jwt.encode(payload, config.TOKEN_SECRET);
 };

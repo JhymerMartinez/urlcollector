@@ -2,87 +2,76 @@
 
 var mongoose = require('mongoose');   
 var User = mongoose.model('user');
-var service = require('../../config/tokenStrategies/tokenService.js');
-var tokenConfig = require('../../config/token.js');
-
-var getErrorMessage = function(err) {
-  if (err.errors) {
-    for (var errName in err.errors) {
-      if (err.errors[errName].message) 
-        return err.errors[errName].message;
-    }
-  }
-};
-
-
-
+var service = require('../services/token.js');
+var jwt = require('jwt-simple');  
+var moment = require('moment');  
+var config = require('../../config/config.js');
 
 exports.emailSignup = function(req, res) {  
-    console.log("dentro del server signup");
-
     var user = new User({
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      email : req.body.email,
-      username:req.body.username,
-      password : req.body.password
-
+        email: req.body.email, 
+        password: req.body.password
     });
 
-    console.log(user.email);
-    console.log(user.password);
-    user.save(function(err){
-
+    user.save(function(err,user){
         if(err){
-          
-            console.log(getErrorMessage(err))
-          
+            console.log(err);
         }else{
-
-          return res
-              .status(200)
-              .send({token: service.createToken(user)});
+            return res
+                .status(200)
+                .send({token: service.createToken(user)});
         }
     });
 };
 
 
 exports.emailLogin = function(req, res) {  
-    User.findOne({
-          email: req.body.email.toLowerCase()
-        }, 
-        function(err, user) {
-          if(err){
-              console.log(getErrorMessage(err))
-          }else{
-              console.log(user);
+    User.findOne({email: req.body.email.toLowerCase()},
+     function(err, user) {
+        if(err){
+            console.log(err);
+        }else{
 
-             return res
+            if(user.password == req.body.password){
+                return res
                 .status(200)
                 .send({token: service.createToken(user)});
-          }  
-    });
+            }else{
+                console.log("contraseña");
+            }
 
-   
+
+           
+        }
+    });
 };
 
+
 exports.ensureAuthenticated = function(req, res, next) {  
+
+    console.log(req.headers);
+
   if(!req.headers.authorization) {
     return res
       .status(403)
       .send({message: "Tu petición no tiene cabecera de autorización"});
   }
+    var token = req.headers.authorization.split(" ")[1];
+    var payload = jwt.decode(token, config.TOKEN_SECRET);
 
-  var token = req.headers.authorization.split(" ")[1];
-  var payload = jwt.decode(token, tokenConfig.TOKEN_SECRET);
+    if(payload.exp <= moment().unix()) {
+         return res
+            .status(401)
+            .send({message: "El token ha expirado"});
+    }
 
-  if(payload.exp <= moment().unix()) {
-     return res
-         .status(401)
-        .send({message: "El token ha expirado"});
-  }
-
-  req.user = payload.sub;
-  next();
+    req.user = payload.sub;
+    next();
 }
 
+exports.myFunction = function(req,res){
+    res.json({
+        nombre:'Jhymer',
+        apellido:'Martinez'
+    });
+}
