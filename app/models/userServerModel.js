@@ -41,10 +41,7 @@ var UserSchema = mongoose.Schema({
     	type: Date,
     	//Crear un valor 'created' por defecto
     	default: Date.now
-  	},
-  token:{
-    type:String
-  }
+  	}
 });
 
 // Configurar la propiedad virtual 'fullname'
