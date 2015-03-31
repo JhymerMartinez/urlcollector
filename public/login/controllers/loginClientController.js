@@ -3,28 +3,38 @@
 /* Controllers */
 
 angular.module('login')
-    .controller("LoginController",['$scope','$auth', '$location','$http', LoginController])
-    .controller("PrivateController",['$scope','$http',PrivateController])
-    .controller("NavBarController",['$scope','$auth', '$location','satellizer.config',NavBarController]);;
+    .controller("LoginController",['$scope','$auth', '$location','MenuService',LoginController])
+    .controller("PrivateController",['$scope','$http',PrivateController]);
 
 
-function LoginController($scope, $auth, $location,$http) {  
-    
-    
-    
+
+
+function LoginController($scope, $auth, $location,MenuService) {
+
+
+
+
+    MenuService.checkInitial();
+
+
     $scope.signup = function() {
         $auth.signup({
+            firstName:$scope.firstName,
+            lastName:$scope.lastName,
             email: $scope.email,
+            username:$scope.username,
             password: $scope.password
+
         })
         .then(function(apiData) {
-            $scope.token = true;
-            $location.path("/private");
+            MenuService.checkGlobal(function(){
+                $location.path("/private");
+            });
         })
         .catch(function(response) {
             console.log("errores en signup");
         });
-    }
+    };
 
     $scope.login = function(){
         $auth.login({
@@ -32,53 +42,39 @@ function LoginController($scope, $auth, $location,$http) {
             password: $scope.password
         })
         .then(function(apiData){
-            
-            $scope.token = true;
-             $location.path("/private")
-            
-            
+            MenuService.checkGlobal(function(){
+                $location.path("/private");
+            });
         })
         .catch(function(response){
             console.log("errores en login");
         });
-    }
-
-
-
-}
-
-
-function PrivateController($scope,$http){
-   
-
-    $http({url: '/private', method: 'GET'})
-            .success(function (data) {
-              $scope.nombre = data.nombre;
-              $scope.apellido = data.apellido;
-              console.log(data.nombre + " "+data.apellido);
-             
-            })
-}
-
-function NavBarController($scope,$auth, $location,config){
-    var tokenName = config.tokenPrefix ? config.tokenPrefix + '_' + config.tokenName : config.tokenName;
-    var tokenLocal = localStorage.getItem(tokenName);
-
-    if(tokenLocal){
-        $scope.token = true;
-        console.log("esta en el true")
-    }else{
-        $scope.token = false;
-        console.log("esta en el false")
-    }
+    };
 
 
     $scope.logout= function(){
         $auth.logout()
         .then(function() {
-            $scope.token = false;
-            $location.path("/")
+            MenuService.checkGlobal(function(){
+                $location.path("/");
+            });
         });
-    }
+    };
+}
+
+
+
+
+
+function PrivateController($scope,$http){
+   
+
+        $http({url: '/private', method: 'GET'})
+            .success(function (data) {
+
+                $scope.firstName= data.firstName;
+                $scope.lastName = data.lastName;
+             
+            })
 }
 

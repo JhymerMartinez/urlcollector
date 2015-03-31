@@ -10,7 +10,9 @@ var mainModule = angular.module(applicationName, [
 ])
 .config(['$authProvider','$routeProvider','$locationProvider','$httpProvider', 'satellizer.config',
   function($authProvider,$routeProvider,$locationProvider,$httpProvider, config) {
-    
+   
+
+
      $authProvider.loginUrl = "http://localhost:9000/auth/login";
     $authProvider.signupUrl = "http://localhost:9000/auth/signup";
     $authProvider.tokenName = "token";
@@ -19,12 +21,12 @@ var mainModule = angular.module(applicationName, [
     $routeProvider
     .otherwise({redirectTo: '/'});
 
-   $locationProvider.hashPrefix('!');
+  $locationProvider.hashPrefix('!');
 
     
     $httpProvider.interceptors.push(['$q','$location', function($q,$location) {
         var tokenName = config.tokenPrefix ? config.tokenPrefix + '_' + config.tokenName : config.tokenName;
-        console.log("nombre token"+tokenName)
+        //console.log("nombre token"+tokenName)
         return {
           'request': function(httpConfig) {
             var token = localStorage.getItem(tokenName);

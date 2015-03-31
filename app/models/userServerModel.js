@@ -4,17 +4,17 @@ var mongoose = require('mongoose');
 //var crypto = require('crypto');
 
 var UserSchema = mongoose.Schema({
-	/*
-  firstName  : String,
-  lastName: String,
-  */
+
+    firstName  : String,
+    lastName: String,
+
 	email: {
     	type: String,
     	// Validar el formato email 
     	match: [/.+\@.+\..+/, "Por favor escribe una dirección de email correcta"]
   	},
-  /*
-  username: {
+
+    username: {
 	    type: String,
 	    //Configurar un único index 'username'
 	    unique: true,
@@ -23,7 +23,6 @@ var UserSchema = mongoose.Schema({
 	    //Trim el campo 'username'
 	    trim: true
   	},
-    */
 	password: {
     	type: String,
     	//Validar el valor length de 'password'

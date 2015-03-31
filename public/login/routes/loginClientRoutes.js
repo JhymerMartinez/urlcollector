@@ -14,11 +14,11 @@ angular.module('login',[
     })
     .when('/signup', {
       templateUrl: 'login/views/signup.html',
-      controller: 'LoginController',
+      controller: 'LoginController'
     }) 
     .when('/logout', {
       templateUrl: null,
-      controller: 'LoginController',
+      controller: 'LoginController'
     }) 
     .when('/private', {
         templateUrl: 'login/views/private.html',

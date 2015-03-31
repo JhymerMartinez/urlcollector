@@ -1,6 +1,6 @@
 
     
-<header class="marquee" >
+<header class="marquee" ng-controller="LoginController">
   <div class="container">
 
       <span class="brand-name">URL-Collector</span>
@@ -8,7 +8,7 @@
         <p>Created and Maintained by <a href="https://github.com/JhymerMartinez" target="_blank">Jhymer Martínez</a>
         </p>
   </div>
-  <div class="options">
+  <div class="options" ng-show="!newtoken" >
    <a ng-href="#!/signup" class="btn btn-default btn-cta">
      Registrate
    </a>
