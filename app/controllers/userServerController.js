@@ -1,13 +1,13 @@
 'use strict';
 
-var mongoose = require('mongoose');   
+var mongoose = require('mongoose');
 var User = mongoose.model('user');
 var service = require('../services/token.js');
-var jwt = require('jwt-simple');  
-var moment = require('moment');  
+var jwt = require('jwt-simple');
+var moment = require('moment');
 var config = require('../../config/config.js');
 
-exports.emailSignup = function(req, res) {  
+exports.emailSignup = function(req, res) {
     var user = new User({
         firstName:req.body.firstName,
         lastName:req.body.lastName,
@@ -32,11 +32,21 @@ exports.emailSignup = function(req, res) {
 };
 
 
-exports.emailLogin = function(req, res) {  
-    User.findOne({email: req.body.email.toLowerCase()},
-     function(err, user) {
-        if(err){
-            console.log(err);
+exports.emailLogin = function(req, res) {
+
+    console.log(req.body);
+
+    User.findOne({
+        email: req.body.email.toLowerCase()
+    },
+    function(err, user) {
+
+        if(!user){
+          return res
+            .status(500)
+            .send({
+              message:"Email o contraseña incorrectos"
+            })
         }else{
 
             if(user.password == req.body.password){
@@ -46,26 +56,25 @@ exports.emailLogin = function(req, res) {
                         token: service.createToken(user)
                     });
             }else{
-                console.log("contraseña");
+              res
+                .status(500)
+                .send({
+                  message:"Contraseña incorrecta"
+                })
             }
-
-
-           
         }
     });
 };
 
 //var newUser;
 
-exports.ensureAuthenticated = function(req, res, next) {  
-
-   // console.log(req.headers);
+exports.ensureAuthenticated = function(req, res, next) {
 
   if(!req.headers.authorization) {
     return res
       .status(403)
       .send({
-            message: "Tu petición no tiene cabecera de autorización"
+            message: "No estas autorizado a entrar esta área."
         });
   }
     var token = req.headers.authorization.split(" ")[1];
@@ -74,7 +83,9 @@ exports.ensureAuthenticated = function(req, res, next) {
     if(payload.exp <= moment().unix()) {
          return res
             .status(401)
-            .send({message: "El token ha expirado"});
+            .send({
+                message: "El token ha expirado"
+            });
     }
 
     req.user = payload.sub;
@@ -82,11 +93,12 @@ exports.ensureAuthenticated = function(req, res, next) {
     next();
 };
 
+
 exports.myFunction = function(req,res){
 
     User.findOne({_id:req.user},
         function(err, user) {
-            if(err){
+            if(!user){
                 console.log(err);
             }else{
                 res.json(user);
