@@ -1,7 +1,7 @@
 'use strict';
 
 var mongoose = require('mongoose');
-var User = mongoose.model('user');
+var User = mongoose.model('User');
 var service = require('../services/token.js');
 var jwt = require('jwt-simple');
 var moment = require('moment');
@@ -96,14 +96,13 @@ exports.ensureAuthenticated = function(req, res, next) {
 
 exports.myFunction = function(req,res){
 
-    User.findOne({_id:req.user},
-        function(err, user) {
+    User.findOne({
+        _id:req.user
+        },function(err, user) {
             if(!user){
                 console.log(err);
             }else{
                 res.json(user);
             }
         });
-
-
 };

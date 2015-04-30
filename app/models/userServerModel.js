@@ -5,12 +5,12 @@ var mongoose = require('mongoose');
 
 var UserSchema = mongoose.Schema({
 
-    firstName  : String,
-    lastName: String,
+  firstName  : String,
+  lastName: String,
 
 	email: {
     	type: String,
-    	// Validar el formato email 
+    	// Validar el formato email
     	match: [/.+\@.+\..+/, "Por favor escribe una dirección de email correcta"]
   	},
 
@@ -105,4 +105,4 @@ UserSchema.set('toJSON', {
 });
 
 */
-module.exports =  mongoose.model('user',UserSchema);
+module.exports =  mongoose.model('User',UserSchema);
