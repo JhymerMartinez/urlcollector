@@ -17,5 +17,4 @@ module.exports = function(app){
 		.get(user.ensureAuthenticated,reference.myFunction1);
 
 
-
 };

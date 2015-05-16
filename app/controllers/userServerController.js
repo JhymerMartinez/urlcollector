@@ -91,5 +91,16 @@ exports.ensureAuthenticated = function(req, res, next) {
     next();
 };
 
+exports.myFunction = function(req,res){
 
+    User.findOne({
+        _id:req.user
+        },function(err, user) {
+            if(!user){
+                console.log(err);
+            }else{
+                res.json(user);
+            }
+        });
+};
 
