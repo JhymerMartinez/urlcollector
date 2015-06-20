@@ -1,13 +1,15 @@
-'use strict';
+(function(){
 
-var mongoose = require('mongoose');
+  'use strict';
 
-var ListSchema = mongoose.Schema({
-  title:  {
-    type:String,
-    required: 'Título de la lista es requerido'
-  },
-  description:String
+  var mongoose = require('mongoose');
 
-});
+  var ListSchema = mongoose.Schema({
+    title:  {
+      type:String,
+      required: 'Título de la lista es requerido'
+    },
+    description:String
+  });
 
+})();

@@ -1,20 +1,22 @@
-'use strict';
+(function(){
 
-//var passport = require('passport');
-var	user = require('../controllers/userServerController.js');
-var	reference = require('../controllers/referenceServerController.js');
+  'use strict';
 
-module.exports = function(app){
+  //var passport = require('passport');
+  var	user = require('../controllers/userServerController.js');
+  var	reference = require('../controllers/referenceServerController.js');
 
+  module.exports = function(app){
 
-  	app.route('/auth/signup')
-     .post(user.emailSignup);
+    	app.route('/auth/signup')
+       .post(user.emailSignup);
 
-  	app.route('/auth/login')
-		.post(user.emailLogin);
+    	app.route('/auth/login')
+  		.post(user.emailLogin);
 
-	  app.route('/private')
-		.get(user.ensureAuthenticated,reference.myFunction1);
+  	  app.route('/private')
+  		.get(user.ensureAuthenticated,reference.myFunction1);
 
+  };
 
-};
+})();

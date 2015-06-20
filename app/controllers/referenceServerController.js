@@ -1,19 +1,22 @@
-'use strict';
+(function(){
 
-var mongoose = require('mongoose');
-var User = mongoose.model('User');
+  'use strict';
 
-exports.myFunction1 = function(req,res){
+  var mongoose = require('mongoose');
+  var User = mongoose.model('User');
 
-    User.findOne({
-        _id:req.user
-        },function(err, user) {
-            if(!user){
-                console.log(err);
-            }else{
-                res.json(user);
-            }
-        });
-};
+  exports.myFunction1 = function(req,res){
 
+      User.findOne({
+          _id:req.user
+          },function(err, user) {
+              if(!user){
+                  console.log(err);
+              }else{
+                  res.json(user);
+              }
+          });
+  };
+
+})();
 
