@@ -56,7 +56,7 @@
                   .status(200)
                   .send({
                           token: service.createToken(user)
-                      });
+                      });e
               }else{
                 res
                   .status(500)
@@ -72,6 +72,8 @@
 
   exports.ensureAuthenticated = function(req, res, next) {
 
+    console.log('debug auth:',  req.headers.authorization);
+
     if(!req.headers.authorization) {
       return res
         .status(403)
@@ -79,18 +81,18 @@
               message: "No estas autorizado a entrar esta área."
           });
     }
-      var token = req.headers.authorization.split(" ")[1];
-      var payload = jwt.decode(token, config.TOKEN_SECRET);
+    var token = req.headers.authorization.split(" ")[1];
+    var payload = jwt.decode(token, config.TOKEN_SECRET);
 
-      if(payload.exp <= moment().unix()) {
-           return res
-              .status(401)
-              .send({
-                  message: "El token ha expirado"
-              });
-      }
-      req.user = payload.sub;
-      next();
+    if(payload.exp <= moment().unix()) {
+         return res
+            .status(401)
+            .send({
+                message: "El token ha expirado"
+            });
+    }
+    req.user = payload.sub;
+    next();
   };
 
   exports.myFunction = function(req,res){

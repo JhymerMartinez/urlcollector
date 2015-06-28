@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 
 module.exports = function(){
 	//conexion a bd
-	var db = mongoose.connect('mongodb://localhost:27017/urlcollector'); 	
+	var db = mongoose.connect('mongodb://localhost:27017/urlcollector');
 	db.connection.on('open', function () {
 	  console.log('Conexion exitososa a mongodb');
 	});
@@ -13,5 +13,6 @@ module.exports = function(){
 	});
 
 	require('../app/models/userServerModel.js');
+	require('../app/models/referenceServerModel.js');
 	return db;
 };
