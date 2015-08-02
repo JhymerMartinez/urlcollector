@@ -3,7 +3,7 @@
   'use strict';
 
   var mongoose = require('mongoose');
-  //var crypto = require('crypto');
+  var crypto = require('crypto');
 
   var UserSchema = mongoose.Schema({
 
@@ -53,6 +53,7 @@
     this.firstName = splitName[0] || '';
     this.lastName = splitName[1] || '';
   });
+  */
 
   //Usar un middleware pre-save para hash la contraseña
   UserSchema.pre('save', function(next) {
@@ -105,7 +106,7 @@
     virtuals: true
   });
 
-  */
+
   module.exports =  mongoose.model('User',UserSchema);
 
 })();

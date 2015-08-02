@@ -13,6 +13,9 @@
     	app.route('/auth/login')
   		.post(user.emailLogin);
 
+      app.route('/user/delete')
+      .post(user.ensureAuthenticated, user.deleteUser);
+
 
   };
 

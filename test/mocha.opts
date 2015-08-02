@@ -1,0 +1,6 @@
+--ui tdd
+--require test/helpers/setup
+--require test/app/controllers/referenceServerControllerSpec.js
+--recursive
+-w
+-G
