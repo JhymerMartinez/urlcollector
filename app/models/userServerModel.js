@@ -4,65 +4,73 @@
 
   var mongoose = require('mongoose');
   var crypto = require('crypto');
+  var MessageService = require('../services/messages.js');
 
   var UserSchema = mongoose.Schema({
 
-    firstName  : String,
-    lastName: String,
-
+    firstName  : {
+      type: String,
+      required: MessageService.Models.firstNameRequired,
+      trim: true
+    },
+    lastName: {
+      type: String,
+      trim: true
+    },
   	email: {
-      	type: String,
-      	// Validar el formato email
-      	match: [/.+\@.+\..+/, "Por favor escribe una dirección de email correcta"]
-    	},
+      type: String,
+      trim: true,
+      // Validte email
+      match: [
+        /.+\@.+\..+/,
+        MessageService.Models.invalidEmail
+      ]
+    },
     username: {
 	    type: String,
-	    //Configurar un único index 'username'
 	    unique: true,
-	    //Validar existencia valor 'username'
-	    required: 'Nombre de usuario es obligatorio',
-	    //Trim el campo 'username'
+	    required: MessageService.Models.usenameRequired,
 	    trim: true
   	},
   	password: {
     	type: String,
-    	//Validar el valor length de 'password'
+    	//Validate password length
     	validate: [
     		function(password) {
-        		return password && password.length > 6;
-      		}, 'La contraseña debe ser más larga'
-    	]
+      		return password && password.length > 6;
+        },
+        MessageService.Models.passwordLength
+      ]
   	},
-      /*
     salt: {
       type: String
-      },*/
+    },
     created: {
-      	type: Date,
-      	//Crear un valor 'created' por defecto
-      	default: Date.now
+    	type: Date,
+    	//For default
+    	default: Date.now
     }
   });
 
-  // Configurar la propiedad virtual 'fullname'
-  /*
-  UserSchema.virtual('fullName').get(function() {
-    return this.firstName + ' ' + this.lastName;
-  }).set(function(fullName) {
-    var splitName = fullName.split(' ');
-    this.firstName = splitName[0] || '';
-    this.lastName = splitName[1] || '';
-  });
-  */
+  //Configure the virtual property 'fullname'
+  UserSchema.virtual('fullName')
+    .get(function() {
+      return this.firstName + ' ' + this.lastName;
+    })
+    .set(function(fullName) {
+      var splitName = fullName.split(' ');
+      this.firstName = splitName[0] || '';
+      this.lastName = splitName[1] || '';
+    });
 
-  //Usar un middleware pre-save para hash la contraseña
-  UserSchema.pre('save', function(next) {
+  //Middleware pre-save for hash the password
+  UserSchema.pre('save', function(done) {
     if (this.password) {
       this.salt = new Buffer(crypto.randomBytes(16).toString('base64'), 'base64');
       this.password = this.hashPassword(this.password);
     }
 
-    next();
+    done();
   });
 
   //Crear un método instancia para hashing una contraseña
@@ -71,8 +79,20 @@
   };
 
   //Crear un método instancia para autentificar usuario
-  UserSchema.methods.authenticate = function(password) {
-    return this.password === this.hashPassword(password);
+  UserSchema.statics.authenticate = function(user, loginPassword) {
+
+    var passwordHash;
+
+    if (loginPassword) {
+      this.salt = user.salt;
+      passwordHash = this.processHashPassword(loginPassword);
+    }
+    return user.password === passwordHash;
+  };
+
+  //Crear un método instancia para hashing una contraseña
+  UserSchema.statics.processHashPassword = function(password) {
+    return crypto.pbkdf2Sync(password, this.salt, 10000, 64).toString('base64');
   };
 
   //Encontrar posibles username no usados
@@ -82,13 +102,17 @@
     //Añadir un sufijo 'username'
     var possibleUsername = username + (suffix || '');
 
-  //Usar el método 'findOne' del model 'User' para encontrar un username único disponible
+    //Usar el método 'findOne' del model 'User' para
+    //encontrar un username único disponible
     _this.findOne({
       username: possibleUsername
     }, function(err, user) {
-      //Si ocurre un error llama al callback con un valor null, en otro caso encuentra un username disponible único
+      //Si ocurre un error llama al callback con un valor null,
+      //en otro caso encuentra un username disponible único
       if (!err) {
-          //si un username único disponible fue encontrado llama al método callback, en otro caso llama al método 'findUniqueUsername' de nuevo con un nuevo sufijo
+        //si un username único disponible fue encontrado llama
+        //al método callback, en otro caso llama al método
+        //'findUniqueUsername' de nuevo con un nuevo sufijo
         if (!user) {
           callback(possibleUsername);
         } else {
@@ -100,7 +124,8 @@
     });
   };
 
-  //Configura el 'UserSchema' para usar getters y virtuals cuando se transforme a JSON
+  //Configura el 'UserSchema' para usar getters y virtuals
+  //cuando se transforme a JSON
   UserSchema.set('toJSON', {
     getters: true,
     virtuals: true
