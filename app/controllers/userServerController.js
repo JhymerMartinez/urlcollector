@@ -4,7 +4,8 @@
 
   var mongoose = require('mongoose');
   var User = mongoose.model('User');
-  var service = require('../services/token.js');
+  var TokenService = require('../services/token.js');
+  var MessageService = require('../services/messages.js');
   var jwt = require('jwt-simple');
   var moment = require('moment');
   var config = require('../../config/config.js');
@@ -22,7 +23,7 @@
         return res
           .status(200)
           .send({
-              message: 'Usuario eliminado correctamente'
+              message: MessageService.userDeleted
           });
       }
     });
@@ -48,8 +49,8 @@
         return res
           .status(200)
           .send({
-            token: service.createToken(user),
-            message: "Bienvenido "+user.firstName,
+            token: TokenService.createToken(user),
+            message: "Welcome " + user.firstName,
             user: user
           });
       }
@@ -66,22 +67,22 @@
             return res
               .status(500)
               .send({
-                message:"Email o contraseña incorrectos"
+                message: MessageService.userNotExist
               });
           }else{
-              if(User.authenticate(user, req.body.password)){
-                  return res
+            if(User.authenticate(user, req.body.password)){
+                return res
                   .status(200)
                   .send({
-                          token: service.createToken(user)
-                      });
-              }else{
-                res
-                  .status(500)
-                  .send({
-                    message:"Contraseña incorrecta"
+                    token: TokenService.createToken(user)
                   });
-              }
+            }else{
+              return res
+                .status(500)
+                .send({
+                  message: MessageService.userInvalidPassword
+                });
+            }
           }
       });
   };
@@ -92,17 +93,18 @@
       return res
         .status(403)
         .send({
-              message: "No estas autorizado a entrar esta área."
+              message: MessageService.userUnauthorized
           });
     }
-    var token = req.headers.authorization.split(" ")[1];
-    var payload = jwt.decode(token, config.TOKEN_SECRET);
+    debugger;
+    //var token = req.headers.authorization.split('.')[1];
+    var payload = jwt.decode(req.headers.authorization, config.TOKEN_SECRET);
 
     if(payload.exp <= moment().unix()) {
      return res
         .status(401)
         .send({
-            message: "El token ha expirado"
+            message: MessageService.userTokenExpired
         });
     }
     req.user = payload.sub;
@@ -133,11 +135,11 @@
         // Si un eror de index único ocurre configurar el mensaje de error
         case 11000:
         case 11001:
-          message = 'Usuario ya existe';
+          message = MessageService.userExists;
           break;
         // Si un error general ocurre configurar el mensaje de error
         default:
-          message = 'Se ha producido un error desconocido';
+          message = MessageService.userUnknownError;
       }
     } else {
       // Grabar el primer mensaje de error de una lista de posibles errores
