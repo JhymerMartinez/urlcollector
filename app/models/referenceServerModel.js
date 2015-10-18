@@ -1,4 +1,4 @@
-(function(){
+(function() {
 
   'use strict';
 
@@ -7,18 +7,18 @@
 
   var ReferenceSchema = mongoose.Schema({
     title:  {
-      type:String,
+      type: String,
       required: 'Título del enlace es requerido'
     },
     url:  {
-      type:String,
+      type: String,
       required: 'Dirección de enlace es requerida'
     },
-    date_added: {
+    dateAdded: {
       type: Date,
       default: Date.now
     },
-    description:String,
+    description: String,
     user: {
       type: Schema.ObjectId,
       ref: 'User'

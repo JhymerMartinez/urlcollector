@@ -1,4 +1,4 @@
-(function(){
+(function() {
 
   'use strict';
   //GLOBAL app messages

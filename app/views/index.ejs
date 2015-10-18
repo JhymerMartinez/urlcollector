@@ -1,91 +1,82 @@
 <!DOCTYPE html>
 <html lang="es" ng-app="urlcollector" class="no-js"> <!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>URL Collector</title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>URL Collector</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="stylesheet" href="static/css/login-box.css">
-  <link rel="stylesheet" href="/static/css/main.css">
-  <link rel="stylesheet" href="static/css/signup.css">
-  <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/static/css/login-box.css">
+        <link rel="stylesheet" href="/static/css/main.css">
+        <link rel="stylesheet" href="/static/css/signup.css">
+        <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
 
+    </head>
+    <body>
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"   >
+            <div class="container ">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Desplegar navegación</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" ng-href="#!/">Inicio</a>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" ng-controller="LoginController">
+                    <ul class="nav navbar-nav navbar-right" >
 
-</head>
-<body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation"   >
-       <div class="container ">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Desplegar navegación</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" ng-href="#!/">Inicio</a>
+                        <li ng-show="!newtoken">
+                          <a ng-href="#!/login">Ingresar</a>
+
+                        </li >
+                        <li ng-show="!newtoken">
+                          <a ng-href="#!/signup">Registrarse</a>
+                        </li>
+                        <li ng-show="newtoken">
+                          <a ng-href="#!/private">Mi página privada</a>
+                        </li>
+                        <li ng-show="newtoken">
+                            <a ng-href="#!/admin">{{completeName}}</a>
+                        </li>
+                        <li ng-show="newtoken">
+                          <a ng-click="logout()" >Salir</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
             </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" ng-controller="LoginController">
-                <ul class="nav navbar-nav navbar-right" >
+         </nav>
 
-                    <li ng-show="!newtoken">
-                      <a ng-href="#!/login">Ingresar</a>
-
-                    </li >
-                    <li ng-show="!newtoken">
-                      <a ng-href="#!/signup">Registrarse</a>
-                    </li>
-                    <li ng-show="newtoken">
-                      <a ng-href="#!/private">Mi página privada</a>
-                    </li>
-                    <li ng-show="newtoken">
-                        <a ng-href="#!/admin">{{completeName}}</a>
-                    </li>
-                    <li ng-show="newtoken">
-                      <a ng-click="logout()" >Salir</a>
-                    </li>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
+        <div ng-view="">
         </div>
-      </nav>
 
+        <script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script>
+        <script type="text/javascript" src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
+        <script type="text/javascript" src="/bower_components/angular/angular.js"></script>
+        <script type="text/javascript" src="/bower_components/angular-route/angular-route.js"></script>
+        <script type="text/javascript" src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+        <script type="text/javascript" src="/bower_components/satellizer/satellizer.js"></script>
 
+        <script type="text/javascript" src="/static/js/modernizr.js"></script>
 
-      <div ng-view="">
-      </div>
+        <script type="text/javascript" src="/app.js"></script>
+        <script type="text/javascript" src="/presentation/presentationClientModule.js"></script>
+        <script type="text/javascript" src="/presentation/routes/presentationClientRoutes.js"></script>
+        <script type="text/javascript" src="/presentation/controllers/presentationClientController.js"></script>
 
+        <script type="text/javascript" src="/login/loginClientModule.js"></script>
 
-  
-  <script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script>
-  <script type="text/javascript" src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="/login/routes/loginClientRoutes.js"></script>
 
-  <script type="text/javascript" src="/bower_components/angular/angular.js"></script>
-  <script type="text/javascript" src="/bower_components/angular-route/angular-route.js"></script>
-   <script type="text/javascript" src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-   <script type="text/javascript" src="/bower_components/satellizer/satellizer.js"></script>
- 
-  <script type="text/javascript" src="/static/js/modernizr.js"></script>
+        <script type="text/javascript" src="/login/controllers/loginClientController.js"></script>
+        <script type="text/javascript" src="/login/services/loginService.js"></script>
 
-  <script type="text/javascript" src="/app.js"></script>
-  <script type="text/javascript" src="/presentation/presentationClientModule.js"></script>
-  <script type="text/javascript" src="/presentation/routes/presentationClientRoutes.js"></script>
-  <script type="text/javascript" src="/presentation/controllers/presentationClientController.js"></script>
-
-  <script type="text/javascript" src="/login/loginClientModule.js"></script>
-
-    <script type="text/javascript" src="/login/routes/loginClientRoutes.js"></script>
-
-  <script type="text/javascript" src="/login/controllers/loginClientController.js"></script>
-    <script type="text/javascript" src="/login/services/loginService.js"></script>
-
-
-
-  
-</body>
+    </body>
 </html>

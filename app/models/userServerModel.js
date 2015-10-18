@@ -1,4 +1,4 @@
-(function(){
+(function() {
 
   'use strict';
 
@@ -8,7 +8,7 @@
 
   var UserSchema = mongoose.Schema({
 
-    firstName  : {
+    firstName: {
       type: String,
       required: MessageService.Models.firstNameRequired,
       trim: true
@@ -130,7 +130,6 @@
     getters: true,
     virtuals: true
   });
-
 
   module.exports =  mongoose.model('User',UserSchema);
 

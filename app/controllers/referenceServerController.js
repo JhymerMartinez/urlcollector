@@ -1,4 +1,4 @@
-(function(){
+(function() {
 
   'use strict';
 
@@ -6,32 +6,32 @@
   var User = mongoose.model('User');
   var Reference = mongoose.model('Reference');
 
-  exports.myFunction1 = function(req,res){
+  exports.myFunction1 = function(req, res) {
 
       User.findOne({
-          _id:req.user
+          _id: req.user
           },function(err, user) {
-              if(!user){
+              if (!user) {
                   console.log(err);
-              }else{
+              } else {
                   res.json(user);
               }
           });
   };
 
-  exports.saveReference = function(req ,res){
+  exports.saveReference = function(req, res) {
 
     var reference = new Reference({
-      title : req.body.title,
-      url : req.body.url,
-      date_added  : req.body.date_added,
-      description : req.body.description
+      title: req.body.title,
+      url: req.body.url,
+      dateAdded: req.body.dateAdded,
+      description: req.body.description
     });
 
-    reference.save(function(err,reference){
-      if(err){
+    reference.save(function(err, reference) {
+      if (err) {
           console.log(err);
-      }else{
+      } else {
           return res
               .status(200)
               .send(reference);
@@ -40,4 +40,3 @@
   };
 
 })();
-

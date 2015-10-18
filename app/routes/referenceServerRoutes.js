@@ -1,17 +1,17 @@
-(function(){
+(function() {
 
   'use strict';
 
   var user = require('../controllers/userServerController.js');
   var reference = require('../controllers/referenceServerController.js');
 
-  module.exports = function(app){
+  module.exports = function(app) {
 
     app.route('/private')
-    .get(user.ensureAuthenticated,reference.myFunction1);
+      .post(user.ensureAuthenticated,reference.myFunction1);
 
     app.route('/reference/save')
-    .post(user.ensureAuthenticated, reference.saveReference);
+      .post(user.ensureAuthenticated, reference.saveReference);
 
   };
 

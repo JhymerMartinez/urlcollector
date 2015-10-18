@@ -1,4 +1,4 @@
-(function(){
+(function() {
 
   'use strict';
 
@@ -6,10 +6,10 @@
 
   var ListSchema = mongoose.Schema({
     title:  {
-      type:String,
+      type: String,
       required: 'Título de la lista es requerido'
     },
-    description:String
+    description: String
   });
 
 })();

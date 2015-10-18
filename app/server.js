@@ -1,4 +1,4 @@
-(function(){
+(function() {
 
   'use strict';
 
@@ -9,9 +9,9 @@
   var db = mongoose();
   var app = express();
   //var passport = passport();
-  app.listen(9000);
-
-  console.log("Aplicacion escuchando en puerto 9000");
+  app.listen(9000, function() {
+    console.log('Aplicacion escuchando en puerto 9000');
+  });
 
   module.exports = app;
 

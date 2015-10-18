@@ -1,8 +1,8 @@
-(function(){
+(function() {
 
   'use strict';
 
-  exports.render = function(req,res){
+  exports.render = function(req, res) {
   	res.render('index');
   };
 
