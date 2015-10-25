@@ -2,7 +2,8 @@
   "apps": [{
     "name": "CLIENT",
     "script": "./app/server.js",
-    "port": "9000",
+    "port": "8000",
+    "node_args": ["--debug=5858"],
     "watch": "./app",
     "ignore_watch": [],
     "watch_options":{

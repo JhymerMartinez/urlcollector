@@ -1,5 +1,9 @@
-node_modules
+.DS_Store
 .idea
 .settings
 *.swp
-projectFilesBackup
+logs/*.log
+npm-debug.log
+git-info.txt
+node_modules
+public/bower_components
