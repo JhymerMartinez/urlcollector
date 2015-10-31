@@ -22,7 +22,9 @@
     "moment": "~2.9.0",
     "mongoose": "~3.8.18",
     "morgan": "~1.4.1",
-    "pm2": "^0.15.7"
+    "pm2": "^0.15.7",
+    "js-yaml": "latest",
+    "lodash": "latest"
   },
   "subdomain": "urlcollector",
   "scripts": {

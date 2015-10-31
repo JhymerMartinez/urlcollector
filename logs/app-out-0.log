@@ -1,3 +1,95 @@
 [Error: Module did not self-register.]
 Application listening on port 8000
 Conexion exitososa a mongodb
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+[Error: Module did not self-register.]
+Application listening on port 8000
+Conexion exitososa a mongodb
+[0mGET / [32m200 [0m157.162 ms - 4037[0m
+[0mGET /static/css/login-box.css [32m200 [0m10.121 ms - 1780[0m
+[0mGET /static/css/main.css [32m200 [0m9.191 ms - 1156[0m
+[0mGET /static/css/signup.css [32m200 [0m8.902 ms - 2584[0m
+[0mGET /bower_components/angular-route/angular-route.js [32m200 [0m74.391 ms - 35883[0m
+[0mGET /bower_components/jquery/dist/jquery.min.js [32m200 [0m82.074 ms - 84280[0m
+[0mGET /bower_components/bootstrap/dist/js/bootstrap.min.js [32m200 [0m87.346 ms - 29110[0m
+[0mGET /bower_components/bootstrap/dist/css/bootstrap.min.css [32m200 [0m99.765 ms - 99961[0m
+[0mGET /static/js/modernizr.js [32m200 [0m2.391 ms - 15243[0m
+[0mGET /app.js [32m200 [0m2.301 ms - 2045[0m
+[0mGET /presentation/presentationClientModule.js [32m200 [0m1.374 ms - 50[0m
+[0mGET /bower_components/angular-bootstrap/ui-bootstrap-tpls.js [32m200 [0m126.096 ms - 142731[0m
+[0mGET /presentation/routes/presentationClientRoutes.js [32m200 [0m2.743 ms - 276[0m
+[0mGET /presentation/controllers/presentationClientController.js [32m200 [0m3.520 ms - 103[0m
+[0mGET /bower_components/satellizer/satellizer.js [32m200 [0m76.290 ms - 25927[0m
+[0mGET /login/loginClientModule.js [32m200 [0m6.589 ms - 44[0m
+[0mGET /login/routes/loginClientRoutes.js [32m200 [0m5.058 ms - 568[0m
+[0mGET /login/controllers/loginClientController.js [32m200 [0m1.527 ms - 1709[0m
+[0mGET /login/services/loginService.js [32m200 [0m1.634 ms - 1103[0m
+[0mGET /bower_components/angular/angular.js [32m200 [0m183.803 ms - 965533[0m
+[0mGET /presentation/views/presentation.html [32m200 [0m1.309 ms - 615[0m
+[0mGET /favicon.ico [33m404 [0m3.394 ms - 24[0m
+[0mGET /static/images/background1.png [32m200 [0m4.625 ms - 5814[0m
+[Error: Require key]
+[Error: Module did not self-register.]
+Application listening on port 8000
+Conexion exitososa a mongodb
+[0mPOST /auth/login [32m200 [0m79.084 ms - 184[0m

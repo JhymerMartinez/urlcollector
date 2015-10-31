@@ -8,7 +8,7 @@
   var MessageService = require('../services/messages.js');
   var jwt = require('jwt-simple');
   var moment = require('moment');
-  var config = require('../config/config.js');
+  var config = require('../lib/config.js');
 
   exports.deleteUser = function(req, res) {
     User.remove({_id: req.body.id}, function(error) {
@@ -96,7 +96,7 @@
     }
 
     var token = req.headers.authorization.split('.')[1];
-    var payload = jwt.decode(req.headers.authorization, config.TOKEN_SECRET);
+    var payload = jwt.decode(req.headers.authorization, config().tokenSecret);
 
     if (payload.exp <= moment().unix()) {
      return res
