@@ -20,7 +20,8 @@
   	email: {
       type: String,
       trim: true,
-      // Validte email
+      unique: true,
+      // Validate email
       match: [
         /.+\@.+\..+/,
         MessageService.Models.invalidEmail
@@ -65,6 +66,16 @@
 
   //Middleware pre-save for hash the password
   UserSchema.pre('save', function(done) {
+    if (this.password) {
+      this.salt = new Buffer(crypto.randomBytes(16).toString('base64'), 'base64');
+      this.password = this.hashPassword(this.password);
+    }
+
+    done();
+  });
+
+  //Middleware pre-save for hash the password
+  UserSchema.pre('update', function(done) {
     if (this.password) {
       this.salt = new Buffer(crypto.randomBytes(16).toString('base64'), 'base64');
       this.password = this.hashPassword(this.password);

@@ -60,7 +60,7 @@ module.exports = function(grunt) {
         command: 'pm2 delete pm2.json'
       },
       serverStart: {
-        command: 'pm2 start pm2.json'
+        command: 'pm2 start pm2.json --log-date-format "YYYY-MM-DD HH:mm"'
       }
     }
   });

@@ -2,7 +2,7 @@
 .idea
 .settings
 *.swp
-logs/*.log
+logs
 npm-debug.log
 git-info.txt
 node_modules

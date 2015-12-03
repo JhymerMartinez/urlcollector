@@ -16,6 +16,8 @@
     userUnauthorized: 'Not authorized.',
     userTokenExpired: 'The token has expired.',
     userExists: 'User already exists.',
-    userUnknownError: 'Unknown error.'
+    userUnknownError: 'Unknown error.',
+    userUpdateOK: 'Updated information.',
+    userUpdateERROR: 'Failed to update information.'
   };
 })();

@@ -7,14 +7,17 @@
 
   module.exports = function(app) {
 
-    	app.route('/auth/signup')
-       .post(user.emailSignup);
+    	app.route('/auth/signin')
+       .post(user.createUser);
 
     	app.route('/auth/login')
-  		 .post(user.emailLogin);
+  		 .post(user.login);
 
       app.route('/user/delete')
        .post(user.ensureAuthenticated, user.deleteUser);
+
+       app.route('/user/update')
+        .post(user.ensureAuthenticated, user.updateUser);
 
   };
 

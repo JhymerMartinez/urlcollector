@@ -27,14 +27,13 @@
     });
   };
 
-  exports.emailSignup = function(req, res) {
+  exports.createUser = function(req, res) {
     var user = new User({
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        email: req.body.email,
-        username: req.body.username,
-        password: req.body.password
-
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      username: req.body.username,
+      password: req.body.password
     });
 
     user.save(function(error, user) {
@@ -55,7 +54,48 @@
     });
   };
 
-  exports.emailLogin = function(req, res) {
+  exports.updateUser = function(req, res) {
+
+    User.findById(req.body.id, function(error, user) {
+      if (error) {
+        return res.send({
+          message: getErrorMessage(error)
+        });
+      } else {
+        //Change specific information
+        if (req.body.firstName && req.body.firstName !== user.firstName) {
+          user.firstName = req.body.firstName;
+        }
+
+        if (req.body.lastName && req.body.lastName !== user.lastName) {
+          user.lastName = req.body.lastName;
+        }
+
+        if (req.body.email && req.body.email !== user.email) {
+          user.email = req.body.email;
+        }
+
+        if (req.body.password) {
+          user.password = req.body.password;
+        }
+
+        user.save(function(error, user) {
+          if (error) {
+            return res.send({
+              message: getErrorMessage(error)
+            });
+          } else {
+            return res.status(200)
+              .send({
+              message: MessageService.Controllers.userUpdateOK
+            });
+          }
+        });
+      }
+    });
+  };
+
+  exports.login = function(req, res) {
       User.findOne({
           email: req.body.email.toLowerCase()
       },
