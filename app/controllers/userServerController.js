@@ -3,7 +3,7 @@
   'use strict';
 
   var mongoose = require('mongoose');
-  var User = mongoose.model('User');
+  var UserModel = mongoose.model('User');
   var TokenService = require('../services/token.js');
   var MessageService = require('../services/messages.js');
   var jwt = require('jwt-simple');
@@ -11,7 +11,7 @@
   var config = require('../lib/config.js');
 
   exports.deleteUser = function(req, res) {
-    User.remove({_id: req.body.id}, function(error) {
+    UserModel.remove({_id: req.body.id}, function(error) {
       if (error) {
         return res
           .send({
@@ -28,7 +28,7 @@
   };
 
   exports.createUser = function(req, res) {
-    var user = new User({
+    var user = new UserModel({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       email: req.body.email,
@@ -56,7 +56,7 @@
 
   exports.updateUser = function(req, res) {
 
-    User.findById(req.body.id, function(error, user) {
+    UserModel.findById(req.body.id, function(error, user) {
       if (error) {
         return res.send({
           message: getErrorMessage(error)
@@ -96,7 +96,7 @@
   };
 
   exports.login = function(req, res) {
-      User.findOne({
+      UserModel.findOne({
           email: req.body.email.toLowerCase()
       },
       function(err, user) {
@@ -107,7 +107,7 @@
                 message: MessageService.Controllers.userNotExist
               });
           } else {
-            if (User.authenticate(user, req.body.password)) {
+            if (UserModel.authenticate(user, req.body.password)) {
               return res
                 .status(200)
                 .send({
@@ -134,24 +134,32 @@
         });
 
     }
+    try {
+      var token = req.headers.authorization.split('.')[1];
+      var payload = jwt.decode(req.headers.authorization, config().tokenSecret);
 
-    var token = req.headers.authorization.split('.')[1];
-    var payload = jwt.decode(req.headers.authorization, config().tokenSecret);
-
-    if (payload.exp <= moment().unix()) {
-     return res
-        .status(401)
+      if (payload.exp <= moment().unix()) {
+       return res
+          .status(401)
+          .send({
+              message: MessageService.Controllers.userTokenExpired
+          });
+      }
+      req.user = payload.sub;
+      next();
+    } catch (e) {
+      return res
+        .status(500)
         .send({
-            message: MessageService.Controllers.userTokenExpired
+          message: MessageService.GlobalErrors.serverErrorUnknown
         });
     }
-    req.user = payload.sub;
-    next();
+
   };
 
   exports.myFunction = function(req, res) {
 
-    User.findOne({
+    UserModel.findOne({
       id: req.user
     }, function(err, user) {
           if (!user) {

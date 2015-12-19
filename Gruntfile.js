@@ -69,7 +69,7 @@ module.exports = function(grunt) {
   grunt.registerTask('analyze','Validates code style', ['jshint', 'jscs']);
   grunt.registerTask('status', 'Shows status of node processes', ['shell:serverStatus']);
   grunt.registerTask('stop', 'Stop the processes', ['shell:serverStop']);
-  grunt.registerTask('start', 'Start node processes', ['shell:serverStart']);
+  grunt.registerTask('start', 'Start node processes', ['analyze', 'shell:serverStart']);
   grunt.registerTask('restart', 'Restart node processes', ['stop', 'start']);
   grunt.registerTask('logs', 'Trail logs for all pm2 processes', ['shell:serverLogs']);
 };

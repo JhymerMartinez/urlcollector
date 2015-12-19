@@ -3,21 +3,21 @@
   'use strict';
 
   //var passport = require('passport');
-  var	user = require('../controllers/userServerController.js');
+  var	userCtrl = require('../controllers/userServerController.js');
 
   module.exports = function(app) {
 
     	app.route('/auth/signin')
-       .post(user.createUser);
+       .post(userCtrl.createUser);
 
     	app.route('/auth/login')
-  		 .post(user.login);
+  		 .post(userCtrl.login);
 
       app.route('/user/delete')
-       .post(user.ensureAuthenticated, user.deleteUser);
+       .post(userCtrl.ensureAuthenticated, userCtrl.deleteUser);
 
        app.route('/user/update')
-        .post(user.ensureAuthenticated, user.updateUser);
+        .post(userCtrl.ensureAuthenticated, userCtrl.updateUser);
 
   };
 

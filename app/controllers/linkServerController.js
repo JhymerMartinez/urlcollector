@@ -3,12 +3,12 @@
   'use strict';
 
   var mongoose = require('mongoose');
-  var User = mongoose.model('User');
-  var Reference = mongoose.model('Reference');
+  var UserModel = mongoose.model('User');
+  var LinkModel = mongoose.model('Link');
 
   exports.myFunction1 = function(req, res) {
 
-      User.findOne({
+      UserModel.findOne({
           _id: req.user
           },function(err, user) {
               if (!user) {
@@ -19,22 +19,22 @@
           });
   };
 
-  exports.saveReference = function(req, res) {
+  exports.saveLink = function(req, res) {
 
-    var reference = new Reference({
+    var linkModel = new LinkModel({
       title: req.body.title,
       url: req.body.url,
       dateAdded: req.body.dateAdded,
       description: req.body.description
     });
 
-    reference.save(function(err, reference) {
+    linkModel.save(function(err, aLink) {
       if (err) {
           console.log(err);
       } else {
           return res
               .status(200)
-              .send(reference);
+              .send(aLink);
       }
     });
   };

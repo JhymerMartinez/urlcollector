@@ -15,7 +15,8 @@
 		});
 
 		require('../models/userServerModel.js');
-		require('../models/referenceServerModel.js');
+		require('../models/linkServerModel.js');
+    require('../models/groupServerModel.js');
 		return db;
 	};
 

@@ -3,11 +3,14 @@
   'use strict';
   //GLOBAL app messages
   exports.Models = {
-    firstNameRequired: 'First Name is required.',
-    usenameRequired: 'Username is required.',
-    passwordRequired: 'Password is required.',
-    passwordLength: 'The password should be longer.',
-    invalidEmail: 'The email is invalid.'
+    userFirstNameRequired: 'First Name is required.',
+    userUsenameRequired: 'Username is required.',
+    userPasswordRequired: 'Password is required.',
+    userPasswordLength: 'The password should be longer.',
+    userInvalidEmail: 'The email is invalid.',
+    groupNameRequired: 'Group Name is required.',
+    linkTitleRequired: 'Link title is required.',
+    linkUrlRequired: 'Link URL is required.'
   };
   exports.Controllers = {
     userDeleted: 'User deleted.',
@@ -19,5 +22,8 @@
     userUnknownError: 'Unknown error.',
     userUpdateOK: 'Updated information.',
     userUpdateERROR: 'Failed to update information.'
+  };
+  exports.GlobalErrors = {
+    serverErrorUnknown: 'Unknown server error.',
   };
 })();

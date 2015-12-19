@@ -10,7 +10,7 @@
 
     firstName: {
       type: String,
-      required: MessageService.Models.firstNameRequired,
+      required: MessageService.Models.userFirstNameRequired,
       trim: true
     },
     lastName: {
@@ -24,23 +24,24 @@
       // Validate email
       match: [
         /.+\@.+\..+/,
-        MessageService.Models.invalidEmail
+        MessageService.Models.userInvalidEmail
       ]
     },
     username: {
 	    type: String,
 	    unique: true,
-	    required: MessageService.Models.usenameRequired,
+	    required: MessageService.Models.userUsenameRequired,
 	    trim: true
   	},
   	password: {
     	type: String,
+      required: MessageService.Models.userPasswordRequired,
     	//Validate password length
     	validate: [
     		function(password) {
       		return password && password.length > 6;
         },
-        MessageService.Models.passwordLength
+        MessageService.Models.userPasswordLength
       ]
   	},
     salt: {

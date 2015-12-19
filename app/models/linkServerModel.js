@@ -4,31 +4,28 @@
 
   var mongoose = require('mongoose');
   var Schema = mongoose.Schema;
+  var MessageService = require('../services/messages.js');
 
-  var ReferenceSchema = mongoose.Schema({
+  var LinkSchema = mongoose.Schema({
     title:  {
       type: String,
-      required: 'Título del enlace es requerido'
+      required: MessageService.Models.linkTitleRequired
     },
     url:  {
       type: String,
-      required: 'Dirección de enlace es requerida'
+      required: MessageService.Models.linkUrlRequired
     },
     dateAdded: {
       type: Date,
       default: Date.now
     },
     description: String,
-    user: {
+    group: {
       type: Schema.ObjectId,
-      ref: 'User'
-    },
-    list: {
-      type: Schema.ObjectId,
-      ref: 'List'
+      ref: 'Group'
     }
   });
 
-  module.exports =  mongoose.model('Reference',ReferenceSchema);
+  module.exports =  mongoose.model('Link',LinkSchema);
 
 })();
