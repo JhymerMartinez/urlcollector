@@ -126,7 +126,13 @@
 
   exports.ensureAuthenticated = function(req, res, next) {
 
-    if (!req.headers.authorization) {
+    //get token from client
+    var token = req.headers.authorization ||
+      req.body.token ||
+      req.query.token ||
+      req.headers['x-access-token'];
+
+    if (!token) {
       return res
         .status(403)
         .send({
@@ -135,14 +141,14 @@
 
     }
     try {
-      var token = req.headers.authorization.split('.')[1];
-      var payload = jwt.decode(req.headers.authorization, config().tokenSecret);
+      //Decode token
+      var payload = jwt.decode(token, config().tokenSecret);
 
       if (payload.exp <= moment().unix()) {
        return res
           .status(401)
           .send({
-              message: MessageService.Controllers.userTokenExpired
+            message: MessageService.Controllers.userTokenExpired
           });
       }
       req.user = payload.sub;
