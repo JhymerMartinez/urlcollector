@@ -151,6 +151,8 @@
             message: MessageService.Controllers.userTokenExpired
           });
       }
+
+      //Assign 'payload.sub' (user id) to 'req' Object
       req.user = payload.sub;
       next();
     } catch (e) {

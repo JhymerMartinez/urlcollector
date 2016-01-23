@@ -5,36 +5,27 @@
   var mongoose = require('mongoose');
   var UserModel = mongoose.model('User');
   var LinkModel = mongoose.model('Link');
+  var MessageService = require('../services/messages.js');
 
-  exports.myFunction1 = function(req, res) {
-
-      UserModel.findOne({
-          _id: req.user
-          },function(err, user) {
-              if (!user) {
-                  console.log(err);
-              } else {
-                  res.json(user);
-              }
-          });
-  };
-
-  exports.saveLink = function(req, res) {
+  exports.saveLink = function(req, res, next) {
 
     var linkModel = new LinkModel({
       title: req.body.title,
       url: req.body.url,
-      dateAdded: req.body.dateAdded,
+      dateAdded: new Date(),
       description: req.body.description
     });
 
     linkModel.save(function(err, aLink) {
       if (err) {
-          console.log(err);
+        return res
+          .status(500)
+          .send({
+            message: MessageService.GlobalErrors.serverErrorUnknown
+          });
       } else {
-          return res
-              .status(200)
-              .send(aLink);
+        req.link = aLink.id;
+        next();
       }
     });
   };

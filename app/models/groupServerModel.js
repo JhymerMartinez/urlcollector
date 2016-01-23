@@ -15,7 +15,11 @@
     user: {
       type: Schema.ObjectId,
       ref: 'User'
-    }
+    },
+    links: [{
+      type: Schema.ObjectId,
+      ref: 'Link'
+    }]
 
   });
 

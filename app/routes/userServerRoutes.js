@@ -16,7 +16,7 @@
       app.route('/user/delete')
        .post(userCtrl.ensureAuthenticated, userCtrl.deleteUser);
 
-       app.route('/user/update')
+      app.route('/user/update')
         .post(userCtrl.ensureAuthenticated, userCtrl.updateUser);
 
   };

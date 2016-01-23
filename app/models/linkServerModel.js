@@ -19,11 +19,7 @@
       type: Date,
       default: Date.now
     },
-    description: String,
-    group: {
-      type: Schema.ObjectId,
-      ref: 'Group'
-    }
+    description: String
   });
 
   module.exports =  mongoose.model('Link',LinkSchema);
