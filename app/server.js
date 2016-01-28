@@ -9,8 +9,9 @@
 
   var db = mongoose();
   var app = express();
-  app.listen(config().serverPort, function() {
-    console.log('Application listening on port 5000');
+  app.listen(process.env.PORT || config().serverPort, function() {
+    console.log('Application listening on port: ',
+      process.env.PORT || config().serverPort);
   });
 
   module.exports = app;
