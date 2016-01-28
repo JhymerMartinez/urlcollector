@@ -6,7 +6,7 @@
 
 	module.exports = function() {
 		//conexion a bd
-		var db = mongoose.connect('mongodb://localhost:27017/urlcollector');
+		var db = mongoose.connect(process.env.MONGOLAB_URI);
 		db.connection.on('open', function() {
 		  console.log('Conexion exitososa a mongodb');
 		});
