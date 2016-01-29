@@ -14,7 +14,7 @@
 	var path = require('path');
 
   //Loading config
-  var config = require('./config');
+  var config = require('../config/config');
 
   //var	passport = require('passport');
 
@@ -39,8 +39,8 @@
 		}));
 
 		 */
-		app.set('views', path.join(__dirname, '../', 'views'));
-		app.set('view engine', config().views.engine);
+		//app.set('views', path.join(__dirname, '../', 'views'));
+		//app.set('view engine', config().views.engine);
 
 	/*
 		app.use(function(req, res, next) {
@@ -59,7 +59,7 @@
 		require('../routes/userServerRoutes.js')(app);
 		require('../routes/linkServerRoutes.js')(app);
 
-		app.use(express.static(path.join(__dirname, '../../', 'public')));
+		//app.use(express.static(path.join(__dirname, '../../', 'public')));
 
 		process.on('uncaughtException', function(err) {
 		  console.log(err);

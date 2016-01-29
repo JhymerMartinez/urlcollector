@@ -4,9 +4,9 @@ production: &default
   baseUrl: http://www.urlcollector.com
   baseApi: /api/
   tokenSecret: productiontoken
-  views:
-    engine: ejs
-    extension: .ejs
+#  views:
+#    engine: ejs
+#    extension: .ejs
 #    layout: main
   html:
     minify: true

@@ -8,7 +8,7 @@
   var MessageService = require('../services/messages.js');
   var jwt = require('jwt-simple');
   var moment = require('moment');
-  var config = require('../lib/config.js');
+  var config = require('../config/config.js');
 
   exports.deleteUser = function(req, res) {
     UserModel.remove({_id: req.body.id}, function(error) {

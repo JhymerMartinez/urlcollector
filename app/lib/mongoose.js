@@ -8,7 +8,7 @@
 		//conexion a bd
 		var db = mongoose.connect(process.env.MONGOLAB_URI);
 		db.connection.on('open', function() {
-		  console.log('Conexion exitososa a mongodb');
+		  console.log('Connected to mongodb');
 		});
 		db.connection.on('error', function(err) {
 		  console.log('Mongoose error ' + err);

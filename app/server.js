@@ -5,7 +5,7 @@
   var mongoose = require('./lib/mongoose');
   var	express = require('./lib/express');
   //Loading config
-  var config = require('./lib/config');
+  var config = require('./config/config');
 
   var db = mongoose();
   var app = express();
