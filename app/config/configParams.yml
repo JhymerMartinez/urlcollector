@@ -4,6 +4,7 @@ production: &default
   baseUrl: http://www.urlcollector.com
   baseApi: /api/
   tokenSecret: productiontoken
+  mongodb: mongodb://localhost:27017/urlcollector
 #  views:
 #    engine: ejs
 #    extension: .ejs

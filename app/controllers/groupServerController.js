@@ -3,6 +3,7 @@
   'use strict';
 
   var mongoose = require('mongoose');
+  var _ = require('lodash');
   var UserModel = mongoose.model('User');
   var GroupModel = mongoose.model('Group');
   var MessageService = require('../services/messages.js');
@@ -22,12 +23,37 @@
           //Add user id
           newGroupModel.user = req.user;
           newGroupModel.links.push(req.link);
-          saveGroupData(res, newGroupModel);
+          saveData(res, newGroupModel);
 
         } else {
           groupFromDB.links.push(req.link);
-          saveGroupData(res, groupFromDB);
+          saveData(res, groupFromDB);
         }
+      });
+
+  };
+
+  exports.saveAllGroup = function(req, res) {
+
+    var newGroupModel = new GroupModel({
+      groupName: req.body.groupName,
+      description: req.body.description
+    });
+
+    GroupModel.findOne({
+        user: req.user,
+        groupName: req.body.groupName
+      },
+      function onSuccess(err, groupFromDB) {
+        if (!groupFromDB) {
+          //Add user id
+          newGroupModel.user = req.user;
+          newGroupModel.links = req.linksIds;
+          saveData(res, newGroupModel);
+        }
+        //} else {
+          //saveData(res, groupFromDB);
+        //}
       });
 
   };
@@ -55,7 +81,7 @@
 
   };
 
-  function saveGroupData(res, group) {
+  function saveData(res, group) {
     group.save(function onSuccess(err, aGroup) {
       if (err) {
         return res

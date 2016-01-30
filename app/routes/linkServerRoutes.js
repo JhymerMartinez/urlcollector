@@ -10,6 +10,9 @@
     app.route('/link/save')
       .post(userCtrl.ensureAuthenticated, linkCtrl.saveLink, groupCtrl.saveGroup);
 
+    app.route('/link/save/group')
+      .post(userCtrl.ensureAuthenticated, linkCtrl.saveArrayLinks, groupCtrl.saveAllGroup);
+
     app.route('/link/get/:userId')
       .get(userCtrl.ensureAuthenticated, groupCtrl.getGroupLinks);
 

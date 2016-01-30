@@ -1,5 +1,5 @@
 var request = require('supertest');
-var api = require('../../../server.js');
+var api = require('../../../app/server.js');
 var async = require('async');
 
 
