@@ -5,15 +5,17 @@
   var userCtrl = require('../controllers/userServerController.js');
   var linkCtrl = require('../controllers/linkServerController.js');
   var groupCtrl = require('../controllers/groupServerController.js');
+  var config = require('../config/config');
+
   module.exports = function(app) {
 
-    app.route('/link/save')
+    app.route(config().baseApi + '/link/save')
       .post(userCtrl.ensureAuthenticated, linkCtrl.saveLink, groupCtrl.saveGroup);
 
-    app.route('/link/save/group')
+    app.route(config().baseApi + '/link/save/group')
       .post(userCtrl.ensureAuthenticated, linkCtrl.saveArrayLinks, groupCtrl.saveAllGroup);
 
-    app.route('/link/get/:userId')
+    app.route(config().baseApi + '/link/get/:userId')
       .get(userCtrl.ensureAuthenticated, groupCtrl.getGroupLinks);
 
   };

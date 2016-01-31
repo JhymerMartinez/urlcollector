@@ -2,37 +2,22 @@
 production: &default
   serverPort: 5000
   baseUrl: http://www.urlcollector.com
-  baseApi: /api/
+  baseApi: /api
   tokenSecret: productiontoken
   mongodb: mongodb://localhost:27017/urlcollector
-#  views:
-#    engine: ejs
-#    extension: .ejs
-#    layout: main
-  html:
-    minify: true
-    css:
-      compress: true
-      stylusPrecompile: true
-  controllers:
-    default: home
   languages:
     default: en
     list: [en, es, fr, pt, jp]
 
 stage: &stage
   <<: *default
-  baseUrl: http://stage.jhymer.com
+  baseUrl: http://stage.urlcollector.com
 
 latest: &latest
   <<: *stage
-  baseUrl: http://latest.jhymer.com
+  baseUrl: http://latest.urlcollector.com
 
 development:
   <<: *latest
   baseUrl: http://localhost
   tokenSecret: developmenttoken
-  html:
-    minify: false
-    css:
-      compress: false
