@@ -12,6 +12,9 @@
     app.route(config().baseApi + '/link/save')
       .post(userCtrl.ensureAuthenticated, linkCtrl.saveLink, groupCtrl.saveGroup);
 
+    app.route(config().baseApi + '/link/delete')
+      .post(userCtrl.ensureAuthenticated, linkCtrl.deleteLink);
+
     app.route(config().baseApi + '/link/save/group')
       .post(userCtrl.ensureAuthenticated, linkCtrl.saveArrayLinks, groupCtrl.saveAllGroup);
 

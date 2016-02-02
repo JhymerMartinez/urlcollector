@@ -62,6 +62,27 @@
 
   };
 
+  exports.deleteLink = function(req, res) {
+
+    LinkModel.findById(req.body.id, function(err, alink) {
+      alink.remove(function(err) {
+        if (err) {
+          return res
+            .status(500)
+            .send({
+              message: MessageService.GlobalErrors.serverErrorUnknown
+            });
+        } else {
+          return res
+            .status(200)
+            .send({
+              message: 'Success'
+            });
+        }
+      });
+    });
+  };
+
   function runNextCallback(arrayLength, index, req, errors, ids, callback) {
     if ((arrayLength - 1) === index) {
       if (errors.length > 0) {
