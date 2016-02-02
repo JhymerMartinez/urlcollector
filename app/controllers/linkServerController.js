@@ -25,7 +25,7 @@
             message: MessageService.GlobalErrors.serverErrorUnknown
           });
       } else {
-        req.link = aLink.id;
+        req.link = aLink._id;
         next();
       }
     });
@@ -54,7 +54,7 @@
         if (err) {
           errors.push(err);
         } else {
-          linksIds.push(aLink.id);
+          linksIds.push(aLink._id);
         }
         runNextCallback(newLinks.length, index, req, errors, linksIds, next);
       });

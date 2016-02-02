@@ -15,6 +15,9 @@
     app.route(config().baseApi + '/link/save/group')
       .post(userCtrl.ensureAuthenticated, linkCtrl.saveArrayLinks, groupCtrl.saveAllGroup);
 
+    app.route(config().baseApi + '/link/update/group')
+      .post(userCtrl.ensureAuthenticated, groupCtrl.updateGroupName);
+
     app.route(config().baseApi + '/link/get/:userId')
       .get(userCtrl.ensureAuthenticated, groupCtrl.getGroupLinks);
 

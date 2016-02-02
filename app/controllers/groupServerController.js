@@ -58,6 +58,30 @@
 
   };
 
+  exports.updateGroupName = function(req, res) {
+
+    GroupModel.findByIdAndUpdate(req.body.id, {
+        groupName: req.body.groupName
+      },
+      function onSuccess(err, groupUpdated) {
+        if (err) {
+          return res
+            .status(500)
+            .send({
+              message: MessageService.GlobalErrors.serverErrorUnknown
+            });
+        } else {
+          return res
+            .status(200)
+            .send({
+              data: {
+                group: groupUpdated
+              }
+            });
+        }
+      });
+  };
+
   exports.getGroupLinks = function(req, res) {
 
     GroupModel

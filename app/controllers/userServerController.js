@@ -165,19 +165,6 @@
 
   };
 
-  exports.myFunction = function(req, res) {
-
-    UserModel.findOne({
-      id: req.user
-    }, function(err, user) {
-          if (!user) {
-            console.log(err);
-          } else {
-            res.json(user);
-          }
-      });
-  };
-
   // Crear un nuevo método controller manejador de errores
   function getErrorMessage(err) {
     // Definir la variable de error message
