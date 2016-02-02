@@ -75,7 +75,7 @@
     done();
   });
 
-  //Middleware pre-save for hash the password
+  //Middleware pre-update for hash the password
   UserSchema.pre('update', function(done) {
     if (this.password) {
       this.salt = new Buffer(crypto.randomBytes(16).toString('base64'), 'base64');
@@ -85,12 +85,12 @@
     done();
   });
 
-  //Crear un método instancia para hashing una contraseña
+  //Instance method for password hashing
   UserSchema.methods.hashPassword = function(password) {
     return crypto.pbkdf2Sync(password, this.salt, 10000, 64).toString('base64');
   };
 
-  //Crear un método instancia para autentificar usuario
+  //Instance method for authenticate user
   UserSchema.statics.authenticate = function(user, loginPassword) {
 
     var passwordHash;
@@ -102,29 +102,21 @@
     return user.password === passwordHash;
   };
 
-  //Crear un método instancia para hashing una contraseña
   UserSchema.statics.processHashPassword = function(password) {
     return crypto.pbkdf2Sync(password, this.salt, 10000, 64).toString('base64');
   };
 
-  //Encontrar posibles username no usados
+  //Find 'usernames' unused
   UserSchema.statics.findUniqueUsername = function(username, suffix, callback) {
     var _this = this;
 
-    //Añadir un sufijo 'username'
+    //'username' suffix
     var possibleUsername = username + (suffix || '');
 
-    //Usar el método 'findOne' del model 'User' para
-    //encontrar un username único disponible
     _this.findOne({
       username: possibleUsername
     }, function(err, user) {
-      //Si ocurre un error llama al callback con un valor null,
-      //en otro caso encuentra un username disponible único
       if (!err) {
-        //si un username único disponible fue encontrado llama
-        //al método callback, en otro caso llama al método
-        //'findUniqueUsername' de nuevo con un nuevo sufijo
         if (!user) {
           callback(possibleUsername);
         } else {
@@ -136,8 +128,8 @@
     });
   };
 
-  //Configura el 'UserSchema' para usar getters y virtuals
-  //cuando se transforme a JSON
+  //Configure 'UserSchema' for use getters and virtuals
+  //when convert to JSON
   UserSchema.set('toJSON', {
     getters: true,
     virtuals: true
