@@ -2,8 +2,6 @@
 .idea
 .settings
 *.swp
-logs
-npm-debug.log
+*.log
 git-info.txt
 node_modules
-public/bower_components
