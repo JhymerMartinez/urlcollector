@@ -5,7 +5,6 @@
   var mongoose = require('mongoose');
   var Schema = mongoose.Schema;
   var MessageService = require('../services/messages.js');
-  var Group = require('./groupServerModel.js');
 
   var LinkSchema = mongoose.Schema({
     title:  {
@@ -25,16 +24,20 @@
 
   LinkSchema.post('remove', function(aLink, next) {
 
+    var self = this;
+
     //Remove ObjectId from 'links' in Group model
-    Group.update({
-      links: this._id
-    }, {
+    self.model('Group').update({
+      links: self._id
+    },
+    {
       '$pull': {
-        links: this._id
+        links: self._id
       }
-    }, function onSucess(err, result) {
+    },
+    function onSucess(err, result) {
       if (result.ok > 0) {
-        next();
+        next(err);
       }
     });
 

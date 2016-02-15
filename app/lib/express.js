@@ -58,6 +58,7 @@
 		require('../routes/indexServerRoutes.js')(app);
 		require('../routes/userServerRoutes.js')(app);
 		require('../routes/linkServerRoutes.js')(app);
+    require('../routes/groupServerRoutes.js')(app);
 
 		//app.use(express.static(path.join(__dirname, '../../', 'public')));
 

@@ -11,7 +11,7 @@
   exports.saveGroup = function(req, res) {
     var newGroupModel = new GroupModel({
       groupName: req.body.group.groupName,
-      description: req.body.group.description
+      description: req.body.group.description || ''
     });
 
     GroupModel.findOne({
@@ -103,6 +103,26 @@
         }
       });
 
+  };
+
+  exports.deleteGroup = function(req, res) {
+    GroupModel.findById(req.body.id, function(err, aGroup) {
+      aGroup.remove(function(err) {
+        if (err) {
+          return res
+            .status(500)
+            .send({
+              message: MessageService.GlobalErrors.serverErrorUnknown
+            });
+        } else {
+          return res
+            .status(200)
+            .send({
+              message: 'Success'
+            });
+        }
+      });
+    });
   };
 
   function saveData(res, group) {

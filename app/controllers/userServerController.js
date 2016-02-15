@@ -165,25 +165,22 @@
 
   };
 
-  // Crear un nuevo método controller manejador de errores
   function getErrorMessage(err) {
-    // Definir la variable de error message
     var message = '';
 
-    // Si un error interno de MongoDB ocurre obtener el mensaje de error
+    // Internal errors in MongoDB
     if (err.code) {
       switch (err.code) {
-        // Si un eror de index único ocurre configurar el mensaje de error
+        // Index error
         case 11000:
         case 11001:
           message = MessageService.Controllers.userExists;
           break;
-        // Si un error general ocurre configurar el mensaje de error
         default:
           message = MessageService.Controllers.userUnknownError;
       }
     } else {
-      // Grabar el primer mensaje de error de una lista de posibles errores
+      // Get the first error message of errors list
       for (var errName in err.errors) {
         if (err.errors[errName].message) {
           message = err.errors[errName].message;
@@ -191,7 +188,6 @@
       }
     }
 
-    // Devolver el mensaje de error
     return message;
   }
 
