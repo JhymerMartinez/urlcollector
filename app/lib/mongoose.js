@@ -13,7 +13,7 @@
 		var db = mongoose.connect(uri);
 
     db.connection.on('open', function() {
-		  //console.log('Connected to mongodb');
+		  console.log('Connected to mongodb');
 		});
 		db.connection.on('error', function(err) {
 		  console.log('Mongoose error ' + err);

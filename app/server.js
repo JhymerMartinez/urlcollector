@@ -12,7 +12,7 @@
   var port = process.env.NODE_PORT ?
     process.env.NODE_PORT : config().serverPort;
   app.listen(port, function() {
-    console.log('Application listening on port: ', port, '\n');
+    console.log('Application listening on port: ', port);
   });
 
   module.exports = app;

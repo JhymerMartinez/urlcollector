@@ -41,8 +41,7 @@
   },
   "subdomain": "urlcollector",
   "scripts": {
-    "start": "node app/server.js",
-    "test": "grunt test"
+    "start": "node app/server.js"
   },
   "engines": {
     "node": "0.12.7"
