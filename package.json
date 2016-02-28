@@ -17,9 +17,9 @@
     "ejs": "~2.1.4",
     "express": "~4.9.8",
     "express-session": "~1.10.1",
-    "js-yaml": "latest",
+    "js-yaml": "^3.5.0",
     "jwt-simple": "^0.2.0",
-    "lodash": "latest",
+    "lodash": "^3.10.1",
     "method-override": "~2.3.0",
     "moment": "~2.9.0",
     "mongoose": "~4.2.7",
@@ -28,17 +28,21 @@
   "devDependencies": {
     "chai": "^2.2.0",
     "chai-as-promised": "^4.3.0",
-    "grunt-contrib-jshint": "latest",
-    "grunt-githooks": "latest",
-    "grunt-jscs": "latest",
-    "grunt-shell": "latest",
+    "grunt-contrib-jshint": "^0.11.3",
+    "grunt-githooks": "^0.5.0",
+    "grunt-jscs": "^2.6.0",
+    "grunt-mocha-test": "^0.12.7",
+    "grunt-shell": "^1.1.2",
     "jshint": "^2.8.0",
     "mocha": "^2.2.4",
+    "rewire": "^2.5.1",
+    "sinon": "^1.17.3",
     "supertest": "^0.15.0"
   },
   "subdomain": "urlcollector",
   "scripts": {
-    "start": "node app/server.js"
+    "start": "node app/server.js",
+    "test": "grunt test"
   },
   "engines": {
     "node": "0.12.7"

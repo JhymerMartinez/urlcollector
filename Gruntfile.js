@@ -4,8 +4,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-jscs');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-githooks');
+  grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-shell');
-  grunt.loadTasks('grunt');
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -35,13 +35,14 @@ module.exports = function(grunt) {
           endMarker: ''
         },
         'pre-commit': 'analyze',
-        'post-checkout': 'shell:gitlog',
-        'post-commit': 'shell:gitlog',
-        'post-merge': 'shell:gitlog shell:npmInstall'
+        'pre-push': 'test',
+        'post-checkout': 'shell:gitLog',
+        'post-commit': 'shell:gitLog',
+        'post-merge': 'shell:gitLog shell:npmInstall'
       }
     },
     shell: {
-      gitlog: {
+      gitLog: {
         command: 'git log -1 > git-info.txt'
       },
       npmInstall: {
@@ -62,10 +63,20 @@ module.exports = function(grunt) {
       serverStart: {
         command: 'pm2 start pm2.json --log-date-format "YYYY-MM-DD HH:mm"'
       }
+    },
+    mochaTest: {
+      all: {
+        options: {
+          reporter: 'spec',
+          require: './test/setup.js'
+        },
+        src: ['test/**/*Spec.js']
+      }
     }
   });
 
-  grunt.registerTask('default', ['analyze']);
+  grunt.registerTask('default', ['test']);
+  grunt.registerTask('test', 'Runs unit tests', ['mochaTest']);
   grunt.registerTask('analyze','Validates code style', ['jshint', 'jscs']);
   grunt.registerTask('status', 'Shows status of node processes', ['shell:serverStatus']);
   grunt.registerTask('stop', 'Stop the processes', ['shell:serverStop']);

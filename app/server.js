@@ -3,15 +3,16 @@
   'use strict';
 
   var mongoose = require('./lib/mongoose');
-  var	express = require('./lib/express');
+  var express = require('./lib/express');
   //Loading config
   var config = require('./config/config');
 
   var db = mongoose();
   var app = express();
-  app.listen(process.env.PORT || config().serverPort, function() {
-    console.log('Application listening on port: ',
-      process.env.PORT || config().serverPort);
+  var port = process.env.NODE_PORT ?
+    process.env.NODE_PORT : config().serverPort;
+  app.listen(port, function() {
+    console.log('Application listening on port: ', port, '\n');
   });
 
   module.exports = app;

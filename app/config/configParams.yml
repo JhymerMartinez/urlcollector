@@ -1,6 +1,6 @@
 ---
 production: &default
-  serverPort: 5000
+  serverPort: 443
   baseUrl: http://www.urlcollector.com
   baseApi: /api
   tokenSecret: productiontoken
@@ -17,7 +17,14 @@ latest: &latest
   <<: *stage
   baseUrl: http://latest.urlcollector.com
 
-development:
+development: &development
   <<: *latest
+  serverPort: 5000
   baseUrl: http://localhost
   tokenSecret: developmenttoken
+  mongodb: mongodb://localhost:27017/urlcollector_dev
+
+test:
+  <<: *development
+  tokenSecret: testtoken
+  mongodb: mongodb://localhost:27017/urlcollector_test
