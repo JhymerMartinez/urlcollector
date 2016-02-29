@@ -1,6 +1,5 @@
 ---
 production: &default
-  serverPort: 9000
   baseUrl: http://www.urlcollector.com
   baseApi: /api
   tokenSecret: productiontoken
