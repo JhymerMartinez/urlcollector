@@ -45,4 +45,4 @@
 
   module.exports =  mongoose.model('Link',LinkSchema);
 
-})();
+}());

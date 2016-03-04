@@ -7,4 +7,4 @@
   	app.get('/', indexCtrl.message);
   };
 
-})();
+}());

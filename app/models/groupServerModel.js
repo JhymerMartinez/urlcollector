@@ -47,4 +47,4 @@
 
   module.exports =  mongoose.model('Group',GroupSchema);
 
-})();
+}());

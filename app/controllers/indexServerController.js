@@ -6,4 +6,4 @@
   	res.json({message: 'The API is working...'});
   };
 
-})();
+}());

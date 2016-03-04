@@ -15,4 +15,4 @@
     return jwt.encode(payload, config().tokenSecret);
   };
 
-})();
+}());

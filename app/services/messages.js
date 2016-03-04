@@ -26,4 +26,4 @@
   exports.GlobalErrors = {
     serverErrorUnknown: 'Unknown server error.',
   };
-})();
+}());

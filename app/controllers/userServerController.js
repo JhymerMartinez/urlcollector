@@ -124,7 +124,7 @@
       });
   };
 
-  exports.ensureAuthenticated = function(req, res, next) {
+  exports.ensureAuthenticated = function ensureAuthenticated(req, res, next) {
 
     //get token from client
     var token = req.headers.authorization ||
