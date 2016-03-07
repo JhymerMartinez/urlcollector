@@ -1,48 +1,44 @@
-(function() {
+'use strict';
 
-  'use strict';
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+var MessageService = require('../services/messages.js');
 
-  var mongoose = require('mongoose');
-  var Schema = mongoose.Schema;
-  var MessageService = require('../services/messages.js');
+var LinkSchema = mongoose.Schema({
+  title:  {
+    type: String,
+    required: MessageService.Models.linkTitleRequired
+  },
+  url:  {
+    type: String,
+    required: MessageService.Models.linkUrlRequired
+  },
+  dateAdded: {
+    type: Date,
+    default: Date.now
+  },
+  description: String
+});
 
-  var LinkSchema = mongoose.Schema({
-    title:  {
-      type: String,
-      required: MessageService.Models.linkTitleRequired
-    },
-    url:  {
-      type: String,
-      required: MessageService.Models.linkUrlRequired
-    },
-    dateAdded: {
-      type: Date,
-      default: Date.now
-    },
-    description: String
-  });
+LinkSchema.post('remove', function(aLink, next) {
 
-  LinkSchema.post('remove', function(aLink, next) {
+  var self = this;
 
-    var self = this;
-
-    //Remove ObjectId from 'links' in Group model
-    self.model('Group').update({
+  //Remove ObjectId from 'links' in Group model
+  self.model('Group').update({
+    links: self._id
+  },
+  {
+    '$pull': {
       links: self._id
-    },
-    {
-      '$pull': {
-        links: self._id
-      }
-    },
-    function onSucess(err, result) {
-      if (result.ok > 0) {
-        next(err);
-      }
-    });
-
+    }
+  },
+  function onSucess(err, result) {
+    if (result.ok > 0) {
+      next(err);
+    }
   });
 
-  module.exports =  mongoose.model('Link',LinkSchema);
+});
 
-}());
+module.exports =  mongoose.model('Link',LinkSchema);

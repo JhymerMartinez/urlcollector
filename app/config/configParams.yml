@@ -18,7 +18,7 @@ latest: &latest
 
 development: &development
   <<: *latest
-  serverPort: 4000
+  serverPort: 5000
   baseUrl: http://localhost
   tokenSecret: developmenttoken
   mongodb: mongodb://localhost:27017/urlcollector_dev

@@ -1,10 +1,9 @@
-(function() {
+'use strict';
+var express = require('express');
+var router = express.Router();
+var indexCtrl = require('../controllers/indexServerController.js');
 
-  'use strict';
+router.route('/')
+  .get(indexCtrl.message);
 
-  module.exports = function(app) {
-  	var indexCtrl = require('../controllers/indexServerController.js');
-  	app.get('/', indexCtrl.message);
-  };
-
-}());
+module.exports = router;

@@ -1,14 +1,11 @@
-(function() {
+'use strict';
 
-  'use strict';
+var fs = require('fs');
+var yaml = require('js-yaml');
+var environment = require('./environment');
+var config = yaml.safeLoad(fs.readFileSync(__dirname + '/configParams.yml',
+  'utf-8'));
 
-  var fs = require('fs');
-  var yaml = require('js-yaml');
-  var environment = require('./environment');
-  var config = yaml.safeLoad(fs.readFileSync(__dirname + '/configParams.yml',
-    'utf-8'));
-
-  module.exports = function() {
-    return config[environment().name] || {};
-  };
-}());
+module.exports = function() {
+  return config[environment().name] || {};
+};

@@ -1,23 +1,19 @@
-(function() {
+'use strict';
 
-  'use strict';
+var express = require('express');
+var router = express.Router();
+var userCtrl = require('../controllers/userServerController.js');
+var linkCtrl = require('../controllers/linkServerController.js');
+var groupCtrl = require('../controllers/groupServerController.js');
+var config = require('../config/config');
 
-  var userCtrl = require('../controllers/userServerController.js');
-  var linkCtrl = require('../controllers/linkServerController.js');
-  var groupCtrl = require('../controllers/groupServerController.js');
-  var config = require('../config/config');
+router.route('/save')
+  .post(userCtrl.ensureAuthenticated, linkCtrl.saveArrayLinks, groupCtrl.saveAllGroup);
 
-  module.exports = function(app) {
+router.route('/update/name')
+  .post(userCtrl.ensureAuthenticated, groupCtrl.updateGroupName);
 
-    app.route(config().baseApi + '/group/save')
-      .post(userCtrl.ensureAuthenticated, linkCtrl.saveArrayLinks, groupCtrl.saveAllGroup);
+router.route('/delete')
+  .post(userCtrl.ensureAuthenticated, groupCtrl.deleteGroup);
 
-    app.route(config().baseApi + '/group/update/name')
-      .post(userCtrl.ensureAuthenticated, groupCtrl.updateGroupName);
-
-    app.route(config().baseApi + '/group/delete')
-      .post(userCtrl.ensureAuthenticated, groupCtrl.deleteGroup);
-
-  };
-
-}());
+module.exports = router;
