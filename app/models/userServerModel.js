@@ -65,28 +65,13 @@ UserSchema.virtual('fullName')
 
 //Middleware pre-save for hash the password
 UserSchema.pre('save', function(done) {
-  if (this.password) {
-    this.salt = new Buffer(crypto.randomBytes(16).toString('base64'), 'base64');
-    this.password = this.hashPassword(this.password);
-  }
-
-  done();
+  comparePassword(this, done);
 });
 
 //Middleware pre-update for hash the password
 UserSchema.pre('update', function(done) {
-  if (this.password) {
-    this.salt = new Buffer(crypto.randomBytes(16).toString('base64'), 'base64');
-    this.password = this.hashPassword(this.password);
-  }
-
-  done();
+  comparePassword(this, done);
 });
-
-//Instance method for password hashing
-UserSchema.methods.hashPassword = function(password) {
-  return crypto.pbkdf2Sync(password, this.salt, 10000, 64).toString('base64');
-};
 
 //Instance method for authenticate user
 UserSchema.statics.authenticate = function(user, loginPassword) {
@@ -95,13 +80,9 @@ UserSchema.statics.authenticate = function(user, loginPassword) {
 
   if (loginPassword) {
     this.salt = user.salt;
-    passwordHash = this.processHashPassword(loginPassword);
+    passwordHash = processHashPassword(loginPassword, this);
   }
   return user.password === passwordHash;
-};
-
-UserSchema.statics.processHashPassword = function(password) {
-  return crypto.pbkdf2Sync(password, this.salt, 10000, 64).toString('base64');
 };
 
 //Find 'usernames' unused
@@ -116,12 +97,12 @@ UserSchema.statics.findUniqueUsername = function(username, suffix, callback) {
   }, function(err, user) {
     if (!err) {
       if (!user) {
-        callback(possibleUsername);
+        return callback(possibleUsername);
       } else {
         return _this.findUniqueUsername(username, (suffix || 0) + 1, callback);
       }
     } else {
-      callback(null);
+      return callback(null);
     }
   });
 };
@@ -132,5 +113,18 @@ UserSchema.set('toJSON', {
   getters: true,
   virtuals: true
 });
+
+function comparePassword(self, done) {
+  if (self.password) {
+    self.salt = new Buffer(crypto.randomBytes(16).toString('base64'), 'base64');
+    self.password = processHashPassword(self.password, self);
+  }
+  done();
+}
+
+
+function processHashPassword(password, self){
+  return crypto.pbkdf2Sync(password, self.salt, 10000, 64).toString('base64'); //jshint ignore: line
+}
 
 module.exports =  mongoose.model('User',UserSchema);

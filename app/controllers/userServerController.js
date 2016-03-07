@@ -157,7 +157,7 @@ exports.ensureAuthenticated = function ensureAuthenticated(req, res, next) {
     return res
       .status(500)
       .send({
-        message: MessageService.GlobalErrors.serverErrorUnknown
+        message: e.message
       });
   }
 
