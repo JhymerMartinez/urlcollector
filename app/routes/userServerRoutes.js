@@ -10,6 +10,6 @@ router.route('/delete')
   .post(userCtrl.ensureAuthenticated, userCtrl.deleteUser);
 
 router.route('/update')
-  .post(userCtrl.ensureAuthenticated, userCtrl.updateUser);
+  .post(userCtrl.ensureAuthenticated, userCtrl.updateUserInfo);
 
 module.exports = router;

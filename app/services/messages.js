@@ -4,6 +4,7 @@
 exports.Models = {
   userFirstNameRequired: 'First Name is required.',
   userUsenameRequired: 'Username is required.',
+  userEmailRequired: 'Email is required.',
   userPasswordRequired: 'Password is required.',
   userPasswordLength: 'The password should be longer.',
   userInvalidEmail: 'The email is invalid.',

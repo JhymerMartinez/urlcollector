@@ -19,6 +19,7 @@ var UserSchema = mongoose.Schema({
     type: String,
     trim: true,
     unique: true,
+    required: MessageService.Models.userEmailRequired,
     // Validate email
     match: [
       /.+\@.+\..+/,
@@ -122,8 +123,7 @@ function comparePassword(self, done) {
   done();
 }
 
-
-function processHashPassword(password, self){
+function processHashPassword(password, self) {
   return crypto.pbkdf2Sync(password, self.salt, 10000, 64).toString('base64'); //jshint ignore: line
 }
 

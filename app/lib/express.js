@@ -34,7 +34,7 @@ module.exports = function() {
   var link = require('../routes/linkServerRoutes.js');
 
   app.use('/', index);
-  app.use(config().baseApi + '/auth',auth );
+  app.use(config().baseApi + '/auth', auth);
   app.use(config().baseApi + '/user', user);
   app.use(config().baseApi + '/group', group);
   app.use(config().baseApi + '/link', link);

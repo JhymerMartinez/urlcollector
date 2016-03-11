@@ -52,45 +52,35 @@ exports.createUser = function(req, res) {
   });
 };
 
-exports.updateUser = function(req, res) {
+exports.updateUserInfo = function(req, res) {
+  var userdata = {
+    firstName: req.body.firstName ? req.body.firstName : '',
+    lastName: req.body.lastName ? req.body.lastName : '',
+    email: req.body.email ? req.body.email : '',
+  };
 
-  UserModel.findById(req.body.id, function(error, user) {
-    if (error) {
-      return res.send({
-        message: getErrorMessage(error)
-      });
-    } else {
-      //Change specific information
-      if (req.body.firstName && req.body.firstName !== user.firstName) {
-        user.firstName = req.body.firstName;
-      }
+  UserModel.findByIdAndUpdate(req.body.id, userdata, {
+      runValidators: true
+    },
+    function(error, user) {
 
-      if (req.body.lastName && req.body.lastName !== user.lastName) {
-        user.lastName = req.body.lastName;
-      }
+      if (error) {
 
-      if (req.body.email && req.body.email !== user.email) {
-        user.email = req.body.email;
-      }
+        return res.send({
+          message: getErrorMessage(error)
+        });
 
-      if (req.body.password) {
-        user.password = req.body.password;
-      }
+      } else {
 
-      user.save(function(error, user) {
-        if (error) {
-          return res.send({
-            message: getErrorMessage(error)
-          });
-        } else {
-          return res.status(200)
-            .send({
+        return res.status(200)
+          .send({
             message: MessageService.Controllers.userUpdateOK
           });
-        }
-      });
-    }
-  });
+      }
+    });
+};
+exports.changePassword = function(req, res) {
+
 };
 
 exports.login = function(req, res) {
@@ -178,12 +168,20 @@ function getErrorMessage(err) {
         message = MessageService.Controllers.userUnknownError;
     }
   } else {
-    // Get the first error message of errors list
-    for (var errName in err.errors) {
-      if (err.errors[errName].message) {
-        message = err.errors[errName].message;
+
+    if (err.errors) {
+
+      // Get the first error message of errors list
+      for (var errName in err.errors) {
+        if (err.errors[errName].message) {
+          message = err.errors[errName].message;
+        }
       }
+
+    } else {
+      message = err.message;
     }
+
   }
 
   return message;
