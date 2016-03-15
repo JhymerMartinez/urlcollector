@@ -1,25 +1,16 @@
 ---
 production: &default
-  baseUrl: http://www.urlcollector.com
   baseApi: /api
-  tokenSecret: productiontoken
-  mongodb: mongodb://localhost:27017/urlcollector
   languages:
     default: en
     list: [en, es, fr, pt, jp]
-
-stage: &stage
-  <<: *default
-  baseUrl: http://stage.urlcollector.com
-
-latest: &latest
-  <<: *stage
-  baseUrl: http://latest.urlcollector.com
+  # Only in production:
+  # process.env.TOKEN_SECRET -> generate token
+  # process.env.MONGOLAB_URI -> mongo db
 
 development: &development
-  <<: *latest
+  <<: *default
   serverPort: 5000
-  baseUrl: http://localhost
   tokenSecret: developmenttoken
   mongodb: mongodb://localhost:27017/urlcollector_dev
 

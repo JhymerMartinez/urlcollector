@@ -13,7 +13,8 @@ before(function(){
 });
 
 describe('Start server', function() {
-  it.only('Should exist', function (done) {
+  it('Should exist', function (done) {
+    console.log('ENV: ',process.env.NODE_ENV);
     expect(server).to.exist;
     done();
    });

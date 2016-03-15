@@ -1,5 +1,8 @@
 'use strict';
 
+//Change NODE_ENV to 'test'
+process.env.NODE_ENV = 'test';
+
 /**
  * Assertion and testing utilities
  */

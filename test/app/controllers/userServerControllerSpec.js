@@ -10,24 +10,23 @@ before(function(){
   server = require('../../../app/server.js');
   request = request(server);
 });
-/*
+
 describe('User Authentication', function() {
-  it.only('Login OK', function(done) {
+
+  it('Create user', function(done) {
     async.waterfall([
-      function sendUser(next) {
+      function sendUser(next){
         request
-          .post('/api/auth/login')
-          .send(mocks.api.auth.login.user)
-          .expect(200)
+          .post('/api/auth/signin')
+          .send(mocks.api.auth.signin.user)
           .end(next);
       },
-      function assertions(res) {
-        var token = res.body.token;
-        var result = token.split('.');
-        expect(result[0]).to.equal(mocks.api.auth.login.token);
-        done();
-      }
-    ], done);
+      function assertions(res){
+          var body = res.body;
+          expect(body.user.username).to.equal('jhymermartinez');
+          expect(body.user.email).to.equal('jh_martinez_1991@outlook.com');
+          done();
+        }
+    ],done);
   });
 });
-*/

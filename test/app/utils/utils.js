@@ -3,9 +3,6 @@
 var config = require('../../../app/config/config.js');
 var mongoose = require('mongoose');
 
-//Change NODE_ENV to 'test'
-process.env.NODE_ENV = 'test';
-
 before(function (done) {
 
   function clearDB() {
