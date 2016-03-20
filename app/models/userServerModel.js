@@ -2,13 +2,14 @@
 
 var mongoose = require('mongoose');
 var crypto = require('crypto');
+var async = require('async');
 var MessageService = require('../services/messages.js');
 
 var UserSchema = mongoose.Schema({
 
   firstName: {
     type: String,
-    required: MessageService.Models.userFirstNameRequired,
+    required: [true, MessageService.Models.userFirstNameRequired],
     trim: true
   },
   lastName: {
@@ -19,7 +20,7 @@ var UserSchema = mongoose.Schema({
     type: String,
     trim: true,
     unique: true,
-    required: MessageService.Models.userEmailRequired,
+    required: [true, MessageService.Models.userEmailRequired],
     // Validate email
     match: [
       /.+\@.+\..+/,
@@ -28,8 +29,7 @@ var UserSchema = mongoose.Schema({
   },
   username: {
     type: String,
-    unique: true,
-    required: MessageService.Models.userUsenameRequired,
+    required: [true, MessageService.Models.userUsenameRequired],
     trim: true
 	},
 	password: {
@@ -66,8 +66,62 @@ UserSchema.virtual('fullName')
 
 //Middleware pre-save for hash the password
 UserSchema.pre('save', function(done) {
-  comparePassword(this, done);
+
+  var self = this;
+
+  async.waterfall([
+    function testUniqueUsername(next) {
+      var data = {
+        query: {
+          username: self.username
+        },
+        name: 'username',
+        message: MessageService.Models.userUsernameUnique
+      };
+
+      testUnique(self, data, next);
+
+    },
+    function testUniqueEmail(next) {
+      var data = {
+        query: {
+          email: self.email
+        },
+        name: 'email',
+        message: MessageService.Models.userEmailUnique
+      };
+
+      testUnique(self, data, next);
+
+    },
+
+  ], function onFinish(error) {
+    if (error) {
+      done(error);
+    } else {
+      comparePassword(self, done);
+    }
+  });
+
 });
+
+// If exists in DB
+function testUnique(self, data, next) {
+  self.model('User').findOne(data.query, function(error, results) {
+    if (error) {
+      // Done callback
+      next(error);
+    } else if (results) {
+      self.invalidate(data.name);
+      // Done callback
+      next(new Error(data.message));
+    } else {
+      // Next callback
+      next();
+    }
+
+  });
+}
 
 //Middleware pre-update for hash the password
 UserSchema.pre('update', function(done) {
@@ -87,26 +141,29 @@ UserSchema.statics.authenticate = function(user, loginPassword) {
 };
 
 //Find 'usernames' unused
+/*
 UserSchema.statics.findUniqueUsername = function(username, suffix, callback) {
-  var _this = this;
+
+  var self = this;
 
   //'username' suffix
   var possibleUsername = username + (suffix || '');
 
-  _this.findOne({
+  self.findOne({
     username: possibleUsername
   }, function(err, user) {
     if (!err) {
       if (!user) {
         return callback(possibleUsername);
       } else {
-        return _this.findUniqueUsername(username, (suffix || 0) + 1, callback);
+        return self.findUniqueUsername(username, (suffix || 0) + 1, callback);
       }
     } else {
       return callback(null);
     }
   });
 };
+*/
 
 //Configure 'UserSchema' for use getters and virtuals
 //when convert to JSON

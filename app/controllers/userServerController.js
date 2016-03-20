@@ -162,7 +162,7 @@ function getErrorMessage(err) {
       // Index error
       case 11000:
       case 11001:
-        message = MessageService.Controllers.userExists;
+        message = err.message;
         break;
       default:
         message = MessageService.Controllers.userUnknownError;

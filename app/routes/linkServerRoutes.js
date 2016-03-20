@@ -5,7 +5,6 @@ var router = express.Router();
 var groupCtrl = require('../controllers/groupServerController.js');
 var userCtrl = require('../controllers/userServerController.js');
 var linkCtrl = require('../controllers/linkServerController.js');
-var config = require('../config/config');
 
 router.route('/save')
   .post(userCtrl.ensureAuthenticated, linkCtrl.saveLink, groupCtrl.saveGroup);
