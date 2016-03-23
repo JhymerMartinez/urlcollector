@@ -10,18 +10,9 @@ var config = require('../config/config.js');
 
 exports.deleteUser = function(req, res) {
   UserModel.remove({_id: req.body.id}, function(error) {
-    if (error) {
-      return res
-        .send({
-          message: getErrorMessage(error)
-        });
-    } else {
-      return res
-        .status(200)
-        .send({
-            message: MessageService.Controllers.userDeleted
-        });
-    }
+
+    handleError(error, MessageService.Controllers.userDeleted, res);
+
   });
 };
 
@@ -56,7 +47,7 @@ exports.updateUserInfo = function(req, res) {
   var userdata = {
     firstName: req.body.firstName ? req.body.firstName : '',
     lastName: req.body.lastName ? req.body.lastName : '',
-    email: req.body.email ? req.body.email : '',
+    email: req.body.email ? req.body.email : ''
   };
 
   UserModel.findByIdAndUpdate(req.body.id, userdata, {
@@ -64,30 +55,27 @@ exports.updateUserInfo = function(req, res) {
     },
     function(error, user) {
 
-      if (error) {
+      handleError(error, MessageService.Controllers.userUpdateOK, res);
 
-        return res.send({
-          message: getErrorMessage(error)
-        });
-
-      } else {
-
-        return res.status(200)
-          .send({
-            message: MessageService.Controllers.userUpdateOK
-          });
-      }
     });
 };
+
 exports.changePassword = function(req, res) {
 
 };
 
 exports.login = function(req, res) {
-    UserModel.findOne({
-        email: req.body.email.toLowerCase()
+  UserModel.findOne({
+      email: req.body.email.toLowerCase()
     },
     function(err, user) {
+      if (err) {
+        return res
+          .status(500)
+          .send({
+            message: MessageService.GlobalErrors.serverErrorUnknown
+          });
+      } else {
         if (!user) {
           return res
             .status(500)
@@ -109,10 +97,11 @@ exports.login = function(req, res) {
               });
           }
         }
+      }
     });
 };
 
-exports.ensureAuthenticated = function ensureAuthenticated(req, res, next) {
+exports.ensureAuthenticated = function(req, res, next) {
 
   //get token from client
   var token = req.headers.authorization ||
@@ -133,7 +122,7 @@ exports.ensureAuthenticated = function ensureAuthenticated(req, res, next) {
     var payload = jwt.decode(token, config().tokenSecret);
 
     if (payload.exp <= moment().unix()) {
-     return res
+      return res
         .status(401)
         .send({
           message: MessageService.Controllers.userTokenExpired
@@ -185,4 +174,19 @@ function getErrorMessage(err) {
   }
 
   return message;
+}
+
+function handleError(error, message, res) {
+  if (error) {
+    return res
+      .send({
+        message: getErrorMessage(error)
+      });
+  } else {
+    return res
+      .status(200)
+      .send({
+        message: message
+      });
+  }
 }

@@ -110,14 +110,14 @@ function testUnique(self, data, next) {
   self.model('User').findOne(data.query, function(error, results) {
     if (error) {
       // Done callback
-      next(error);
+      return next(error);
     } else if (results) {
       self.invalidate(data.name);
       // Done callback
-      next(new Error(data.message));
+      return next(new Error(data.message));
     } else {
       // Next callback
-      next();
+      return next();
     }
 
   });

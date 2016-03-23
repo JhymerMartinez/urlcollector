@@ -17,16 +17,26 @@ exports.saveGroup = function(req, res) {
       groupName: req.body.group.groupName
     },
     function onSuccess(err, groupFromDB) {
-      if (!groupFromDB) {
-        //Add user id
-        newGroupModel.user = req.user;
-        newGroupModel.links.push(req.link);
-        saveData(res, newGroupModel);
 
+      if (err) {
+        return res
+          .status(500)
+          .send({
+            message: MessageService.GlobalErrors.serverErrorUnknown
+          });
       } else {
-        groupFromDB.links.push(req.link);
-        saveData(res, groupFromDB);
+        if (!groupFromDB) {
+          //Add user id
+          newGroupModel.user = req.user;
+          newGroupModel.links.push(req.link);
+          saveData(res, newGroupModel);
+
+        } else {
+          groupFromDB.links.push(req.link);
+          saveData(res, groupFromDB);
+        }
       }
+
     });
 
 };
@@ -43,15 +53,22 @@ exports.saveAllGroup = function(req, res) {
       groupName: req.body.groupName
     },
     function onSuccess(err, groupFromDB) {
-      if (!groupFromDB) {
-        //Add user id
-        newGroupModel.user = req.user;
-        newGroupModel.links = req.linksIds;
-        saveData(res, newGroupModel);
+
+      if (err) {
+        return res
+          .status(500)
+          .send({
+            message: MessageService.GlobalErrors.serverErrorUnknown
+          });
+      } else {
+        if (!groupFromDB) {
+          //Add user id
+          newGroupModel.user = req.user;
+          newGroupModel.links = req.linksIds;
+          saveData(res, newGroupModel);
+        }
       }
-      //} else {
-        //saveData(res, groupFromDB);
-      //}
+
     });
 
 };
@@ -100,30 +117,39 @@ exports.getGroupLinks = function(req, res) {
           });
       }
     });
-
 };
 
 exports.deleteGroup = function(req, res) {
+
   GroupModel.findById(req.body.id, function(err, aGroup) {
-    aGroup.remove(function(err) {
-      if (err) {
-        return res
-          .status(500)
-          .send({
-            message: MessageService.GlobalErrors.serverErrorUnknown
-          });
-      } else {
-        return res
-          .status(200)
-          .send({
-            message: 'Success'
-          });
-      }
-    });
+    if (err) {
+      return res
+        .status(500)
+        .send({
+          message: MessageService.GlobalErrors.serverErrorUnknown
+        });
+    } else {
+      aGroup.remove(function(err) {
+        if (err) {
+          return res
+            .status(500)
+            .send({
+              message: MessageService.GlobalErrors.serverErrorUnknown
+            });
+        } else {
+          return res
+            .status(200)
+            .send({
+              message: 'Success'
+            });
+        }
+      });
+    }
   });
 };
 
 function saveData(res, group) {
+
   group.save(function onSuccess(err, aGroup) {
     if (err) {
       return res

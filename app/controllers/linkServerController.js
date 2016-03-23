@@ -24,7 +24,7 @@ exports.saveLink = function(req, res, next) {
         });
     } else {
       req.link = aLink._id;
-      next();
+      return next();
     }
   });
 };
@@ -63,21 +63,30 @@ exports.saveArrayLinks = function(req, res, next) {
 exports.deleteLink = function(req, res) {
 
   LinkModel.findById(req.body.id, function(err, alink) {
-    alink.remove(function(err) {
-      if (err) {
-        return res
-          .status(500)
-          .send({
-            message: MessageService.GlobalErrors.serverErrorUnknown
-          });
-      } else {
-        return res
-          .status(200)
-          .send({
-            message: 'Success'
-          });
-      }
-    });
+    if (err) {
+      return res
+        .status(500)
+        .send({
+          message: MessageService.GlobalErrors.serverErrorUnknown
+        });
+    } else {
+      alink.remove(function(err) {
+        if (err) {
+          return res
+            .status(500)
+            .send({
+              message: MessageService.GlobalErrors.serverErrorUnknown
+            });
+        } else {
+          return res
+            .status(200)
+            .send({
+              message: 'Success'
+            });
+        }
+      });
+    }
+
   });
 };
 
@@ -85,10 +94,10 @@ function runNextCallback(arrayLength, index, req, errors, ids, callback) {
   if ((arrayLength - 1) === index) {
     if (errors.length > 0) {
       req.errors = errors;
-      callback();
+      return callback();
     } else {
       req.linksIds = ids;
-      callback();
+      return callback();
     }
   }
 }

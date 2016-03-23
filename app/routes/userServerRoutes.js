@@ -1,8 +1,8 @@
 'use strict';
 
 var express = require('express');
-var router = express.Router();
 var	userCtrl = require('../controllers/userServerController.js');
+var router = express.Router();
 
 router.route('/signin')
   .post(userCtrl.createUser);
