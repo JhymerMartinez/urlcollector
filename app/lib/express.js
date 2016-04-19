@@ -28,16 +28,14 @@ module.exports = function() {
 
 	//load app routes
   var index = require('../routes/indexServerRoutes.js');
-  var auth = require('../routes/authServerRoutes.js');
   var user = require('../routes/userServerRoutes.js');
   var group = require('../routes/groupServerRoutes.js');
   var link = require('../routes/linkServerRoutes.js');
 
   app.use('/', index);
-  app.use(config().baseApi + '/auth', auth);
-  app.use(config().baseApi + '/user', user);
-  app.use(config().baseApi + '/group', group);
-  app.use(config().baseApi + '/link', link);
+  app.use(config().baseApi + '/users', user);
+  app.use(config().baseApi + '/groups', group);
+  app.use(config().baseApi + '/links', link);
 
 	process.on('uncaughtException', function(err) {
 	  console.log(err);

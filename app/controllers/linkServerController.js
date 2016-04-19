@@ -1,5 +1,3 @@
-'use strict';
-
 var mongoose = require('mongoose');
 var UserModel = mongoose.model('User');
 var LinkModel = mongoose.model('Link');

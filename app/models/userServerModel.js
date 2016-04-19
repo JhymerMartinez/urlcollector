@@ -3,18 +3,15 @@
 var mongoose = require('mongoose');
 var crypto = require('crypto');
 var async = require('async');
+var Schema = mongoose.Schema;
 var MessageService = require('../services/messages.js');
 
 var UserSchema = mongoose.Schema({
 
-  firstName: {
+  name: {
     type: String,
-    required: [true, MessageService.Models.userFirstNameRequired],
-    trim: true
-  },
-  lastName: {
-    type: String,
-    trim: true
+    trim: true,
+    required: [true, MessageService.Models.userNameRequired],
   },
 	email: {
     type: String,
@@ -24,14 +21,9 @@ var UserSchema = mongoose.Schema({
     // Validate email
     match: [
       /.+\@.+\..+/,
-      MessageService.Models.userInvalidEmail
+      MessageService.Models.userEmailInvalid
     ]
   },
-  username: {
-    type: String,
-    required: [true, MessageService.Models.userUsenameRequired],
-    trim: true
-	},
 	password: {
   	type: String,
     required: MessageService.Models.userPasswordRequired,
@@ -50,9 +42,15 @@ var UserSchema = mongoose.Schema({
   	type: Date,
   	//For default
   	default: Date.now
-  }
+  },
+  groups: [{
+    type: Schema.ObjectId,
+    ref: 'Group'
+  }]
+
 });
 
+/*
 //Configure the virtual property 'fullname'
 UserSchema.virtual('fullName')
   .get(function() {
@@ -63,6 +61,7 @@ UserSchema.virtual('fullName')
     this.firstName = splitName[0] || '';
     this.lastName = splitName[1] || '';
   });
+*/
 
 //Middleware pre-save for hash the password
 UserSchema.pre('save', function(done) {
@@ -70,18 +69,6 @@ UserSchema.pre('save', function(done) {
   var self = this;
 
   async.waterfall([
-    function testUniqueUsername(next) {
-      var data = {
-        query: {
-          username: self.username
-        },
-        name: 'username',
-        message: MessageService.Models.userUsernameUnique
-      };
-
-      testUnique(self, data, next);
-
-    },
     function testUniqueEmail(next) {
       var data = {
         query: {
@@ -139,31 +126,6 @@ UserSchema.statics.authenticate = function(user, loginPassword) {
   }
   return user.password === passwordHash;
 };
-
-//Find 'usernames' unused
-/*
-UserSchema.statics.findUniqueUsername = function(username, suffix, callback) {
-
-  var self = this;
-
-  //'username' suffix
-  var possibleUsername = username + (suffix || '');
-
-  self.findOne({
-    username: possibleUsername
-  }, function(err, user) {
-    if (!err) {
-      if (!user) {
-        return callback(possibleUsername);
-      } else {
-        return self.findUniqueUsername(username, (suffix || 0) + 1, callback);
-      }
-    } else {
-      return callback(null);
-    }
-  });
-};
-*/
 
 //Configure 'UserSchema' for use getters and virtuals
 //when convert to JSON

@@ -11,15 +11,18 @@ var GroupSchema = mongoose.Schema({
     required: MessageService.Models.groupNameRequired
   },
   description: String,
-  user: {
-    type: Schema.ObjectId,
-    ref: 'User'
+  dateAdded: {
+    type: Date,
+    default: Date.now
+  },
+  star: {
+    type: Boolean,
+    default: false
   },
   links: [{
     type: Schema.ObjectId,
     ref: 'Link'
   }]
-
 });
 
 GroupSchema.post('remove', function(aGroup, next) {

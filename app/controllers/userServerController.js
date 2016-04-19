@@ -2,44 +2,64 @@
 
 var mongoose = require('mongoose');
 var UserModel = mongoose.model('User');
-var TokenService = require('../services/token.js');
 var MessageService = require('../services/messages.js');
+var ResponseService = require('../services/response.js');
 var jwt = require('jwt-simple');
 var moment = require('moment');
 var config = require('../config/config.js');
 
-exports.deleteUser = function(req, res) {
-  UserModel.remove({_id: req.body.id}, function(error) {
-
-    handleError(error, MessageService.Controllers.userDeleted, res);
-
-  });
-};
-
-exports.createUser = function(req, res) {
+exports.signUp = function(req, res) {
   var user = new UserModel({
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
+    name: req.body.name,
     email: req.body.email,
-    username: req.body.username,
     password: req.body.password
   });
-
   user.save(function(error, user) {
     if (error) {
       return res
         .send({
-          message: getErrorMessage(error)
+          message: ResponseService.getErrorMessage(error)
         });
     } else {
-      return res
-        .status(200)
-        .send({
-          token: TokenService.createToken(user),
-          message: 'Welcome ' + user.firstName,
-          user: user
-        });
+      ResponseService.resposeToken(res, user);
     }
+  });
+};
+
+exports.signIn = function(req, res) {
+  UserModel.findOne({
+      email: req.body.email.toLowerCase()
+    },
+    function(err, user) {
+      if (err) {
+        ResponseService.responseGeneric(res,
+          500,
+          MessageService.GlobalErrors.serverErrorUnknown);
+      } else {
+        if (!user) {
+          ResponseService.responseGeneric(res,
+            500,
+            MessageService.Controllers.userNotExist);
+        } else {
+          if (UserModel.authenticate(user, req.body.password)) {
+            ResponseService.resposeToken(res, user);
+          } else {
+            ResponseService.responseGeneric(res,
+              500,
+              MessageService.Controllers.userInvalidPassword);
+          }
+        }
+      }
+    });
+};
+
+exports.deleteUser = function(req, res) {
+  UserModel.remove({
+    _id: req.body.id
+  }, function(error) {
+    ResponseService.handleError(error,
+      MessageService.Controllers.userDeleted,
+      res);
   });
 };
 
@@ -49,14 +69,13 @@ exports.updateUserInfo = function(req, res) {
     lastName: req.body.lastName ? req.body.lastName : '',
     email: req.body.email ? req.body.email : ''
   };
-
   UserModel.findByIdAndUpdate(req.body.id, userdata, {
       runValidators: true
     },
     function(error, user) {
-
-      handleError(error, MessageService.Controllers.userUpdateOK, res);
-
+      ResponseService.handleError(error,
+        MessageService.Controllers.userUpdateOK,
+        res);
     });
 };
 
@@ -64,129 +83,31 @@ exports.changePassword = function(req, res) {
 
 };
 
-exports.login = function(req, res) {
-  UserModel.findOne({
-      email: req.body.email.toLowerCase()
-    },
-    function(err, user) {
-      if (err) {
-        return res
-          .status(500)
-          .send({
-            message: MessageService.GlobalErrors.serverErrorUnknown
-          });
-      } else {
-        if (!user) {
-          return res
-            .status(500)
-            .send({
-              message: MessageService.Controllers.userNotExist
-            });
-        } else {
-          if (UserModel.authenticate(user, req.body.password)) {
-            return res
-              .status(200)
-              .send({
-                token: TokenService.createToken(user)
-              });
-          } else {
-            return res
-              .status(500)
-              .send({
-                message: MessageService.Controllers.userInvalidPassword
-              });
-          }
-        }
-      }
-    });
-};
-
 exports.ensureAuthenticated = function(req, res, next) {
-
   //get token from client
   var token = req.headers.authorization ||
     req.body.token ||
     req.query.token ||
     req.headers['x-access-token'];
-
   if (!token) {
-    return res
-      .status(403)
-      .send({
-        message: MessageService.Controllers.userUnauthorized
-      });
-
+    ResponseService.responseGeneric(res,
+      403,
+      MessageService.Controllers.userUnauthorized);
   }
   try {
     //Decode token
     var payload = jwt.decode(token, config().tokenSecret);
-
     if (payload.exp <= moment().unix()) {
-      return res
-        .status(401)
-        .send({
-          message: MessageService.Controllers.userTokenExpired
-        });
+      ResponseService.responseGeneric(res,
+        401,
+        MessageService.Controllers.userTokenExpired);
     }
-
     //Assign 'payload.sub' (user id) to 'req' Object
     req.user = payload.sub;
     next();
   } catch (e) {
-    return res
-      .status(500)
-      .send({
-        message: e.message
-      });
+    ResponseService.responseGeneric(res,
+      500,
+      e.message);
   }
-
 };
-
-function getErrorMessage(err) {
-  var message = '';
-
-  // Internal errors in MongoDB
-  if (err.code) {
-    switch (err.code) {
-      // Index error
-      case 11000:
-      case 11001:
-        message = err.message;
-        break;
-      default:
-        message = MessageService.Controllers.userUnknownError;
-    }
-  } else {
-
-    if (err.errors) {
-
-      // Get the first error message of errors list
-      for (var errName in err.errors) {
-        if (err.errors[errName].message) {
-          message = err.errors[errName].message;
-        }
-      }
-
-    } else {
-      message = err.message;
-    }
-
-  }
-
-  return message;
-}
-
-function handleError(error, message, res) {
-  if (error) {
-    return res
-      .send({
-        message: getErrorMessage(error)
-      });
-  } else {
-    return res
-      .status(200)
-      .send({
-        message: message
-      });
-  }
-}

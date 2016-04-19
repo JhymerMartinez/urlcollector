@@ -2,14 +2,12 @@
 
 //GLOBAL app messages
 exports.Models = {
-  userFirstNameRequired: 'First Name is required.',
-  userUsenameRequired: 'Username is required.',
-  userUsernameUnique: 'The Username already exists.',
+  userNameRequired: 'Name is required.',
   userEmailRequired: 'Email is required.',
   userEmailUnique: 'The Email already exists.',
+  userEmailInvalid: 'The email is invalid.',
   userPasswordRequired: 'Password is required.',
   userPasswordLength: 'The password should be longer.',
-  userInvalidEmail: 'The email is invalid.',
   groupNameRequired: 'Group Name is required.',
   linkTitleRequired: 'Link title is required.',
   linkUrlRequired: 'Link URL is required.'

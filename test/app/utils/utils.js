@@ -3,7 +3,7 @@
 var config = require('../../../app/config/config.js');
 var mongoose = require('mongoose');
 
-before(function (done) {
+beforeEach(function (done) {
 
   function clearDB() {
     for (var i in mongoose.connection.collections) {
