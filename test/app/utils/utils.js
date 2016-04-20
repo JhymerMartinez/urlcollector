@@ -2,20 +2,20 @@
 
 var config = require('../../../app/config/config.js');
 var mongoose = require('mongoose');
+var _ = require('lodash');
 
 beforeEach(function (done) {
-
-  function clearDB() {
-    for (var i in mongoose.connection.collections) {
-      mongoose.connection.collections[i].remove();
-    }
-    return done();
-  }
-
-  clearDB();
+  clearDB(done);
 });
 
 after(function (done) {
   mongoose.disconnect();
   done();
 });
+
+function clearDB(done) {
+  _.forEach(mongoose.connection.collections, function(e, i){
+    mongoose.connection.collections[e.name].remove();
+  });
+  return done();
+}
