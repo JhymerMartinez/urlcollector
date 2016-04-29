@@ -4,7 +4,7 @@ var request = require('supertest');
 var async = require('async');
 var data = require('../data/data.js');
 var utils = require('../utils/utils.js');
-var MessageService = require('../../../app/services/messages.js');
+var MessageService = require('../../../app/services/message.js');
 
 var server;
 
@@ -27,6 +27,10 @@ describe('Create user', function() {
         var body = res.body;
         expect(body.token).to.exist;
         expect(body.token.split('.')[0]).to.equal(data.api.users.signin.token);
+        expect(body.user.id).to.exist;
+        expect(body.user.email).to.equal(data.api.users.signup.userOK.email);
+        expect(body.user.name).to.equal(data.api.users.signup.userOK.name);
+        expect(body.user.email).to.equal(data.api.users.signup.userOK.email);
         done();
       }
     ], done);
@@ -42,7 +46,7 @@ describe('Create user', function() {
       },
       function assertions(res) {
         expect(res.status).to.equal(200);
-        expect(res.body.message).to.equal(MessageService.Models.userNameRequired);
+        expect(res.body.message).to.equal(MessageService.users.userNameRequired);
         done();
       }
     ], done);
@@ -58,7 +62,7 @@ describe('Create user', function() {
       },
       function assertions(res) {
         expect(res.status).to.equal(200);
-        expect(res.body.message).to.equal(MessageService.Models.userNameRequired);
+        expect(res.body.message).to.equal(MessageService.users.userNameRequired);
         done();
       }
     ], done);
@@ -74,7 +78,7 @@ describe('Create user', function() {
       },
       function assertions(res) {
         expect(res.status).to.equal(200);
-        expect(res.body.message).to.equal(MessageService.Models.userEmailRequired);
+        expect(res.body.message).to.equal(MessageService.users.userEmailRequired);
         done();
       }
     ], done);
@@ -90,7 +94,7 @@ describe('Create user', function() {
       },
       function assertions(res) {
         expect(res.status).to.equal(200);
-        expect(res.body.message).to.equal(MessageService.Models.userEmailRequired);
+        expect(res.body.message).to.equal(MessageService.users.userEmailRequired);
         done();
       }
     ], done);
@@ -112,7 +116,7 @@ describe('Create user', function() {
       },
       function assertions(res) {
         expect(res.status).to.equal(200);
-        expect(res.body.message).to.equal(MessageService.Models.userEmailUnique);
+        expect(res.body.message).to.equal(MessageService.users.userEmailUnique);
         done();
       }
     ], done);
@@ -128,7 +132,7 @@ describe('Create user', function() {
       },
       function assertions(res) {
         expect(res.status).to.equal(200);
-        expect(res.body.message).to.equal(MessageService.Models.userEmailInvalid);
+        expect(res.body.message).to.equal(MessageService.users.userEmailInvalid);
         done();
       }
     ], done);
@@ -144,7 +148,7 @@ describe('Create user', function() {
       },
       function assertions(res) {
         expect(res.status).to.equal(200);
-        expect(res.body.message).to.equal(MessageService.Models.userPasswordRequired);
+        expect(res.body.message).to.equal(MessageService.users.userPasswordRequired);
         done();
       }
     ], done);
@@ -160,7 +164,7 @@ describe('Create user', function() {
       },
       function assertions(res) {
         expect(res.status).to.equal(200);
-        expect(res.body.message).to.equal(MessageService.Models.userPasswordRequired);
+        expect(res.body.message).to.equal(MessageService.users.userPasswordRequired);
         done();
       }
     ], done);
@@ -176,7 +180,7 @@ describe('Create user', function() {
       },
       function assertions(res) {
         expect(res.status).to.equal(200);
-        expect(res.body.message).to.equal(MessageService.Models.userPasswordLength);
+        expect(res.body.message).to.equal(MessageService.users.userPasswordLength);
         done();
       }
     ], done);
@@ -200,6 +204,39 @@ describe('Create user', function() {
         var body = res.body;
         expect(body.token).to.exist;
         expect(body.token.split('.')[0]).to.equal(data.api.users.signin.token);
+        expect(body.user.id).to.exist;
+        expect(body.user.email).to.equal(data.api.users.signup.userOK.email);
+        expect(body.user.name).to.equal(data.api.users.signup.userOK.name);
+        expect(body.user.email).to.equal(data.api.users.signup.userOK.email);
+        done();
+      }
+    ], done);
+  });
+
+});
+
+
+describe('Update user info', function() {
+
+  it('Change name', function(done) {
+    async.waterfall([
+      function registerUser(next) {
+        request
+          .post('/api/users/sign_up')
+          .send(data.api.users.signup.userOK)
+          .end(next);
+      },
+      function updateInfo(res, next) {
+        var user = res.body.user;
+        request
+          .put('/api/users/update/' + user.id)
+          .set('Authorization', res.body.token)
+          .send(data.api.users.update.userUpdated)
+          .end(next);
+      },
+      function assertions(res) {
+        expect(res.status).to.equal(200);
+        expect(res.body.message).to.equal(MessageService.users.userUpdateOK);
         done();
       }
     ], done);

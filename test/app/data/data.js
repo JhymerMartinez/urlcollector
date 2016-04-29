@@ -52,6 +52,20 @@ module.exports.api = {
         password: 'test1234'
       },
       token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9'
+    },
+    update: {
+      userUpdated: {
+        name:'test2',
+        email: 'test2@urlcollector.com'
+      },
+      userUpdatedNullName: {
+        name:'test2',
+        email: 'test2@urlcollector.com'
+      },
+      userUpdatedNullEmail: {
+        name:'test2',
+        email: 'test2@urlcollector.com'
+      }
     }
   }
 };

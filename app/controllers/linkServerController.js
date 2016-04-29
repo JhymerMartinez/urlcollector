@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var UserModel = mongoose.model('User');
 var LinkModel = mongoose.model('Link');
-var MessageService = require('../services/messages.js');
+var MessageService = require('../services/message.js');
 var _ = require('lodash');
 
 exports.saveLink = function(req, res, next) {
@@ -18,7 +18,7 @@ exports.saveLink = function(req, res, next) {
       return res
         .status(500)
         .send({
-          message: MessageService.GlobalErrors.serverErrorUnknown
+          message: MessageService.global.serverErrorUnknown
         });
     } else {
       req.link = aLink._id;
@@ -65,7 +65,7 @@ exports.deleteLink = function(req, res) {
       return res
         .status(500)
         .send({
-          message: MessageService.GlobalErrors.serverErrorUnknown
+          message: MessageService.global.serverErrorUnknown
         });
     } else {
       alink.remove(function(err) {
@@ -73,7 +73,7 @@ exports.deleteLink = function(req, res) {
           return res
             .status(500)
             .send({
-              message: MessageService.GlobalErrors.serverErrorUnknown
+              message: MessageService.global.serverErrorUnknown
             });
         } else {
           return res
