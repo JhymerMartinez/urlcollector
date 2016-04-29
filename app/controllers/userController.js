@@ -6,7 +6,7 @@ var MessageService = require('../services/messageService.js');
 var ResponseService = require('../services/responseService.js');
 var jwt = require('jwt-simple');
 var moment = require('moment');
-var config = require('../config/config.js');
+var config = require('../configs/config.js');
 
 exports.signUp = function(req, res) {
   var user = new UserModel({

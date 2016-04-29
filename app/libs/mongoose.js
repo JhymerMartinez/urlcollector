@@ -1,7 +1,7 @@
 'use strict';
 
 var mongoose = require('mongoose');
-var config = require('../config/config.js');
+var config = require('../configs/config.js');
 
 module.exports = function() {
   //Mongo DB connection

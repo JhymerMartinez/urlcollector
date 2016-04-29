@@ -2,7 +2,7 @@
 
 var jwt = require('jwt-simple');
 var moment = require('moment');
-var config = require('../config/config.js');
+var config = require('../configs/config.js');
 
 exports.createToken = function(user) {
   var payload = {

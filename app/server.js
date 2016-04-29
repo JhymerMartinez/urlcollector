@@ -1,9 +1,9 @@
 'use strict';
 
-var mongoose = require('./lib/mongoose');
-var express = require('./lib/express');
+var mongoose = require('./libs/mongoose');
+var express = require('./libs/express');
 //Loading config
-var config = require('./config/config');
+var config = require('./configs/config');
 
 var db = mongoose();
 var app = express();

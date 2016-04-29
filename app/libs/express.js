@@ -11,7 +11,7 @@ var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var	flash = require('connect-flash');
 var path = require('path');
-var config = require('../config/config');
+var config = require('../configs/config');
 
 //var	passport = require('passport');
 
