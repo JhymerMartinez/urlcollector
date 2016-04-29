@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var _ = require('lodash');
 var UserModel = mongoose.model('User');
 var GroupModel = mongoose.model('Group');
-var MessageService = require('../services/message.js');
+var MessageService = require('../services/messageService.js');
 
 exports.saveGroup = function(req, res) {
   var newGroupModel = new GroupModel({

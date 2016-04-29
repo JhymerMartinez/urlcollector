@@ -2,8 +2,8 @@
 
 var mongoose = require('mongoose');
 var UserModel = mongoose.model('User');
-var MessageService = require('../services/message.js');
-var ResponseService = require('../services/response.js');
+var MessageService = require('../services/messageService.js');
+var ResponseService = require('../services/responseService.js');
 var jwt = require('jwt-simple');
 var moment = require('moment');
 var config = require('../config/config.js');

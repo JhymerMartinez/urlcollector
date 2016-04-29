@@ -1,6 +1,6 @@
 'use strict';
 
-var TokenService = require('./token.js');
+var TokenService = require('./tokenService.js');
 
 exports.getErrorMessage = getErrorMessage;
 

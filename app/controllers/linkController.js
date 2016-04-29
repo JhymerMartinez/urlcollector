@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var UserModel = mongoose.model('User');
 var LinkModel = mongoose.model('Link');
-var MessageService = require('../services/message.js');
+var MessageService = require('../services/messageService.js');
 var _ = require('lodash');
 
 exports.saveLink = function(req, res, next) {

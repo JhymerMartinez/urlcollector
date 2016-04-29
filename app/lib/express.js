@@ -27,10 +27,10 @@ module.exports = function() {
 	app.use(cors());
 
 	//load app routes
-  var index = require('../routes/indexServerRoutes.js');
-  var user = require('../routes/userServerRoutes.js');
-  var group = require('../routes/groupServerRoutes.js');
-  var link = require('../routes/linkServerRoutes.js');
+  var index = require('../routes/indexRoute.js');
+  var user = require('../routes/userRoute.js');
+  var group = require('../routes/groupRoute.js');
+  var link = require('../routes/linkRoute.js');
 
   app.use('/', index);
   app.use(config().baseApi + '/users', user);

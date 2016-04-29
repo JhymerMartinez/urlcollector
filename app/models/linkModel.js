@@ -2,7 +2,7 @@
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var MessageService = require('../services/message.js');
+var MessageService = require('../services/messageService.js');
 
 var LinkSchema = mongoose.Schema({
   title:  {

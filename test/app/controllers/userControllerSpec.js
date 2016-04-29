@@ -4,7 +4,7 @@ var request = require('supertest');
 var async = require('async');
 var data = require('../data/data.js');
 var utils = require('../utils/utils.js');
-var MessageService = require('../../../app/services/message.js');
+var MessageService = require('../../../app/services/messageService.js');
 
 var server;
 
@@ -215,8 +215,35 @@ describe('Create user', function() {
 
 });
 
-
 describe('Update user info', function() {
+
+  it('Change name', function(done) {
+    async.waterfall([
+      function registerUser(next) {
+        request
+          .post('/api/users/sign_up')
+          .send(data.api.users.signup.userOK)
+          .end(next);
+      },
+      function updateInfo(res, next) {
+        var user = res.body.user;
+        request
+          .put('/api/users/update/' + user.id)
+          .set('Authorization', res.body.token)
+          .send(data.api.users.update.userUpdated)
+          .end(next);
+      },
+      function assertions(res) {
+        expect(res.status).to.equal(200);
+        expect(res.body.message).to.equal(MessageService.users.userUpdateOK);
+        done();
+      }
+    ], done);
+  });
+
+});
+
+describe('Delete user', function() {
 
   it('Change name', function(done) {
     async.waterfall([

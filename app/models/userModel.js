@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var crypto = require('crypto');
 var async = require('async');
 var Schema = mongoose.Schema;
-var MessageService = require('../services/message.js');
+var MessageService = require('../services/messageService.js');
 
 var UserSchema = mongoose.Schema({
 

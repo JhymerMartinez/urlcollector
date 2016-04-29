@@ -3,7 +3,7 @@
 var mongoose = require('mongoose');
 var _ = require('lodash');
 var Schema = mongoose.Schema;
-var MessageService = require('../services/message.js');
+var MessageService = require('../services/messageService.js');
 
 var GroupSchema = mongoose.Schema({
   groupName: {

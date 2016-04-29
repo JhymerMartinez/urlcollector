@@ -17,8 +17,8 @@ module.exports = function() {
 	  console.log('Mongoose error ' + err);
 	});
 
-	require('../models/userServerModel.js');
-	require('../models/linkServerModel.js');
-  require('../models/groupServerModel.js');
+	require('../models/userModel.js');
+	require('../models/linkModel.js');
+  require('../models/groupModel.js');
 	return db;
 };

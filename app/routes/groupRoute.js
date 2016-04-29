@@ -1,9 +1,9 @@
 'use strict';
 
 var express = require('express');
-var linkCtrl = require('../controllers/linkServerController.js');
-var groupCtrl = require('../controllers/groupServerController.js');
-var userCtrl = require('../controllers/userServerController.js');
+var linkCtrl = require('../controllers/linkController.js');
+var groupCtrl = require('../controllers/groupController.js');
+var userCtrl = require('../controllers/userController.js');
 var router = express.Router();
 
 router.route('/save')
