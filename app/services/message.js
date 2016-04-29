@@ -1,19 +1,16 @@
 'use strict';
 
 //GLOBAL app messages
-exports.Models = {
+exports.users = {
   userNameRequired: 'Name is required.',
   userEmailRequired: 'Email is required.',
   userEmailUnique: 'The Email already exists.',
   userEmailInvalid: 'The email is invalid.',
   userPasswordRequired: 'Password is required.',
   userPasswordLength: 'The password should be longer.',
-  groupNameRequired: 'Group Name is required.',
-  linkTitleRequired: 'Link title is required.',
-  linkUrlRequired: 'Link URL is required.'
-};
-
-exports.Controllers = {
+  //groupNameRequired: 'Group Name is required.',
+  //linkTitleRequired: 'Link title is required.',
+  //linkUrlRequired: 'Link URL is required.',
   userDeleted: 'User deleted.',
   userInvalidPassword: 'Incorrect password.',
   userNotExist: 'User not exists',
@@ -25,6 +22,6 @@ exports.Controllers = {
   userUpdateERROR: 'Failed to update information.'
 };
 
-exports.GlobalErrors = {
+exports.global = {
   serverErrorUnknown: 'Unknown server error.',
 };

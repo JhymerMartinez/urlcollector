@@ -2,7 +2,7 @@
 
 var mongoose = require('mongoose');
 var UserModel = mongoose.model('User');
-var MessageService = require('../services/messages.js');
+var MessageService = require('../services/message.js');
 var ResponseService = require('../services/response.js');
 var jwt = require('jwt-simple');
 var moment = require('moment');
@@ -14,7 +14,7 @@ exports.signUp = function(req, res) {
     email: req.body.email,
     password: req.body.password
   });
-  user.save(function(error, user) {
+  user.save(function saveSuccess(error, user) {
     if (error) {
       return res
         .send({
@@ -27,54 +27,57 @@ exports.signUp = function(req, res) {
 };
 
 exports.signIn = function(req, res) {
-  UserModel.findOne({
-      email: req.body.email.toLowerCase()
-    },
-    function(err, user) {
+  var data = {
+    email: req.body.email.toLowerCase()
+  };
+  UserModel.findOne(data,
+    function findSuccess(err, user) {
       if (err) {
         ResponseService.responseGeneric(res,
           500,
-          MessageService.GlobalErrors.serverErrorUnknown);
+          MessageService.global.serverErrorUnknown);
       } else {
         if (!user) {
           ResponseService.responseGeneric(res,
             500,
-            MessageService.Controllers.userNotExist);
+            MessageService.users.userNotExist);
         } else {
           if (UserModel.authenticate(user, req.body.password)) {
             ResponseService.resposeToken(res, user);
           } else {
             ResponseService.responseGeneric(res,
               500,
-              MessageService.Controllers.userInvalidPassword);
+              MessageService.users.userInvalidPassword);
           }
         }
       }
     });
 };
 
-exports.deleteUser = function(req, res) {
+exports.delete = function(req, res) {
   UserModel.remove({
     _id: req.body.id
   }, function(error) {
     ResponseService.handleError(error,
-      MessageService.Controllers.userDeleted,
+      MessageService.users.userDeleted,
       res);
   });
 };
 
-exports.updateUserInfo = function(req, res) {
-  var userdata = {
-    firstName: req.body.firstName ? req.body.firstName : '',
-    lastName: req.body.lastName ? req.body.lastName : '',
-    email: req.body.email ? req.body.email : ''
+exports.update = function(req, res) {
+  var userData = {
+    firstName: req.body.firstName,
+    email: req.body.email
   };
-  UserModel.findByIdAndUpdate(req.body.id, userdata, {
-      runValidators: true
-    },
-    function(error, user) {
+  var options = {
+    runValidators: true
+  };
+  UserModel.findByIdAndUpdate(req.params.id,
+    userData,
+    options,
+    function findSuccess(error, user) {
       ResponseService.handleError(error,
-        MessageService.Controllers.userUpdateOK,
+        MessageService.users.userUpdateOK,
         res);
     });
 };
@@ -92,7 +95,7 @@ exports.ensureAuthenticated = function(req, res, next) {
   if (!token) {
     ResponseService.responseGeneric(res,
       403,
-      MessageService.Controllers.userUnauthorized);
+      MessageService.users.userUnauthorized);
   }
   try {
     //Decode token
@@ -100,7 +103,7 @@ exports.ensureAuthenticated = function(req, res, next) {
     if (payload.exp <= moment().unix()) {
       ResponseService.responseGeneric(res,
         401,
-        MessageService.Controllers.userTokenExpired);
+        MessageService.users.userTokenExpired);
     }
     //Assign 'payload.sub' (user id) to 'req' Object
     req.user = payload.sub;

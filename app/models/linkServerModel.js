@@ -2,16 +2,16 @@
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var MessageService = require('../services/messages.js');
+var MessageService = require('../services/message.js');
 
 var LinkSchema = mongoose.Schema({
   title:  {
     type: String,
-    required: MessageService.Models.linkTitleRequired
+    required: MessageService.users.linkTitleRequired
   },
   url:  {
     type: String,
-    required: MessageService.Models.linkUrlRequired
+    required: MessageService.users.linkUrlRequired
   },
   dateAdded: {
     type: Date,

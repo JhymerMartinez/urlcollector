@@ -5,10 +5,16 @@ var TokenService = require('./token.js');
 exports.getErrorMessage = getErrorMessage;
 
 exports.resposeToken = function(res, user) {
+  var userData = {
+    id: user._id,
+    name: user.name,
+    email: user.email
+  };
   return res
     .status(200)
     .send({
-      token: TokenService.createToken(user)
+      token: TokenService.createToken(user),
+      user: userData
     });
 };
 

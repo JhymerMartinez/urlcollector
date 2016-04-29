@@ -4,35 +4,35 @@ var mongoose = require('mongoose');
 var crypto = require('crypto');
 var async = require('async');
 var Schema = mongoose.Schema;
-var MessageService = require('../services/messages.js');
+var MessageService = require('../services/message.js');
 
 var UserSchema = mongoose.Schema({
 
   name: {
     type: String,
     trim: true,
-    required: [true, MessageService.Models.userNameRequired],
+    required: [true, MessageService.users.userNameRequired],
   },
 	email: {
     type: String,
     trim: true,
     unique: true,
-    required: [true, MessageService.Models.userEmailRequired],
+    required: [true, MessageService.users.userEmailRequired],
     // Validate email
     match: [
       /.+\@.+\..+/,
-      MessageService.Models.userEmailInvalid
+      MessageService.users.userEmailInvalid
     ]
   },
 	password: {
   	type: String,
-    required: MessageService.Models.userPasswordRequired,
+    required: MessageService.users.userPasswordRequired,
   	//Validate password length
   	validate: [
   		function(password) {
     		return password && password.length > 6;
       },
-      MessageService.Models.userPasswordLength
+      MessageService.users.userPasswordLength
     ]
 	},
   salt: {
@@ -75,7 +75,7 @@ UserSchema.pre('save', function(done) {
           email: self.email
         },
         name: 'email',
-        message: MessageService.Models.userEmailUnique
+        message: MessageService.users.userEmailUnique
       };
 
       testUnique(self, data, next);

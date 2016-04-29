@@ -3,12 +3,12 @@
 var mongoose = require('mongoose');
 var _ = require('lodash');
 var Schema = mongoose.Schema;
-var MessageService = require('../services/messages.js');
+var MessageService = require('../services/message.js');
 
 var GroupSchema = mongoose.Schema({
   groupName: {
     type: String,
-    required: MessageService.Models.groupNameRequired
+    required: MessageService.users.groupNameRequired
   },
   description: String,
   dateAdded: {

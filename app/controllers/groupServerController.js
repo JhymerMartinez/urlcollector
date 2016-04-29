@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var _ = require('lodash');
 var UserModel = mongoose.model('User');
 var GroupModel = mongoose.model('Group');
-var MessageService = require('../services/messages.js');
+var MessageService = require('../services/message.js');
 
 exports.saveGroup = function(req, res) {
   var newGroupModel = new GroupModel({
@@ -22,7 +22,7 @@ exports.saveGroup = function(req, res) {
         return res
           .status(500)
           .send({
-            message: MessageService.GlobalErrors.serverErrorUnknown
+            message: MessageService.global.serverErrorUnknown
           });
       } else {
         if (!groupFromDB) {
@@ -58,7 +58,7 @@ exports.saveAllGroup = function(req, res) {
         return res
           .status(500)
           .send({
-            message: MessageService.GlobalErrors.serverErrorUnknown
+            message: MessageService.global.serverErrorUnknown
           });
       } else {
         if (!groupFromDB) {
@@ -83,7 +83,7 @@ exports.updateGroupName = function(req, res) {
         return res
           .status(500)
           .send({
-            message: MessageService.GlobalErrors.serverErrorUnknown
+            message: MessageService.global.serverErrorUnknown
           });
       } else {
         return res
@@ -107,7 +107,7 @@ exports.getGroupLinks = function(req, res) {
         return res
           .status(500)
           .send({
-            message: MessageService.GlobalErrors.serverErrorUnknown
+            message: MessageService.global.serverErrorUnknown
           });
       } else {
         return res
@@ -126,7 +126,7 @@ exports.deleteGroup = function(req, res) {
       return res
         .status(500)
         .send({
-          message: MessageService.GlobalErrors.serverErrorUnknown
+          message: MessageService.global.serverErrorUnknown
         });
     } else {
       aGroup.remove(function(err) {
@@ -134,7 +134,7 @@ exports.deleteGroup = function(req, res) {
           return res
             .status(500)
             .send({
-              message: MessageService.GlobalErrors.serverErrorUnknown
+              message: MessageService.global.serverErrorUnknown
             });
         } else {
           return res
@@ -155,7 +155,7 @@ function saveData(res, group) {
       return res
         .status(500)
         .send({
-          message: MessageService.GlobalErrors.serverErrorUnknown
+          message: MessageService.global.serverErrorUnknown
         });
     } else {
       return res
