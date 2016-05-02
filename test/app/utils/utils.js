@@ -1,6 +1,6 @@
 'use strict';
 
-var config = require('../../../app/config/config.js');
+var config = require('../../../app/configs/config.js');
 var mongoose = require('mongoose');
 var _ = require('lodash');
 

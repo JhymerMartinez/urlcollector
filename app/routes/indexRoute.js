@@ -1,7 +1,7 @@
 'use strict';
 
 var express = require('express');
-var indexCtrl = require('../controllers/indexServerController.js');
+var indexCtrl = require('../controllers/indexController.js');
 var router = express.Router();
 
 router.route('/')

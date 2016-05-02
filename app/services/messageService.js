@@ -8,10 +8,8 @@ exports.users = {
   userEmailInvalid: 'The email is invalid.',
   userPasswordRequired: 'Password is required.',
   userPasswordLength: 'The password should be longer.',
-  //groupNameRequired: 'Group Name is required.',
-  //linkTitleRequired: 'Link title is required.',
-  //linkUrlRequired: 'Link URL is required.',
   userDeleted: 'User deleted.',
+  userIdInvalid: 'User ID invalid.',
   userInvalidPassword: 'Incorrect password.',
   userNotExist: 'User not exists',
   userUnauthorized: 'Not authorized.',
@@ -24,4 +22,5 @@ exports.users = {
 
 exports.global = {
   serverErrorUnknown: 'Unknown server error.',
+  commonRequestError: 'An error occurred! Please review your information.'
 };
