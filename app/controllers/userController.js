@@ -15,52 +15,40 @@ exports.signUp = function(req, res) {
     password: req.body.password
   });
   user.save(function saveSuccess(error, user) {
-    if (error) {
-      return res
-        .send({
-          message: ResponseService.getErrorMessage(error)
-        });
-    } else {
-      ResponseService.resposeToken(res, user);
-    }
+    ResponseService.handleResponse(error, user, res,
+      function onSuccess() {
+        ResponseService.resposeToken(res, user);
+      });
   });
 };
 
 exports.signIn = function(req, res) {
-  var data = {
+  var dbData = {
     email: req.body.email.toLowerCase()
   };
-  UserModel.findOne(data,
-    function findSuccess(err, user) {
-      if (err) {
-        ResponseService.responseGeneric(res,
-          500,
-          MessageService.global.serverErrorUnknown);
-      } else {
-        if (!user) {
-          ResponseService.responseGeneric(res,
-            500,
-            MessageService.users.userNotExist);
+  UserModel.findOne(dbData, function findSuccess(err, user) {
+    ResponseService.handleResponse(err, user, res,
+      function onSuccess() {
+        if (UserModel.authenticate(user, req.body.password)) {
+          ResponseService.resposeToken(res, user);
         } else {
-          if (UserModel.authenticate(user, req.body.password)) {
-            ResponseService.resposeToken(res, user);
-          } else {
-            ResponseService.responseGeneric(res,
-              500,
-              MessageService.users.userInvalidPassword);
-          }
+          ResponseService.responseGeneric(res, 400,
+            MessageService.users.userInvalidPassword);
         }
-      }
-    });
+      },
+      MessageService.users.userNotExist);
+  });
 };
 
 exports.delete = function(req, res) {
-  UserModel.remove({
-    _id: req.body.id
-  }, function(error) {
-    ResponseService.handleError(error,
-      MessageService.users.userDeleted,
-      res);
+  var userData = {
+     _id: req.params.id
+  };
+  UserModel.remove(userData,
+    function removeSuccess(error, result) {
+      ResponseService.handleResponse(error, result, res,
+        MessageService.users.userDeleted,
+        MessageService.users.userIdInvalid);
   });
 };
 
@@ -69,16 +57,14 @@ exports.update = function(req, res) {
     firstName: req.body.firstName,
     email: req.body.email
   };
-  var options = {
+  var dbOptions = {
     runValidators: true
   };
-  UserModel.findByIdAndUpdate(req.params.id,
-    userData,
-    options,
+  UserModel.findByIdAndUpdate(req.params.id, userData, dbOptions,
     function findSuccess(error, user) {
-      ResponseService.handleError(error,
+      ResponseService.handleResponse(error, user, res,
         MessageService.users.userUpdateOK,
-        res);
+        MessageService.users.userIdInvalid);
     });
 };
 
@@ -93,24 +79,20 @@ exports.ensureAuthenticated = function(req, res, next) {
     req.query.token ||
     req.headers['x-access-token'];
   if (!token) {
-    ResponseService.responseGeneric(res,
-      403,
+    ResponseService.responseGeneric(res, 403,
       MessageService.users.userUnauthorized);
   }
   try {
     //Decode token
     var payload = jwt.decode(token, config().tokenSecret);
     if (payload.exp <= moment().unix()) {
-      ResponseService.responseGeneric(res,
-        401,
+      ResponseService.responseGeneric(res, 401,
         MessageService.users.userTokenExpired);
     }
     //Assign 'payload.sub' (user id) to 'req' Object
     req.user = payload.sub;
     next();
   } catch (e) {
-    ResponseService.responseGeneric(res,
-      500,
-      e.message);
+    ResponseService.responseGeneric(res, 500, e.message);
   }
 };

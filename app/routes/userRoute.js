@@ -10,8 +10,8 @@ router.route('/sign_in')
 router.route('/sign_up')
   .post(userCtrl.signUp);
 
-router.route('/delete')
-  .post(userCtrl.ensureAuthenticated, userCtrl.delete);
+router.route('/delete/:id')
+  .delete(userCtrl.ensureAuthenticated, userCtrl.delete);
 
 router.route('/update/:id')
   .put(userCtrl.ensureAuthenticated, userCtrl.update);

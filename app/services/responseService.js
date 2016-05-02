@@ -1,8 +1,10 @@
 'use strict';
 
 var TokenService = require('./tokenService.js');
+var MessageService = require('./messageService.js');
+var _ = require('lodash');
 
-exports.getErrorMessage = getErrorMessage;
+exports.responseGeneric = responseGeneric;
 
 exports.resposeToken = function(res, user) {
   var userData = {
@@ -18,53 +20,40 @@ exports.resposeToken = function(res, user) {
     });
 };
 
-exports.responseGeneric = function(res, statusCode, message) {
+exports.handleResponse = function(error, data, response, onSuccess, onError) {
+  if (error) {
+    if (!onError) {
+      return response
+        .status(400)
+        .send({
+          message: MessageService.global.commonRequestError,
+          details: error
+        });
+    } else {
+      if (_.isString(onError)) {
+        return response
+          .status(400)
+          .send({
+            message: onError,
+            details: error
+          });
+      } else {
+        onError(error);
+      }
+    }
+  } else {
+    if (_.isString(onSuccess)) {
+      responseGeneric(response, 200, onSuccess);
+    } else {
+      onSuccess();
+    }
+  }
+};
+
+function responseGeneric(res, statusCode, message) {
   return res
     .status(statusCode)
     .send({
       message: message
     });
-};
-
-exports.handleError = function(error, message, res) {
-  if (error) {
-    return res
-      .send({
-        message: getErrorMessage(error)
-      });
-  } else {
-    return res
-      .status(200)
-      .send({
-        message: message
-      });
-  }
-};
-
-function getErrorMessage(err) {
-  var message = '';
-  // Internal errors in MongoDB
-  if (err.code) {
-    switch (err.code) {
-      // Index error
-      case 11000:
-      case 11001:
-        message = err.message;
-        break;
-      default:
-        message = 'UnknownError';
-    }
-  } else {
-    if (err.errors) {
-      // Get the first error message of errors list
-      for (var errName in err.errors) {
-        if (err.errors[errName].message) {
-          message = err.errors[errName].message;
-        }
-      }
-    } else {
-      message = err.message;
-    }
-  }
-  return message;
 }

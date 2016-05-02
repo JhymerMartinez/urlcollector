@@ -16,7 +16,6 @@ var UserSchema = mongoose.Schema({
 	email: {
     type: String,
     trim: true,
-    unique: true,
     required: [true, MessageService.users.userEmailRequired],
     // Validate email
     match: [
@@ -101,7 +100,13 @@ function testUnique(self, data, next) {
     } else if (results) {
       self.invalidate(data.name);
       // Done callback
-      return next(new Error(data.message));
+      var err = new Error();
+      err.errors = {};
+      err.errors[data.name] = {
+        code: 'E11000',
+        message: data.message
+      };
+      return next(err);
     } else {
       // Next callback
       return next();
