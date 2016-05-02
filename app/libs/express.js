@@ -25,6 +25,8 @@ module.exports = function() {
 		extended: true
 	}));
 	app.use(cors());
+  app.set('views', './app/views');
+  app.set('view engine', 'ejs');
 
 	//load app routes
   var index = require('../routes/indexRoute.js');
