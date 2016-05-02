@@ -17,7 +17,7 @@ exports.signUp = function(req, res) {
   user.save(function saveSuccess(error, user) {
     ResponseService.handleResponse(error, user, res,
       function onSuccess() {
-        ResponseService.resposeToken(res, user);
+        ResponseService.resposeTokenOrUser(res, user);
       });
   });
 };
@@ -30,7 +30,7 @@ exports.signIn = function(req, res) {
     ResponseService.handleResponse(err, user, res,
       function onSuccess() {
         if (UserModel.authenticate(user, req.body.password)) {
-          ResponseService.resposeToken(res, user);
+          ResponseService.resposeTokenOrUser(res, user);
         } else {
           ResponseService.responseGeneric(res, 400,
             MessageService.users.userInvalidPassword);
@@ -64,6 +64,20 @@ exports.update = function(req, res) {
     function findSuccess(error, user) {
       ResponseService.handleResponse(error, user, res,
         MessageService.users.userUpdateOK,
+        MessageService.users.userIdInvalid);
+    });
+};
+
+exports.getUser = function(req, res) {
+  UserModel.findById(req.params.id, function findSuccess(error, user) {
+      ResponseService.handleResponse(error, user, res,
+        function onSuccess() {
+          return res
+            .status(200)
+            .send({
+              user: user
+            });
+        },
         MessageService.users.userIdInvalid);
     });
 };
