@@ -51,6 +51,10 @@ module.exports.api = {
         email: 'test@urlcollector.com',
         password: 'test1234'
       },
+      userNew: {
+        email: 'test1@urlcollector.com',
+        password: 'test1234'
+      },
       token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9'
     },
     update: {

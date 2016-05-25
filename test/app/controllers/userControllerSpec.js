@@ -224,6 +224,28 @@ describe('Create user', function() {
     ], done);
   });
 
+  it('Login user - user not exists', function(done) {
+    async.waterfall([
+      function registerUser(next) {
+        request
+          .post('/api/users/sign_up')
+          .send(data.api.users.signup.userOK)
+          .end(next);
+      },
+      function sendUser(res, next) {
+        request
+          .post('/api/users/sign_in')
+          .send(data.api.users.signin.userNew)
+          .end(next);
+      },
+      function assertions(res) {
+        expect(res.status).to.equal(400);
+        expect(res.body.message).to.equal(MessageService.users.userEmailNotFound);
+        done();
+      }
+    ], done);
+  });
+
 });
 
 describe('Update user info', function() {

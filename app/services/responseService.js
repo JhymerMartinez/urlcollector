@@ -60,7 +60,7 @@ exports.handleResponse = function(error, data, response, onSuccess, onError) {
     if (_.isString(onSuccess)) {
       responseGeneric(response, 200, onSuccess);
     } else {
-      onSuccess();
+      onSuccess(data);
     }
   }
 };

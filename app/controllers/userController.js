@@ -28,13 +28,21 @@ exports.signIn = function(req, res) {
   };
   UserModel.findOne(dbData, function findSuccess(err, user) {
     ResponseService.handleResponse(err, user, res,
-      function onSuccess() {
-        if (UserModel.authenticate(user, req.body.password)) {
-          ResponseService.resposeTokenOrUser(res, user);
+      function onSuccess(userData) {
+        // If user exist
+        if (userData) {
+          // If password is correct
+          if (UserModel.authenticate(user, req.body.password)) {
+            ResponseService.resposeTokenOrUser(res, user);
+          } else {
+            ResponseService.responseGeneric(res, 400,
+              MessageService.users.userInvalidPassword);
+          }
         } else {
           ResponseService.responseGeneric(res, 400,
-            MessageService.users.userInvalidPassword);
+              MessageService.users.userEmailNotFound);
         }
+
       },
       MessageService.users.userNotExist);
   });
