@@ -12,6 +12,7 @@ var methodOverride = require('method-override');
 var	flash = require('connect-flash');
 var path = require('path');
 var config = require('../configs/config');
+var favicon = require('serve-favicon');
 
 //var	passport = require('passport');
 
@@ -27,6 +28,9 @@ module.exports = function() {
 	app.use(cors());
   app.set('views', './app/views');
   app.set('view engine', 'ejs');
+  app.use(express.static('../public'));
+  app.use(favicon(path.join(__dirname, '..', '..',
+    'public', 'images', 'favicon.ico')));
 
 	//load app routes
   var index = require('../routes/indexRoute.js');

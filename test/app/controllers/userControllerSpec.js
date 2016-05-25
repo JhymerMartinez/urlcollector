@@ -224,6 +224,28 @@ describe('Create user', function() {
     ], done);
   });
 
+  it('Login user - user not exists', function(done) {
+    async.waterfall([
+      function registerUser(next) {
+        request
+          .post('/api/users/sign_up')
+          .send(data.api.users.signup.userOK)
+          .end(next);
+      },
+      function sendUser(res, next) {
+        request
+          .post('/api/users/sign_in')
+          .send(data.api.users.signin.userNew)
+          .end(next);
+      },
+      function assertions(res) {
+        expect(res.status).to.equal(400);
+        expect(res.body.message).to.equal(MessageService.users.userEmailNotFound);
+        done();
+      }
+    ], done);
+  });
+
 });
 
 describe('Update user info', function() {
@@ -313,6 +335,59 @@ describe('Delete user', function() {
       function deleteUser(res, next) {
         request
           .delete('/api/users/delete/1234')
+          .set('Authorization', res.body.token)
+          .end(next);
+      },
+      function assertions(res) {
+        expect(res.status).to.equal(400);
+        expect(res.body.message).to.equal(MessageService.users.userIdInvalid);
+        done();
+      }
+    ], done);
+  });
+});
+
+describe('Get user data', function() {
+
+  it('Get user info', function(done) {
+    async.waterfall([
+      function registerUser(next) {
+        request
+          .post('/api/users/sign_up')
+          .send(data.api.users.signup.userOK)
+          .end(next);
+      },
+      function getUser(res, next) {
+        var user = res.body.user;
+        request
+          .get('/api/users/get/' + user.id)
+          .set('Authorization', res.body.token)
+          .end(next);
+      },
+      function assertions(res) {
+        var body = res.body;
+        expect(res.status).to.equal(200);
+        expect(body.user.id).to.exist;
+        expect(body.user.email).to.equal(data.api.users.signup.userOK.email);
+        expect(body.user.name).to.equal(data.api.users.signup.userOK.name);
+        expect(body.user.email).to.equal(data.api.users.signup.userOK.email);
+        done();
+      }
+    ], done);
+  });
+
+  it('Invalid ID on get data', function(done) {
+    async.waterfall([
+      function registerUser(next) {
+        request
+          .post('/api/users/sign_up')
+          .send(data.api.users.signup.userOK)
+          .end(next);
+      },
+      function getUser(res, next) {
+        var user = res.body.user;
+        request
+          .get('/api/users/get/1234')
           .set('Authorization', res.body.token)
           .end(next);
       },

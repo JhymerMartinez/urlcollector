@@ -17,7 +17,7 @@ exports.signUp = function(req, res) {
   user.save(function saveSuccess(error, user) {
     ResponseService.handleResponse(error, user, res,
       function onSuccess() {
-        ResponseService.resposeToken(res, user);
+        ResponseService.resposeTokenOrUser(res, user);
       });
   });
 };
@@ -28,13 +28,21 @@ exports.signIn = function(req, res) {
   };
   UserModel.findOne(dbData, function findSuccess(err, user) {
     ResponseService.handleResponse(err, user, res,
-      function onSuccess() {
-        if (UserModel.authenticate(user, req.body.password)) {
-          ResponseService.resposeToken(res, user);
+      function onSuccess(userData) {
+        // If user exist
+        if (userData) {
+          // If password is correct
+          if (UserModel.authenticate(user, req.body.password)) {
+            ResponseService.resposeTokenOrUser(res, user);
+          } else {
+            ResponseService.responseGeneric(res, 400,
+              MessageService.users.userInvalidPassword);
+          }
         } else {
           ResponseService.responseGeneric(res, 400,
-            MessageService.users.userInvalidPassword);
+              MessageService.users.userEmailNotFound);
         }
+
       },
       MessageService.users.userNotExist);
   });
@@ -64,6 +72,20 @@ exports.update = function(req, res) {
     function findSuccess(error, user) {
       ResponseService.handleResponse(error, user, res,
         MessageService.users.userUpdateOK,
+        MessageService.users.userIdInvalid);
+    });
+};
+
+exports.getUser = function(req, res) {
+  UserModel.findById(req.params.id, function findSuccess(error, user) {
+      ResponseService.handleResponse(error, user, res,
+        function onSuccess() {
+          return res
+            .status(200)
+            .send({
+              user: user
+            });
+        },
         MessageService.users.userIdInvalid);
     });
 };

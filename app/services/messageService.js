@@ -6,6 +6,7 @@ exports.users = {
   userEmailRequired: 'Email is required.',
   userEmailUnique: 'The Email already exists.',
   userEmailInvalid: 'The email is invalid.',
+  userEmailNotFound: 'The user was not found.',
   userPasswordRequired: 'Password is required.',
   userPasswordLength: 'The password should be longer.',
   userDeleted: 'User deleted.',

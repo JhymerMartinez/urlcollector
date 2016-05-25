@@ -16,4 +16,7 @@ router.route('/delete/:id')
 router.route('/update/:id')
   .put(userCtrl.ensureAuthenticated, userCtrl.update);
 
+router.route('/get/:id')
+  .get(userCtrl.ensureAuthenticated, userCtrl.getUser);
+
 module.exports = router;

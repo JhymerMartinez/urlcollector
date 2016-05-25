@@ -6,7 +6,23 @@ var _ = require('lodash');
 
 exports.responseGeneric = responseGeneric;
 
-exports.resposeToken = function(res, user) {
+exports.resposeTokenOrUser = function(res, user, onlyUserData) {
+  var dataToSend = {
+    user: {
+      id: user._id,
+      name: user.name,
+      email: user.email
+    }
+  };
+  if (!onlyUserData) {
+    dataToSend.token = TokenService.createToken(user);
+  }
+  return res
+    .status(200)
+    .send(dataToSend);
+};
+
+exports.resposeUserData = function(res, user) {
   var userData = {
     id: user._id,
     name: user.name,
@@ -15,7 +31,6 @@ exports.resposeToken = function(res, user) {
   return res
     .status(200)
     .send({
-      token: TokenService.createToken(user),
       user: userData
     });
 };
@@ -45,7 +60,7 @@ exports.handleResponse = function(error, data, response, onSuccess, onError) {
     if (_.isString(onSuccess)) {
       responseGeneric(response, 200, onSuccess);
     } else {
-      onSuccess();
+      onSuccess(data);
     }
   }
 };
