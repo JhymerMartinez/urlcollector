@@ -24,7 +24,7 @@ module.exports = function() {
   var FORCE_HTTPS = process.env.FORCE_HTTPS === 'true' ? true : false;
   if (FORCE_HTTPS) {
     var enforce = require('express-sslify');
-    app.use(enforce.HTTPS({ trustProtoHeader: true }));
+    app.use(enforce.HTTPS({trustProtoHeader: true}));
   }
 	app.use(morgan('dev'));
 	app.use(bodyParser.json());
