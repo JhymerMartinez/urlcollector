@@ -7,7 +7,7 @@ module.exports = function() {
   //Mongo DB connection
   var uri = process.env.MONGOLAB_URI ?
     process.env.MONGOLAB_URI : config().mongodb;
-
+  mongoose.Promise = global.Promise;
 	var db = mongoose.connect(uri);
 
   db.connection.on('open', function() {
