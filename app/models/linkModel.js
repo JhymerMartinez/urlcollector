@@ -41,4 +41,4 @@ LinkSchema.post('remove', function(aLink, next) {
 
 });
 
-module.exports =  mongoose.model('Link',LinkSchema);
+module.exports = mongoose.model('Link', LinkSchema);

@@ -46,4 +46,4 @@ GroupSchema.post('remove', function(aGroup, next) {
   });
 });
 
-module.exports =  mongoose.model('Group',GroupSchema);
+module.exports = mongoose.model('Group', GroupSchema);

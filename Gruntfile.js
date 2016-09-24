@@ -77,7 +77,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('default', ['test']);
   grunt.registerTask('test', 'Runs unit tests', ['mochaTest']);
-  grunt.registerTask('analyze','Validates code style', ['jshint', 'jscs']);
+  grunt.registerTask('analyze', 'Validates code style', ['jshint', 'jscs']);
   grunt.registerTask('status', 'Shows status of node processes', ['shell:serverStatus']);
   grunt.registerTask('stop', 'Stop the processes', ['shell:serverStop']);
   grunt.registerTask('start', 'Start node processes', ['analyze', 'shell:serverStart']);
