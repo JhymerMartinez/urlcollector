@@ -8,6 +8,8 @@
   "disallowMixedSpacesAndTabs": null,
   "disallowMultipleLineStrings": null,
   "disallowSpaceAfterKeywords": null,
+  "disallowSpacesInAnonymousFunctionExpression": null,
+  "disallowSpacesInFunctionExpression": null,
   "disallowTrailingComma": null,
   "disallowTrailingWhitespace": null,
   "maximumLineLength": null,

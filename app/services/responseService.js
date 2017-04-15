@@ -3,15 +3,22 @@
 var TokenService = require('./tokenService.js');
 var MessageService = require('./messageService.js');
 var _ = require('lodash');
+var Q = require('q');
 
-exports.responseGeneric = responseGeneric;
+var exports = {
+  responseGeneric: responseGeneric,
+  resposeTokenOrUser: resposeTokenOrUser,
+  resposeUserData: resposeUserData,
+  handleResponse: handleResponse
+};
 
-exports.resposeTokenOrUser = function(res, user, onlyUserData) {
+function resposeTokenOrUser(res, user, onlyUserData) {
   var dataToSend = {
     user: {
       id: user._id,
       name: user.name,
-      email: user.email
+      email: user.email,
+      created: user.created
     }
   };
   if (!onlyUserData) {
@@ -20,9 +27,9 @@ exports.resposeTokenOrUser = function(res, user, onlyUserData) {
   return res
     .status(200)
     .send(dataToSend);
-};
+}
 
-exports.resposeUserData = function(res, user) {
+function resposeUserData(res, user) {
   var userData = {
     id: user._id,
     name: user.name,
@@ -33,9 +40,9 @@ exports.resposeUserData = function(res, user) {
     .send({
       user: userData
     });
-};
+}
 
-exports.handleResponse = function(error, data, response, onSuccess, onError) {
+function handleResponse(error, data, response, onSuccess, onError) {
   if (error) {
     if (!onError) {
       return response
@@ -63,12 +70,23 @@ exports.handleResponse = function(error, data, response, onSuccess, onError) {
       onSuccess(data);
     }
   }
-};
-
-function responseGeneric(res, statusCode, message) {
-  return res
-    .status(statusCode)
-    .send({
-      message: message
-    });
 }
+
+function responseGeneric(response, statusCode, message) {
+  debugger;
+  var obj = {};
+  if (_.isObject(message)) {
+    obj = message;
+  }
+  if (_.isString(message)) {
+    obj = {
+      message: message
+    };
+  }
+
+  response
+    .status(statusCode)
+    .send(obj);
+}
+
+module.exports = exports;

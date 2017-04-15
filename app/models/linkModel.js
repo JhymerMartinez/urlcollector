@@ -17,6 +17,10 @@ var LinkSchema = mongoose.Schema({
     type: Date,
     default: Date.now
   },
+  groupId: {
+    type: Schema.ObjectId,
+    ref: 'Group'
+  },
   description: String
 });
 

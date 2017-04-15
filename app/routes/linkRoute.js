@@ -6,13 +6,16 @@ var userCtrl = require('../controllers/userController.js');
 var linkCtrl = require('../controllers/linkController.js');
 var router = express.Router();
 
-router.route('/save')
+router.route('/create')
   .post(userCtrl.ensureAuthenticated, linkCtrl.saveLink, groupCtrl.saveGroup);
 
-router.route('/delete')
-  .post(userCtrl.ensureAuthenticated, linkCtrl.deleteLink);
+router.route('/delete/:id')
+  .delete(userCtrl.ensureAuthenticated, linkCtrl.deleteLink);
 
-router.route('/get/:userId')
+router.route('/get/:id')
   .get(userCtrl.ensureAuthenticated, groupCtrl.getGroupLinks);
+
+router.route('/update/:id')
+  .put(userCtrl.ensureAuthenticated, linkCtrl.updateLink);
 
 module.exports = router;
