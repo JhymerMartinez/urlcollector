@@ -20,9 +20,9 @@ var exports = {
 };
 
 function signUp(req, res) {
-  debugger;
+ 
   saveUser(req).then(function (user) {
-    debugger;
+
     if (user) {
       responseTokenOrUserData(user, req, res);
     } else {
@@ -35,9 +35,9 @@ function signUp(req, res) {
 }
 
 function signIn(req, res) {
-  debugger;
+
   findUser(req).then(function (user) {
-    debugger;
+
     if (user) {
       responseTokenOrUserData(user, req, res);
     } else {
@@ -49,9 +49,9 @@ function signIn(req, res) {
 }
 
 function deleteUser(req, res) {
-  debugger;
+
   removeUser(req).then(function (result) {
-    debugger;
+
     if (result) {
       ResponseService.responseGeneric(res, 200, MessageService.users.userDeleted);
     } else {
@@ -63,9 +63,9 @@ function deleteUser(req, res) {
 }
 
 function updateUser(req, res) {
-  debugger;
+
   findAndUpdateUser(req, res).then(function (user) {
-    debugger;
+
     if (user) {
       var dataToSend = {
         user: {
@@ -85,7 +85,7 @@ function updateUser(req, res) {
 }
 
 function onError(error, res) {
-  debugger;
+
   var customObj = {
     message: MessageService.global.commonRequestError,
     details: error
@@ -94,9 +94,9 @@ function onError(error, res) {
 }
 
 function getUser(req, res) {
-  debugger;
+
   findUserById(req, res).then(function (user) {
-    debugger;
+
     if (user) {
       var data = {
         user: user
@@ -220,7 +220,7 @@ function saveUser(req) {
       password: body.password
     });
     user.save(function saveSuccess(error, user) {
-      debugger;
+   
       if (error) {
         reject(error);
       } else {

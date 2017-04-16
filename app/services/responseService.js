@@ -73,7 +73,7 @@ function handleResponse(error, data, response, onSuccess, onError) {
 }
 
 function responseGeneric(response, statusCode, message) {
-  debugger;
+
   var obj = {};
   if (_.isObject(message)) {
     obj = message;
