@@ -8,6 +8,5 @@ services:
 
 before_script:
   - sleep 15
-  - mongo urlcollector_test --eval 'db.addUser("test", "test");'
 
 before_install: npm install -g grunt-cli

@@ -148,7 +148,7 @@ function comparePassword(self, done) {
 }
 
 function processHashPassword(password, self) {
-  return crypto.pbkdf2Sync(password, self.salt, 10000, 64).toString('base64'); //jshint ignore: line
+  return crypto.pbkdf2Sync(password, self.salt, 10000, 64, 'sha512').toString('base64'); //jshint ignore: line
 }
 
 module.exports = mongoose.model('User', UserSchema);
