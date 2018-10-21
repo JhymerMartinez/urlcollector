@@ -2,7 +2,7 @@
   "apps": [{
     "name": "CLIENT",
     "script": "./app/server.js",
-    "node_args": ["--debug=5858"],
+    "node_args": ["--inspect"],
     "watch": "./app",
     "ignore_watch": [],
     "watch_options":{
