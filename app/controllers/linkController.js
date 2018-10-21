@@ -1,19 +1,54 @@
 var mongoose = require('mongoose');
 var UserModel = mongoose.model('User');
 var LinkModel = mongoose.model('Link');
+var GroupModel = mongoose.model('Group');
 var MessageService = require('../services/messageService.js');
 var _ = require('lodash');
+var exports = {
+  saveLink: saveLink,
+  updateLink: updateLink,
+  saveArrayLinks: saveArrayLinks,
+  deleteLink: deleteLink
+};
 
-exports.saveLink = function(req, res, next) {
-
+function saveLink(req, res, next) {
+  var body = req.body;
   var linkModel = new LinkModel({
-    title: req.body.title,
-    url: req.body.url,
+    title: body.title,
+    url: body.url,
     dateAdded: new Date(),
-    description: req.body.description
+    description: body.description
   });
 
-  linkModel.save(function(err, aLink) {
+  if (!_.isEmpty(body.group_id)) { // jshint ignore:line
+    findGroup(body.group_id, linkModel); // jshint ignore:line
+  } else {
+    addToDefaultGroup(linkModel);
+  }
+
+  function findGroup(groupId, linkModel) {
+    GroupModel.findById(groupId, function successFindById(error, aGroup) {
+      if (error) {
+        return res
+          .status(500)
+          .send({
+            message: MessageService.global.serverErrorUnknown
+          });
+      } else {
+        addLinkToGroup(aGroup, linkModel);
+      }
+    });
+  }
+
+  function addLinkToGroup(aGroup, linkModel) {
+    if (_.isEmpty(aGroup)) {
+      addToDefaultGroup(linkModel);
+    } else {
+      addToSpecificGroup(aGroup, linkModel);
+    }
+  }
+
+  linkModel.save(function (err, aLink) {
     if (err) {
       return res
         .status(500)
@@ -25,20 +60,28 @@ exports.saveLink = function(req, res, next) {
       return next();
     }
   });
-};
+}
 
-exports.saveArrayLinks = function(req, res, next) {
+function addToDefaultGroup() {
+
+}
+
+function addToSpecificGroup() {
+
+}
+
+function saveArrayLinks(req, res, next) {
 
   var dateAdded = new Date();
 
   var linksIds = [];
   var errors = [];
 
-  var newLinks = _.each(req.body.links, function(link) {
+  var newLinks = _.each(req.body.links, function (link) {
     link.dateAdded = dateAdded;
   });
 
-  _.each(newLinks, function(link, index) {
+  _.each(newLinks, function (link, index) {
     var linkModel = new LinkModel({
       title: link.title,
       url: link.url,
@@ -46,7 +89,7 @@ exports.saveArrayLinks = function(req, res, next) {
       description: link.description
     });
 
-    linkModel.save(function(err, aLink) {
+    linkModel.save(function (err, aLink) {
       if (err) {
         errors.push(err);
       } else {
@@ -56,11 +99,15 @@ exports.saveArrayLinks = function(req, res, next) {
     });
   });
 
-};
+}
 
-exports.deleteLink = function(req, res) {
+function updateLink() {
 
-  LinkModel.findById(req.body.id, function(err, alink) {
+}
+
+function deleteLink(req, res) {
+
+  LinkModel.findById(req.body.id, function (err, alink) {
     if (err) {
       return res
         .status(500)
@@ -68,7 +115,7 @@ exports.deleteLink = function(req, res) {
           message: MessageService.global.serverErrorUnknown
         });
     } else {
-      alink.remove(function(err) {
+      alink.remove(function (err) {
         if (err) {
           return res
             .status(500)
@@ -86,7 +133,7 @@ exports.deleteLink = function(req, res) {
     }
 
   });
-};
+}
 
 function runNextCallback(arrayLength, index, req, errors, ids, callback) {
   if ((arrayLength - 1) === index) {
@@ -99,3 +146,5 @@ function runNextCallback(arrayLength, index, req, errors, ids, callback) {
     }
   }
 }
+
+module.exports = exports;

@@ -20,6 +20,12 @@ module.exports = function() {
 
 	var app = express();
 
+  // Force use SSL
+  var FORCE_HTTPS = process.env.FORCE_HTTPS === 'true' ? true : false;
+  if (FORCE_HTTPS) {
+    var enforce = require('express-sslify');
+    app.use(enforce.HTTPS({trustProtoHeader: true}));
+  }
 	app.use(morgan('dev'));
 	app.use(bodyParser.json());
 	app.use(bodyParser.urlencoded({

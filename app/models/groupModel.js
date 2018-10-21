@@ -6,7 +6,7 @@ var Schema = mongoose.Schema;
 var MessageService = require('../services/messageService.js');
 
 var GroupSchema = mongoose.Schema({
-  groupName: {
+  name: {
     type: String,
     required: MessageService.users.groupNameRequired
   },
@@ -15,14 +15,18 @@ var GroupSchema = mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  star: {
+  favorite: {
     type: Boolean,
     default: false
   },
   links: [{
     type: Schema.ObjectId,
     ref: 'Link'
-  }]
+  }],
+  userId: {
+    type: Schema.ObjectId,
+    ref: 'User'
+  }
 });
 
 GroupSchema.post('remove', function(aGroup, next) {
@@ -46,4 +50,4 @@ GroupSchema.post('remove', function(aGroup, next) {
   });
 });
 
-module.exports =  mongoose.model('Group',GroupSchema);
+module.exports = mongoose.model('Group', GroupSchema);

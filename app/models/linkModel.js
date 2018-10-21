@@ -17,6 +17,10 @@ var LinkSchema = mongoose.Schema({
     type: Date,
     default: Date.now
   },
+  groupId: {
+    type: Schema.ObjectId,
+    ref: 'Group'
+  },
   description: String
 });
 
@@ -41,4 +45,4 @@ LinkSchema.post('remove', function(aLink, next) {
 
 });
 
-module.exports =  mongoose.model('Link',LinkSchema);
+module.exports = mongoose.model('Link', LinkSchema);

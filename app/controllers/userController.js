@@ -6,110 +6,136 @@ var MessageService = require('../services/messageService.js');
 var ResponseService = require('../services/responseService.js');
 var jwt = require('jwt-simple');
 var moment = require('moment');
+var _ = require('lodash');
+var Q = require('q');
 var config = require('../configs/config.js');
-
-exports.signUp = function(req, res) {
-  var user = new UserModel({
-    name: req.body.name,
-    email: req.body.email,
-    password: req.body.password
-  });
-  user.save(function saveSuccess(error, user) {
-    ResponseService.handleResponse(error, user, res,
-      function onSuccess() {
-        ResponseService.resposeTokenOrUser(res, user);
-      });
-  });
+var exports = {
+  signUp: signUp,
+  signIn: signIn,
+  deleteUser: deleteUser,
+  getUser: getUser,
+  changePassword: changePassword,
+  updateUser: updateUser,
+  ensureAuthenticated: ensureAuthenticated
 };
 
-exports.signIn = function(req, res) {
-  var dbData = {
-    email: req.body.email.toLowerCase()
-  };
-  UserModel.findOne(dbData, function findSuccess(err, user) {
-    ResponseService.handleResponse(err, user, res,
-      function onSuccess(userData) {
-        // If user exist
-        if (userData) {
-          // If password is correct
-          if (UserModel.authenticate(user, req.body.password)) {
-            ResponseService.resposeTokenOrUser(res, user);
-          } else {
-            ResponseService.responseGeneric(res, 400,
-              MessageService.users.userInvalidPassword);
-          }
-        } else {
-          ResponseService.responseGeneric(res, 400,
-              MessageService.users.userEmailNotFound);
+function signUp(req, res) {
+ 
+  saveUser(req).then(function (user) {
+
+    if (user) {
+      responseTokenOrUserData(user, req, res);
+    } else {
+      ResponseService.responseGeneric(res, 400, MessageService.users.userEmailNotFound);
+    }
+  }, function (error) {
+    onError(error, res);
+  });
+
+}
+
+function signIn(req, res) {
+
+  findUser(req).then(function (user) {
+
+    if (user) {
+      responseTokenOrUserData(user, req, res);
+    } else {
+      ResponseService.responseGeneric(res, 400, MessageService.users.userEmailNotFound);
+    }
+  }, function (error) {
+    onError(error, res);
+  });
+}
+
+function deleteUser(req, res) {
+
+  removeUser(req).then(function (result) {
+
+    if (result) {
+      ResponseService.responseGeneric(res, 200, MessageService.users.userDeleted);
+    } else {
+      ResponseService.responseGeneric(res, 400, MessageService.users.userIdInvalid);
+    }
+  }, function (error) {
+    onError(error, res);
+  });
+}
+
+function updateUser(req, res) {
+
+  findAndUpdateUser(req, res).then(function (user) {
+
+    if (user) {
+      var dataToSend = {
+        user: {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          created: user.created
         }
-
-      },
-      MessageService.users.userNotExist);
+      };
+      ResponseService.responseGeneric(res, 200, dataToSend);
+    } else {
+      ResponseService.responseGeneric(res, 400, MessageService.users.userNotExist);
+    }
+  }, function (error) {
+    onError(error, res);
   });
-};
+}
 
-exports.delete = function(req, res) {
-  var userData = {
-     _id: req.params.id
+function onError(error, res) {
+
+  var customObj = {
+    message: MessageService.global.commonRequestError,
+    details: error
   };
-  UserModel.remove(userData,
-    function removeSuccess(error, result) {
-      ResponseService.handleResponse(error, result, res,
-        MessageService.users.userDeleted,
-        MessageService.users.userIdInvalid);
+  ResponseService.responseGeneric(res, 400, customObj);
+}
+
+function getUser(req, res) {
+
+  findUserById(req, res).then(function (user) {
+
+    if (user) {
+      var data = {
+        user: user
+      };
+      var dataToSend = {
+        user: {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          created: user.created
+        }
+      };
+      ResponseService.responseGeneric(res, 200, data);
+    } else {
+      ResponseService.responseGeneric(res, 400, MessageService.users.userIdInvalid);
+    }
+  }, function (error) {
+    ResponseService.responseGeneric(res, 400, MessageService.users.userNotExist);
   });
-};
+}
 
-exports.update = function(req, res) {
-  var userData = {
-    firstName: req.body.firstName,
-    email: req.body.email
-  };
-  var dbOptions = {
-    runValidators: true
-  };
-  UserModel.findByIdAndUpdate(req.params.id, userData, dbOptions,
-    function findSuccess(error, user) {
-      ResponseService.handleResponse(error, user, res,
-        MessageService.users.userUpdateOK,
-        MessageService.users.userIdInvalid);
-    });
-};
+function changePassword(req, res) {
 
-exports.getUser = function(req, res) {
-  UserModel.findById(req.params.id, function findSuccess(error, user) {
-      ResponseService.handleResponse(error, user, res,
-        function onSuccess() {
-          return res
-            .status(200)
-            .send({
-              user: user
-            });
-        },
-        MessageService.users.userIdInvalid);
-    });
-};
+}
 
-exports.changePassword = function(req, res) {
-
-};
-
-exports.ensureAuthenticated = function(req, res, next) {
+function ensureAuthenticated(req, res, next) {
   //get token from client
   var token = req.headers.authorization ||
     req.body.token ||
     req.query.token ||
     req.headers['x-access-token'];
   if (!token) {
-    ResponseService.responseGeneric(res, 403,
-      MessageService.users.userUnauthorized);
+    ResponseService.responseGeneric(res, 403, MessageService.users.userUnauthorized);
   }
   try {
     //Decode token
     var payload = jwt.decode(token, config().tokenSecret);
     if (payload.exp <= moment().unix()) {
-      ResponseService.responseGeneric(res, 401,
-        MessageService.users.userTokenExpired);
+      ResponseService.responseGeneric(res, 401, MessageService.users.userTokenExpired);
     }
     //Assign 'payload.sub' (user id) to 'req' Object
     req.user = payload.sub;
@@ -117,4 +143,99 @@ exports.ensureAuthenticated = function(req, res, next) {
   } catch (e) {
     ResponseService.responseGeneric(res, 500, e.message);
   }
-};
+}
+
+function findUser(req) {
+  var email = req.body.email;
+  email = email && _.isString(email) ? email.toLowerCase() : '';
+  var dbData = {
+    email: email
+  };
+  return Q.Promise(function (resolve, reject) {
+    UserModel.findOne(dbData, function findSuccess(err, user) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(user);
+      }
+    });
+  });
+}
+
+function findUserById(req) {
+  return Q.Promise(function (resolve, reject) {
+    UserModel.findById(req.params.id, function findSuccess(err, user) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(user);
+      }
+    });
+  });
+}
+
+function removeUser(req) {
+  var params = req.params || {};
+  var userData = {
+    _id: params.id
+  };
+  return Q.Promise(function (resolve, reject) {
+    UserModel.remove(userData, function removeSuccess(err, result) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(result);
+      }
+    });
+  });
+}
+
+function findAndUpdateUser(req) {
+  var body = req.body || {};
+  var userData = {
+    name: body.name,
+    email: body.email
+  };
+  var dbOptions = {
+    runValidators: true
+  };
+  return Q.Promise(function (resolve, reject) {
+    UserModel.findByIdAndUpdate(req.params.id, userData, dbOptions,
+      function findSuccess(error, user) {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(user);
+        }
+      });
+  });
+}
+
+function saveUser(req) {
+  return Q.Promise(function (resolve, reject) {
+    var body = req.body || {};
+    var user = new UserModel({
+      name: body.name,
+      email: body.email,
+      password: body.password
+    });
+    user.save(function saveSuccess(error, user) {
+   
+      if (error) {
+        reject(error);
+      } else {
+        resolve(user);
+      }
+    });
+  });
+}
+
+function responseTokenOrUserData(user, req, res) {
+  if (UserModel.authenticate(user, req.body.password)) {
+    ResponseService.resposeTokenOrUser(res, user);
+  } else {
+    ResponseService.responseGeneric(res, 400, MessageService.users.userInvalidPassword);
+  }
+}
+
+module.exports = exports;

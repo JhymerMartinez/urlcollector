@@ -11,10 +11,10 @@ router.route('/sign_up')
   .post(userCtrl.signUp);
 
 router.route('/delete/:id')
-  .delete(userCtrl.ensureAuthenticated, userCtrl.delete);
+  .delete(userCtrl.ensureAuthenticated, userCtrl.deleteUser);
 
 router.route('/update/:id')
-  .put(userCtrl.ensureAuthenticated, userCtrl.update);
+  .put(userCtrl.ensureAuthenticated, userCtrl.updateUser);
 
 router.route('/get/:id')
   .get(userCtrl.ensureAuthenticated, userCtrl.getUser);
