@@ -20,7 +20,7 @@ var exports = {
 };
 
 function signUp(req, res) {
- 
+
   saveUser(req).then(function (user) {
 
     if (user) {
@@ -73,7 +73,8 @@ function updateUser(req, res) {
           name: user.name,
           email: user.email,
           created: user.created
-        }
+        },
+        message: MessageService.users.userUpdateOK
       };
       ResponseService.responseGeneric(res, 200, dataToSend);
     } else {
@@ -220,7 +221,7 @@ function saveUser(req) {
       password: body.password
     });
     user.save(function saveSuccess(error, user) {
-   
+
       if (error) {
         reject(error);
       } else {

@@ -268,6 +268,7 @@ describe('Update user info', function() {
       },
       function assertions(res) {
         expect(res.status).to.equal(200);
+
         expect(res.body.message).to.equal(MessageService.users.userUpdateOK);
         done();
       }
@@ -291,7 +292,7 @@ describe('Update user info', function() {
       },
       function assertions(res) {
         expect(res.status).to.equal(400);
-        expect(res.body.message).to.equal(MessageService.users.userIdInvalid);
+        expect(res.body.message).to.equal(MessageService.global.commonRequestError);
         done();
       }
     ], done);
@@ -340,7 +341,7 @@ describe('Delete user', function() {
       },
       function assertions(res) {
         expect(res.status).to.equal(400);
-        expect(res.body.message).to.equal(MessageService.users.userIdInvalid);
+        expect(res.body.message).to.equal(MessageService.global.commonRequestError);
         done();
       }
     ], done);
@@ -393,7 +394,7 @@ describe('Get user data', function() {
       },
       function assertions(res) {
         expect(res.status).to.equal(400);
-        expect(res.body.message).to.equal(MessageService.users.userIdInvalid);
+        expect(res.body.message).to.equal(MessageService.users.userNotExist);
         done();
       }
     ], done);

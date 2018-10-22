@@ -1,13 +1,12 @@
 language: node_js
 
 node_js:
-  - "0.12"
+  - "8.9.4"
 
 services:
   - mongodb
 
 before_script:
   - sleep 15
-  - mongo urlcollector_test --eval 'db.addUser("test", "test");'
 
-before_install: npm install -g grunt-cli
+before_install: npm install -g grunt
