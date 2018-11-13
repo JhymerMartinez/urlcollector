@@ -2,7 +2,6 @@
 
 var mongoose = require('mongoose');
 var _ = require('lodash');
-var UserModel = mongoose.model('User');
 var GroupModel = mongoose.model('Group');
 var MessageService = require('../services/messageService.js');
 

@@ -34,6 +34,28 @@ function signUp(req, res) {
 
 }
 
+/**
+ * @api {post} /sign_in Login de usuario
+ * @apiVersion 0.0.1
+ * @apiName signIn
+ * @apiGroup Usuario
+ *
+ * @apiSuccess {user} user Datos del usuario.
+ * @apiSuccess {token} token  Token de acceso a APIs restringidas
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *     "user": {
+ *        "id": "5beb36759373911500f692d7",
+ *        "name": "jhon",
+ *        "email": "jhon@test.com",
+ *        "created": "2018-11-13T20:39:17.886Z"
+ *      },
+ *    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1YmViMzY3NTkzNzM5MTE1MDBmNjkyZDciLCJpYXQiOjE1NDIxNDE1NTcsImV4cCI6MTU0MzM1MTE1N30.ZrU3Lyr2osrAYvAynzNWw-mWEzQlNA_qOrivMOc95Ak"
+ *    }
+ */
+
 function signIn(req, res) {
 
   findUser(req).then(function (user) {

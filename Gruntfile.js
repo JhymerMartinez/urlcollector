@@ -6,19 +6,20 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-githooks');
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-shell');
+  grunt.loadNpmTasks('grunt-apidoc');
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    jscs: {
-      options: {
-        config:   '.jscsrc',
-        reporter:   'checkstyle'
-      },
-      src: [
-        'Gruntfile.js',
-        'app/**/*.js'
-      ]
-    },
+    // jscs: {
+    //   options: {
+    //     config:   '.jscsrc',
+    //     reporter:   'checkstyle'
+    //   },
+    //   src: [
+    //     'Gruntfile.js',
+    //     'app/**/*.js'
+    //   ]
+    // },
     jshint: {
       options: {
         jshintrc: '.jshintrc',
@@ -72,12 +73,18 @@ module.exports = function(grunt) {
         },
         src: ['test/**/*Spec.js']
       }
+    },
+    apidoc: {
+      urlcollector: {
+        src: 'app/',
+        dest: 'apidoc/'
+      }
     }
   });
 
   grunt.registerTask('default', ['test']);
   grunt.registerTask('test', 'Runs unit tests', ['mochaTest']);
-  grunt.registerTask('analyze', 'Validates code style', ['jshint', 'jscs']);
+  grunt.registerTask('analyze', 'Validates code style', ['jshint']);
   grunt.registerTask('status', 'Shows status of node processes', ['shell:serverStatus']);
   grunt.registerTask('stop', 'Stop the processes', ['shell:serverStop']);
   grunt.registerTask('start', 'Start node processes', ['analyze', 'shell:serverStart']);

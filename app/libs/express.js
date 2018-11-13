@@ -1,20 +1,12 @@
 'use strict';
 
 var express = require('express');
-var router = express.Router();
-var session = require('express-session');
-var mongoose = require('mongoose');
 var morgan = require('morgan');
-var	compress = require('compression');
 var cors = require('cors');
 var bodyParser = require('body-parser');
-var methodOverride = require('method-override');
-var	flash = require('connect-flash');
 var path = require('path');
 var config = require('../configs/config');
 var favicon = require('serve-favicon');
-
-//var	passport = require('passport');
 
 module.exports = function() {
 
@@ -37,6 +29,9 @@ module.exports = function() {
   app.use(express.static('../public'));
   app.use(favicon(path.join(__dirname, '..', '..',
     'public', 'images', 'favicon.ico')));
+
+  // Apidocs
+  app.use('/apidoc', express.static(path.join(__dirname, '../..', 'apidoc')));
 
 	//load app routes
   var index = require('../routes/indexRoute.js');
