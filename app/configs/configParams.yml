@@ -8,6 +8,9 @@ production: &default
   # process.env.TOKEN_SECRET -> generate token
   # process.env.MONGOLAB_URI -> mongo db
 
+staging: &staging
+  <<: *default
+
 development: &development
   <<: *default
   serverPort: 5000
