@@ -52,7 +52,7 @@ function signUp(req, res) {
  *        "email": "jhon@test.com",
  *        "created": "2018-11-13T20:39:17.886Z"
  *      },
- *    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1YmViMzY3NTkzNzM5MTE1MDBmNjkyZDciLCJpYXQiOjE1NDIxNDE1NTcsImV4cCI6MTU0MzM1MTE1N30.ZrU3Lyr2osrAYvAynzNWw-mWEzQlNA_qOrivMOc95Ak"
+ *    "token": "ZrU3Lyr2osrAYvAynzNWw-mWEzQlNA_qOrivMOc95Ak"
  *    }
  */
 
